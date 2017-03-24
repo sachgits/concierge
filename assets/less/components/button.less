@@ -1,0 +1,99 @@
+.button {
+    display: inline-block;
+    vertical-align: middle;
+    height: 5rem;
+    line-height: 5rem;
+    margin: 0 0 2rem 0;
+    padding: 0 2rem;
+    background-color: @color-primary;
+    font-size: @font-base;
+    font-weight: 400;
+    color: @color-white;
+    text-decoration: none;
+    border: none;
+    border-radius: @border-radius;
+    transition: background-color @trans-fast, color @trans-fast, box-shadow @trans-fast;
+    cursor: pointer;
+    user-select: none;
+    -webkit-appearance: none;
+         -moz-appearance: none;
+
+    &:hover {
+        background-color: @color-tertiary;
+    }
+
+    &:active {
+
+    }
+}
+
+.button.___stretch {
+    display: block;
+    text-align: center;
+}
+
+.button.___icon {
+    text-align: left;
+}
+
+.button.___outline {
+    background-color: transparent;
+    box-shadow: inset 0 0 0 1px @color-grey__50;
+
+    &:hover {
+        background-color: @color-grey__50;
+        box-shadow: none;
+    }
+
+    &.___active {
+        box-shadow: inset 0 0 0 1px @color-primary;
+
+        &:hover {
+            background-color: @color-primary;
+            box-shadow: none;
+        }
+    }
+
+    .navigation & {
+        box-shadow: inset 0 0 0 1px @color-secondary;
+
+        &:hover {
+            background-color: @color-tertiary;
+            box-shadow: none;
+        }
+    }
+}
+
+.button.___white {
+    background-color: @color-white;
+    color: @color-primary;
+
+    &:hover {
+        color: @color-tertiary;
+    }
+}
+
+.button.___round {
+    width: 5rem;
+    padding: 0;
+    background-color: @color-grey__20;
+    border-radius: 50%;
+}
+
+.button.os-apple {
+    .icon(os-apple);
+
+    &:before {
+        font-size: 2.4rem;
+        margin: 0 1rem 0.4rem 0;
+    }
+}
+
+.button.os-android {
+    .icon(os-android);
+
+    &:before {
+        font-size: 2.4rem;
+        margin: 0 1rem 0.2rem 0;
+    }
+}

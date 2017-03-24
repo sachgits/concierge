@@ -1,0 +1,97 @@
+#root {
+    height: 100%;
+    width: 100%;
+}
+
+fieldset {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+.main {
+    overflow-x: auto;
+}
+
+.slide {
+    overflow: auto;
+}
+
+.disc {
+    list-style: disc;
+    padding: inherit;
+}
+
+.forgot-password {
+    margin-top: 0.75rem;
+    float: right;
+    font-size: 0.8em;
+}
+
+a {
+    color: @color-primary;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: color 9999s ease-out, background-color 9999s ease-in-out;
+}
+
+.elgg-system-messages {
+    position: fixed;
+    top: 24px;
+    right: 20px;
+    max-width: 500px;
+    z-index: 2000;
+}
+
+.elgg-system-messages li {
+    margin-top: 10px;
+}
+
+.elgg-system-messages li p {
+    margin: 0;
+}
+
+.elgg-message {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border: 1px solid;
+    font-weight: bold;
+    display: block;
+    padding: 10px;
+    cursor: pointer;
+}
+.elgg-state-success {
+    background: #e6efc2;
+    border-color: #c6d880;
+    color: #264409;
+}
+.elgg-state-error {
+    background: #fbe3e4;
+    border-color: #fbc2c4;
+    color: #8a1f11;
+}
+.elgg-state-notice {
+    background-color: #4690D6;
+}
+
+.messages {
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+    padding-left: 0.75rem;
+
+    &.error {
+        border-left: 5px solid #F44336;
+    }
+}
+
+.forgot-password__description {
+    margin: 0 0 4rem 0;
+}
+
+.register__captcha {
+    margin: 2rem 0 4rem 0;
+}
