@@ -115,6 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'core.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
@@ -152,8 +153,9 @@ STATICFILES_DIRS = [
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/profile/'
 
+FROM_EMAIL = ('Pleio', 'no-reply@pleio.nl')
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 
+PASSWORD_RESET_TIMEOUT_DAYS = 1
 ACCOUNT_ACTIVATION_DAYS = 7
-REGISTRATION_OPEN = True

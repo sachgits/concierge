@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<ul class="messages error">
+    {% for error in form.non_field_errors %}
+        <li>{{ error }}</li>
+    {% endfor %}
+</ul>
+
+<form method="post" action=".">
+    {% csrf_token %} 
+    <fieldset>
+        <div class="input-field ___white">
+            <label for="id_name">{% trans "First- and lastname" %}</label>
+            {{ form.errors.name }}
+            {{ form.name }}            
+        </div>
+        <div class="input-field ___white">
+            <label for="id_email">{% trans "Email" %}</label>
+            {{ form.errors.email }}
+            {{ form.email }}            
+        </div>
+        <div class="input-field ___white">
+            <label for="id_password1">{% trans "Password" %}</label>
+            {{ form.errors.password1 }}
+            {{ form.password1 }}
+        </div>
+        <div class="input-field ___white">
+            <label for="id_password2">{% trans "Password (again)" %}</label>
+            {{ form.errors.password2 }}
+            {{ form.password2 }}
+        </div>
+
+        <div class="register__checks">
+            <div class="register__check">
+                {{ form.errors.accepted_terms }}
+                {{ form.accepted_terms }}
+                <label for="id_accepted_terms">{% trans "I agree with the general terms" %}</label>
+            </div>
+            <div class="register__check">
+                {{ form.errors.receives_newsletter }}
+                {{ form.receives_newsletter }}
+                <label for="id_receives_newsletter">{% trans "Please subscribe me to the newsletter" %}</label>
+            </div>
+        </div>
+
+        <div class="register__button">
+            <button name="register" class="button ___stretch ___outline ___active" type="submit">{% trans "Register" %}</button>
+        </div>
+</form>
+
+{% endblock %}
