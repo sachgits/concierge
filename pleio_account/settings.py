@@ -45,6 +45,9 @@ if not DEBUG:
 
 INSTALLED_APPS = [
     'core',
+    'api',
+    'oauth2_provider',
+    'rest_framework',
     'webpack_loader',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -53,6 +56,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+    )
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -149,6 +158,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'assets/'),
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/profile/'

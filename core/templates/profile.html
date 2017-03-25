@@ -1,9 +1,33 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load i18n %}
 
 {% block title %}Login{% endblock %}
 
 {% block content %}
-  <h2>Your profile</h2>
-  <b>Cool men!</b>
-  <a href="{% url 'logout' %}">Logout</a>
+    <h2>Your profile</h2>
+    <form enctype="multipart/form-data" method="post" action=".">
+        {% csrf_token %}
+        <div class="input-field ___white">
+            <label for="id_name">{% trans "Name" %}</label>
+            {{ form.errors.name }}
+            {{ form.name }}            
+        </div>
+        <div class="input-field ___white">
+            <label for="id_email">{% trans "Email" %}</label>
+            {{ form.errors.email }}
+            {{ form.email }}            
+        </div>
+        <div class="input-field ___white">
+            {% if request.user.avatar %}
+                <img src="/media/{{ request.user.avatar }}" border=0 width="100" height="100">
+            {% else %}
+                <img src="/static/images/gebruiker.svg" border=0 width="100" height="100">
+            {% endif %}
+
+            {{ form.errors.avatar }}
+            {{ form.avatar }}      
+        </div>
+        <button type="submit">Update</button>
+    </form>
+    <a href="{% url 'logout' %}">Logout</a>
 {% endblock %}

@@ -13,12 +13,21 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.conf.urls import url, include
 from django.contrib.auth import views as auth_views
+from oauth2_provider import views as oauth2_views
+from api import views as api_views
 from django.contrib import admin
 from core import views
 
-urlpatterns = [
+legacy_urls = [
+    url(r'^mod/profile/icondirect.php$', views.avatar, name='avatar_legacy'),
+    url(r'^action/logout$', views.logout, name='logout_legacy')
+]
+
+urls = [
     url(r'^register/$', views.register, name='register'),
     url(r'^register/complete/$', views.register_complete, name='register_complete'),
     url(r'^register/activate/(?P<activation_key>[-:\w]+)/$', views.register_activate, name='register_activate'),
@@ -29,6 +38,15 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, { 'template_name': 'login.html' }, name='login'),
     url(r'^logout/$', views.logout, name='logout'),
     url(r'^profile/$', views.profile, name='profile'),
+    url(r'^oauth/v2/authorize$', oauth2_views.AuthorizationView.as_view(), name='authorize'),
+    url(r'^oauth/v2/token$', oauth2_views.TokenView.as_view(), name='token'),
+    url(r'^oauth/v2/revoke_token$', oauth2_views.RevokeTokenView.as_view(), name='revoke-token'),
+    url(r'^api/users/me$', api_views.me, name='me'),
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home, name='home')
 ]
+
+urlpatterns = legacy_urls + urls
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

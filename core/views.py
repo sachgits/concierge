@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.core import signing
 from .helpers import send_activation_token, activate_and_login_user
-from .forms import RegisterForm
+from .forms import RegisterForm, UserProfileForm
 from .models import User
 
 def home(request):
@@ -57,4 +57,23 @@ def register_activate(request, activation_key=None):
 
 @login_required
 def profile(request):
-    return render(request, 'profile.html')
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            user = form.save()
+    else:
+        form = UserProfileForm(instance=request.user) 
+
+    return render(request, 'profile.html', { 'form': form })
+
+def avatar(request):
+    DEFAULT_AVATAR = '/static/images/gebruiker.svg'
+
+    try:
+        user = User.objects.get(guid=request.GET['guid'])
+        if user.avatar:
+            return redirect('/media/' + str(user.avatar))
+    except User.DoesNotExist:
+        pass
+
+    return redirect(DEFAULT_AVATAR)

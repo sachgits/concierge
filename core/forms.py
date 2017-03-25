@@ -36,3 +36,8 @@ class RegisterForm(forms.Form):
             
         password_validation.validate_password(self.cleaned_data.get('password2'))
         return password2
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('name', 'email', 'avatar')

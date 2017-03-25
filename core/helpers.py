@@ -3,7 +3,8 @@ from django.template.loader import render_to_string
 from django.contrib import auth
 from django.conf import settings
 from django.core import signing
-from .models import User
+import uuid
+import os
 
 def send_activation_token(request, user):
     template_context = {
@@ -24,6 +25,8 @@ def generate_activation_token(email):
     )
 
 def activate_and_login_user(request, activation_key):
+    from .models import User
+
     try:
         email = signing.loads(
             activation_key,
@@ -46,3 +49,8 @@ def activate_and_login_user(request, activation_key):
 
     except (signing.BadSignature, User.DoesNotExist):
         return False
+
+def unique_filepath(self, filename):
+    ext = filename.split('.')[-1]
+    filename = "%s.%s" % (uuid.uuid4(), ext)
+    return os.path.join('avatars/', filename)

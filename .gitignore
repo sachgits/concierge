@@ -7,3 +7,4 @@ npm-debug.log
 assets/bundles
 webpack-stats.json
 webpack-stats-prod.json
+media/
