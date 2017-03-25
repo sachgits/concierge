@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'api',
     'oauth2_provider',
     'rest_framework',
+    'axes',
     'webpack_loader',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -60,7 +61,15 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'oauth2_provider.ext.rest_framework.OAuth2Authentication',
-    )
+    ),
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ),
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '10/minute',
+        'user': '100/minute'
+    }
 }
 
 MIDDLEWARE = [
@@ -171,3 +180,6 @@ EMAIL_PORT = 1025
 
 PASSWORD_RESET_TIMEOUT_DAYS = 1
 ACCOUNT_ACTIVATION_DAYS = 7
+
+AXES_LOGIN_FAILURE_LIMIT = 20
+AXES_COOLOFF_TIME = 1

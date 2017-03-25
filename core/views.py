@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.conf import settings
 from django.core import signing
+from django.contrib.auth import views
 from .helpers import send_activation_token, activate_and_login_user
 from .forms import RegisterForm, UserProfileForm
 from .models import User
