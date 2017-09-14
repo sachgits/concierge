@@ -12,22 +12,22 @@
 <form method="post" action=".">
     {% csrf_token %}
     <fieldset>
-        <div class="input-field ___white">
+        <div class="input-field">
             <label for="id_name">{% trans "First- and lastname" %}</label>
             {{ form.errors.name }}
             {{ form.name }}            
         </div>
-        <div class="input-field ___white">
+        <div class="input-field">
             <label for="id_email">{% trans "Email" %}</label>
             {{ form.errors.email }}
             {{ form.email }}            
         </div>
-        <div class="input-field ___white">
+        <div class="input-field">
             <label for="id_password1">{% trans "Password" %}</label>
             {{ form.errors.password1 }}
             {{ form.password1 }}
         </div>
-        <div class="input-field ___white">
+        <div class="input-field">
             <label for="id_password2">{% trans "Password (again)" %}</label>
             {{ form.errors.password2 }}
             {{ form.password2 }}
@@ -47,7 +47,7 @@
         </div>
 
         <div class="register__button">
-            <button name="register" class="button ___stretch ___outline ___active" type="submit">{% trans "Register" %}</button>
+            <button name="register" class="button ___stretch ___active" type="submit">{% trans "Register" %}</button>
         </div>
 </form>
 

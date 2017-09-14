@@ -10,7 +10,7 @@
 
     input {
         margin: 0 0 3rem 0;
-        color: #000;
+        color: @color-black;
         height: 3.4rem;
         font-size: @font-base;
         box-sizing: border-box;
@@ -18,7 +18,7 @@
 
     /* label color */
     label {
-        color: @color-grey__40;
+        color: @color-grey__50;
         font-size: @font-base;
         line-height: 1;
         left: 0;
@@ -34,7 +34,7 @@
 
     /* label color */
     label.active {
-        color: @color-grey__40;
+        color: @color-grey__50;
         font-size: 1.2rem;
     }
     /* label focus color */
@@ -99,14 +99,14 @@
 
     input {
         margin: 0 0 3rem 0;
-        color: #fff;
+        color: @color-white;
         height: 3.4rem;
         font-size: @font-base;
     }
 
     /* label color */
     label {
-        color: @color-grey;
+        color: @color-black;
         font-size: @font-base;
     }
 
@@ -169,14 +169,14 @@
 }
 
 [type="checkbox"]:checked+label {
-    color: #fff;
+    color: @color-black;
 }
 
 
 // CHECK
 [type="checkbox"].filled-in:checked+label:before {
-    border-right-color: #000;
-    border-bottom-color: #000;
+    border-right-color: @color-black;
+    border-bottom-color: @color-black;
     width: 0.8rem;
     height: 1.3rem;
 }
@@ -191,10 +191,14 @@
 // BOX:hover
 [type="checkbox"].filled-in:hover+label:hover:after,
 [type="checkbox"].filled-in+label:hover:after {
-    border-color: #fff;
+    border-color: @color-grey__40;
 }
 // BOX:checked
 [type="checkbox"].filled-in:checked+label:after {
-    background: #fff;
-    border-color: #fff;
+    background: @color-white;
+    border-color: @color-grey__40;
+}
+
+label {
+    color: @color-black;
 }

@@ -10,21 +10,21 @@
 </ul>
 
 <form method="post" action=".">
-    {% csrf_token %} 
+    {% csrf_token %}
     <fieldset>
-        <div class="input-field ___white">
+        <div class="input-field">
             <label for="id_username">{% trans "Email" %}</label>
             {{ form.errors.username }}
-            {{ form.username }}            
+            {{ form.username }}
         </div>
-        <div class="input-field ___white">
+        <div class="input-field">
             <label for="id_password">{% trans "Password" %}</label>
             {{ form.errors.password }}
-            {{ form.password }}            
+            {{ form.password }}
         </div>
 
         <div class="login__buttons">
-            <button name="login" class="button ___stretch ___outline ___active login__login" type="submit">{% trans "Login" %}</button>
+            <button name="login" class="button ___stretch ___active login__login" type="submit">{% trans "Login" %}</button>
 
             <div class="forgot-password">
                 <ul>
