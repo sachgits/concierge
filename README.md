@@ -19,7 +19,7 @@ Then create a superuser account using:
 Now login with your new (superuser) account on http://localhost:8000
 
 ## Setup development (manually)
-To setup the development environment, make sure Python3 and yarn is installed. Then run the following commands:
+To setup the development environment, make sure Python3 and yarn is installed on your development machine. Then run the following commands:
 
     mkvirtualenv pleio_account --python=/usr/bin/python3
     pip install -r requirements.txt
