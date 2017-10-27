@@ -51,7 +51,7 @@ To compile the translations use:
 
 On OSX first make sure gettext (> 0.14) is installed and linked using:
 
-    brew install --force gettext
+    brew install gettext
     brew link --force gettext
 
 ## Run tests
