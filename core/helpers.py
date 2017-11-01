@@ -75,7 +75,8 @@ def send_suspicious_login_message(request, device_id, email):
         render_to_string('emails/send_suspicious_login_message_subject.txt', template_context),
         render_to_string('emails/send_suspicious_login_message.txt', template_context),
         settings.DEFAULT_FROM_EMAIL,
-        html_message = (render_to_string('emails/send_suspicious_login_message.html', template_context))
+        html_message = (render_to_string('emails/send_suspicious_login_message.html', template_context)),
+        fail_silently=True
     )
 
 
