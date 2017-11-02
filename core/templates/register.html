@@ -11,18 +11,18 @@
 
 <form method="post" action=".">
     {% csrf_token %}
-    <p>Welkom op Pleio. Meld u aan om in te loggen.</p>
+    <p>{% trans "Welcome, please login." %}</p>
 
     <fieldset>
         <div class="input-field">
             <label for="id_name">{% trans "First- and lastname" %}</label>
             {{ form.errors.name }}
-            {{ form.name }}            
+            {{ form.name }}
         </div>
         <div class="input-field">
             <label for="id_email">{% trans "Email" %}</label>
             {{ form.errors.email }}
-            {{ form.email }}            
+            {{ form.email }}
         </div>
         <div class="input-field">
             <label for="id_password1">{% trans "Password" %}</label>

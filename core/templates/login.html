@@ -14,7 +14,7 @@
     {% csrf_token %}
     {{ wizard.management_form }}
     {% if wizard.steps.current == 'auth' %}
-        <p>Welkom op Pleio. Vul je gegevens in om in te loggen.</p>
+        <p>{% trans "Welcome, please login." %}</p>
 
         <fieldset>
             <div class="input-field">
@@ -31,7 +31,7 @@
             <div class="login__check">
                 {{ form.errors.is_persistent }}
                 {{ form.is_persistent }}
-                <label for="id_auth-is_persistent">Onthoud me</label>
+                <label for="id_auth-is_persistent">{% trans "Remember me" %}</label>
             </div>
 
             <div class="login__buttons">
@@ -39,8 +39,8 @@
 
                 <div class="forgot-password">
                     <ul>
-                        <li><a href="{% url 'password_reset' %}">Wachtwoord vergeten</a></li>
-                        <li><a href="{% url 'register' %}">Registeren</a></li>
+                        <li><a href="{% url 'password_reset' %}">{% trans "Forgot password" %}</a></li>
+                        <li><a href="{% url 'register' %}">{% trans "Register" %}</a></li>
                     </ul>
                 </div>
             </div>
@@ -56,7 +56,7 @@
         }
       };
     </script>
-    <p>Vul een twee-factor code in.</p>
+    <p>{% trans "Please fill in a two-factor code" %}</p>
         <div class="input-field">
             {{ form.errors.otp_token }}
             {{ form.otp_token.label_tag }}
@@ -77,16 +77,16 @@
         <div class="input-field">
             <label for="id_backup-otp_token">Token:</label>
             <input id="id_backup-otp_token" name="backup-otp_token" type="text">
-            <button name="wizard_goto_step" type="submit" class="button ___stretch ___active">Gebruik backuptoken</button>
-            <button name="wizard_goto_step" type="submit" value="auth" class="button ___stretch ___active">Terug</button>
+            <button name="wizard_goto_step" type="submit" class="button ___stretch ___active">{% trans "Use backuptoken" %}</button>
+            <button name="wizard_goto_step" type="submit" value="auth" class="button ___stretch ___active">{% trans "Back" %}</button>
         </div>
 
     {% endif %}
         {% if backup_tokens %}
       <p>{% trans "As a last resort, you can use a backup token:" %}</p>
         <div class="input-field">
-            <button name="wizard_goto_step" type="submit" value="backup" class="button ___stretch ___active">Gebruik backuptoken</button>
-            <button name="wizard_goto_step" type="submit" value="auth" class="button ___stretch ___active">Terug</button>
+            <button name="wizard_goto_step" type="submit" value="backup" class="button ___stretch ___active">{% trans "Use backuptoken" %}</button>
+            <button name="wizard_goto_step" type="submit" value="auth" class="button ___stretch ___active">{% trans "Back" %}</button>
         </div>
 
     {% endif %}

@@ -1,4 +1,5 @@
 {% load render_bundle from webpack_loader %}
+{% load i18n %}
 
 <!DOCTYPE html>
 <html lang="nl">
@@ -17,7 +18,7 @@
                 <div class="account__top-bar">
                     <div class="row">
                         <div class="col-xs-6">
-                            <a class="navigation__logo" title="Terug naar de homepage" href="https://www.pleio.nl/">{% include '_logo.html' %}</a>
+                            <a class="navigation__logo" title="{% trans "Back to the homepage" %}" href="https://www.pleio.nl/">{% include '_logo.html' %}</a>
                         </div>
                         <div class="col-xs-6 end-xs">
                             <a href="/"><div class="account__close"></div></a>

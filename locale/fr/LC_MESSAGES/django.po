@@ -3,121 +3,121 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-11-02 18:45+0100\n"
-"PO-Revision-Date: 2017-11-02 13:45-0400\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: nl\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.4\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: core/forms.py:22
 msgid "The two password fields didn't match."
-msgstr "﻿Voer hetzelfde wachtwoord in de twee wachtwoord velden in."
+msgstr ""
 
 #: core/forms.py:61 core/forms.py:65
 msgid "Token"
-msgstr "Token"
+msgstr ""
 
 #: core/login_session_helpers.py:9
 msgid "Chrome"
-msgstr "Chrome"
+msgstr ""
 
 #: core/login_session_helpers.py:10
 msgid "Safari"
-msgstr "Safari"
+msgstr ""
 
 #: core/login_session_helpers.py:11
 msgid "Firefox"
-msgstr "Firefox"
+msgstr ""
 
 #: core/login_session_helpers.py:12
 msgid "Opera"
-msgstr "Opera"
+msgstr ""
 
 #: core/login_session_helpers.py:13
 msgid "Internet Explorer"
-msgstr "Internet Explorer"
+msgstr ""
 
 #: core/login_session_helpers.py:16
 msgid "Android"
-msgstr "Android"
+msgstr ""
 
 #: core/login_session_helpers.py:17
 msgid "Linux"
-msgstr "Linux"
+msgstr ""
 
 #: core/login_session_helpers.py:18
 msgid "iPhone"
-msgstr "iPhone"
+msgstr ""
 
 #: core/login_session_helpers.py:19
 msgid "iPad"
-msgstr "iPad"
+msgstr ""
 
 #: core/login_session_helpers.py:20
 msgid "OS X Mavericks"
-msgstr "OS X Mavericks"
+msgstr ""
 
 #: core/login_session_helpers.py:21
 msgid "OS X Yosemite"
-msgstr "OS X Yosemite"
+msgstr ""
 
 #: core/login_session_helpers.py:22
 msgid "OS X El Capitan"
-msgstr "OS X El Capitan"
+msgstr ""
 
 #: core/login_session_helpers.py:23
 msgid "macOS Sierra"
-msgstr "macOS Sierra"
+msgstr ""
 
 #: core/login_session_helpers.py:24
 msgid "OS X"
-msgstr "OS X"
+msgstr ""
 
 #: core/login_session_helpers.py:25
 msgid "Windows XP"
-msgstr "Windows XP"
+msgstr ""
 
 #: core/login_session_helpers.py:26
 msgid "Windows Vista"
-msgstr "Windows Vista"
+msgstr ""
 
 #: core/login_session_helpers.py:27
 msgid "Windows 7"
-msgstr "Windows 7"
+msgstr ""
 
 #: core/login_session_helpers.py:28
 msgid "Windows 8"
-msgstr "Windows 8"
+msgstr ""
 
 #: core/login_session_helpers.py:29
 msgid "Windows 8.1"
-msgstr "Windows 8.1"
+msgstr ""
 
 #: core/login_session_helpers.py:30
 msgid "Windows 10"
-msgstr "Windows 10"
+msgstr ""
 
 #: core/login_session_helpers.py:31
 msgid "Windows"
-msgstr "Windows"
+msgstr ""
 
 #: core/login_session_helpers.py:48
 #, python-format
 msgid "%(browser)s on %(device)s"
-msgstr "%(browser)s op %(device)s"
+msgstr ""
 
 #: core/templates/backup_tokens.html:7 core/templates/tf_profile.html:11
 msgid "Backup Tokens"
-msgstr "Backup tokens"
+msgstr ""
 
 #: core/templates/backup_tokens.html:8
 msgid ""
@@ -130,23 +130,18 @@ msgid ""
 "shown\n"
 "          below will be valid."
 msgstr ""
-"Back-tokens kunnen worden gebruikt als uw primaire- en reserve "
-"telefoonnummers niet beschikbaar. De back-tokens hieronder kunnen worden "
-"gebruikt voor inloggen verificatie. Als u alle penningen van uw back-up hebt "
-"gebruikt, kunt u het genereren van een nieuwe set back-tokens. Alleen de "
-"back-tokens hieronder zullen geldig zijn."
 
 #: core/templates/backup_tokens.html:20
 msgid "Print these tokens and keep them somewhere safe."
-msgstr "Print deze tokens en bewaar ze ergens veilig."
+msgstr ""
 
 #: core/templates/backup_tokens.html:22
 msgid "You don't have any backup codes yet."
-msgstr "Je hebt nog geen backup tokens."
+msgstr ""
 
 #: core/templates/backup_tokens.html:25
 msgid "Generate Tokens"
-msgstr "Genereer tokens"
+msgstr ""
 
 #: core/templates/backup_tokens.html:26 core/templates/login.html:81
 #: core/templates/login.html:89 core/templates/password_reset.html:33
@@ -155,125 +150,125 @@ msgstr "Genereer tokens"
 #: core/templates/tf_disable.html:21 core/templates/tf_profile.html:31
 #: core/templates/tf_profile.html:43 core/templates/tf_setup.html:30
 msgid "Back"
-msgstr "Terug"
+msgstr ""
 
 #: core/templates/base.html:21 core/templates/us_base.html:21
 msgid "Back to the homepage"
-msgstr "Terug naar de homepagina"
+msgstr ""
 
 #: core/templates/emails/base.html:893
 #: core/templates/emails/send_suspicious_login_message.txt:1
 #: core/templates/session_list.html:7
 msgid "<em>unknown on unknown</em>"
-msgstr "<em>onbekend op onbekend</em>"
+msgstr ""
 
 #: core/templates/emails/base.html:893
 #: core/templates/emails/send_suspicious_login_message.txt:1
 #: core/templates/session_list.html:8
 msgid "<em>unknown</em>"
-msgstr "<em>onbekend</em>"
+msgstr ""
 
 #: core/templates/emails/register.txt:2
 msgid "Activate account at"
-msgstr "Activeer account op"
+msgstr ""
 
 #: core/templates/emails/register.txt:6
 #, python-format
 msgid "This link is valid for %(expiration_days)s days."
-msgstr "Deze link is %(expiration_days)s dagen geldig."
+msgstr ""
 
 #: core/templates/emails/register_subject.txt:1
 msgid "Please activate your account on"
-msgstr "Activeer je account op %(site.name)s"
+msgstr ""
 
 #: core/templates/emails/send_suspicious_login_message.html:5
 #: core/templates/emails/send_suspicious_login_message.txt:3
 msgid "Someone has logged in using your account at "
-msgstr "Iemand heeft ingelogd met je account op "
+msgstr ""
 
 #: core/templates/emails/send_suspicious_login_message.html:7
 #: core/templates/emails/send_suspicious_login_message.txt:5
 msgid "IP address"
-msgstr "IP adres"
+msgstr ""
 
 #: core/templates/emails/send_suspicious_login_message.html:8
 #: core/templates/emails/send_suspicious_login_message.txt:6
 msgid "User"
-msgstr "Gebruiker"
+msgstr ""
 
 #: core/templates/emails/send_suspicious_login_message.html:9
 #: core/templates/emails/send_suspicious_login_message.txt:7
 msgid "User agent"
-msgstr "Browser"
+msgstr ""
 
 #: core/templates/emails/send_suspicious_login_message.html:10
 #: core/templates/emails/send_suspicious_login_message.txt:8
 msgid "City"
-msgstr "Stad"
+msgstr ""
 
 #: core/templates/emails/send_suspicious_login_message.html:11
 #: core/templates/emails/send_suspicious_login_message.txt:9
 msgid "Country"
-msgstr "Land"
+msgstr ""
 
 #: core/templates/emails/send_suspicious_login_message.html:13
 msgid "If it was you, please navigate to "
-msgstr "Wanneer jij dit was, ga naar "
+msgstr ""
 
 #: core/templates/emails/send_suspicious_login_message.html:14
 msgid "this link"
-msgstr "deze link"
+msgstr ""
 
 #: core/templates/emails/send_suspicious_login_message.html:16
 msgid "Or copy/paste this link into your browser"
-msgstr "Of kopieer de link"
+msgstr ""
 
 #: core/templates/emails/send_suspicious_login_message.html:19
 #: core/templates/emails/send_suspicious_login_message.txt:12
 msgid "Otherwise you might want to change your password."
-msgstr "Anders kun je het wachtwoord veranderen."
+msgstr ""
 
 #: core/templates/emails/send_suspicious_login_message.txt:11
 msgid "If it was you, please navigate to this link"
-msgstr "Wanneer jij dit was, ga naar de volgende link"
+msgstr ""
 
 #: core/templates/emails/send_suspicious_login_message_subject.txt:1
 msgid "Account activity at"
-msgstr "Account activiteit op"
+msgstr ""
 
 #: core/templates/login.html:17 core/templates/register.html:14
 msgid "Welcome, please login."
-msgstr "Welkom, log hieronder in."
+msgstr ""
 
 #: core/templates/login.html:21 core/templates/password_reset.html:22
 #: core/templates/profile.html:17 core/templates/register.html:23
 msgid "Email"
-msgstr "E-mail"
+msgstr ""
 
 #: core/templates/login.html:26 core/templates/password_reset_confirm.html:20
 #: core/templates/register.html:28
 msgid "Password"
-msgstr "Wachtwoord"
+msgstr ""
 
 #: core/templates/login.html:34
 msgid "Remember me"
-msgstr "Onthoud mij"
+msgstr ""
 
 #: core/templates/login.html:38 core/templates/login.html:65
 msgid "Login"
-msgstr "Login"
+msgstr ""
 
 #: core/templates/login.html:42
 msgid "Forgot password"
-msgstr "Wachtwoord vergeten"
+msgstr ""
 
 #: core/templates/login.html:43 core/templates/register.html:54
 msgid "Register"
-msgstr "Registeren"
+msgstr ""
 
 #: core/templates/login.html:59
 msgid "Please fill in a two-factor code"
-msgstr "Vul de twee-factor code in"
+msgstr ""
 
 #: core/templates/login.html:74
 msgid ""
@@ -282,16 +277,14 @@ msgid ""
 "Please\n"
 "             enter one of these backup tokens to login to your account."
 msgstr ""
-"Gebruik dit formulier om backupcodes te genereren. Print deze codes uit en "
-"bewaar ze op een veilige plaats."
 
 #: core/templates/login.html:80 core/templates/login.html:88
 msgid "Use backuptoken"
-msgstr "Gebruik backupcode"
+msgstr ""
 
 #: core/templates/login.html:86
 msgid "As a last resort, you can use a backup token:"
-msgstr "Of gebruik een backupcode:"
+msgstr ""
 
 #: core/templates/password_reset.html:16
 msgid ""
@@ -299,186 +292,174 @@ msgid ""
 "address is registered in our system you will receive an e-mail with a link "
 "to configure a new password."
 msgstr ""
-"﻿Vul je e-mailadres in als gebruikersnaam. Je ontvangt een nieuw wachtwoord "
-"via e-mail."
 
 #: core/templates/password_reset.html:18
 msgid "If you have problems resettings your password please contact"
 msgstr ""
-"Als je problemen hebt met het resetten van je wachtwoord, neem contact op met"
 
 #: core/templates/password_reset.html:30
 msgid "Request new password"
-msgstr "Nieuw wachtwoord aanvragen"
+msgstr ""
 
 #: core/templates/password_reset_complete.html:6
 msgid "Your password has been resetted succesfully."
-msgstr "Je wachtwoord is succesvol veranderd."
+msgstr ""
 
 #: core/templates/password_reset_confirm.html:16
 msgid "Now please enter a new password for your account."
-msgstr "Vul een nieuw wachtwoord in voor je account."
+msgstr ""
 
 #: core/templates/password_reset_confirm.html:26
 #: core/templates/register.html:33
 msgid "Password (again)"
-msgstr "Wachtwoord (nogmaals)"
+msgstr ""
 
 #: core/templates/password_reset_confirm.html:34
 msgid "Confirm"
-msgstr "Bevestigen"
+msgstr ""
 
 #: core/templates/password_reset_done.html:6
 msgid "Please check your e-mail to find the link to configure a new password."
 msgstr ""
-"Controleer je e-mail. Volg de link om een nieuw wachtwoord in te stellen."
 
 #: core/templates/profile.html:7
 msgid "Profile"
-msgstr "Profiel"
+msgstr ""
 
 #: core/templates/profile.html:12
 msgid "Name"
-msgstr "Naam"
+msgstr ""
 
 #: core/templates/profile.html:28
 msgid "Remove avatar"
-msgstr "Verwijder avatar"
+msgstr ""
 
 #: core/templates/profile.html:39
 msgid "Choose an avatar"
-msgstr "Kies een avatar"
+msgstr ""
 
 #: core/templates/profile.html:43
 msgid "Update profile"
-msgstr "Profiel updaten"
+msgstr ""
 
 #: core/templates/profile.html:47
 msgid "Two-factor authentication"
-msgstr "Twee-factor authenticatie"
+msgstr ""
 
 #: core/templates/profile.html:48
 msgid "Sessions"
-msgstr "Sessies"
+msgstr ""
 
 #: core/templates/profile.html:49
 msgid "Logout"
-msgstr "Uitloggen"
+msgstr ""
 
 #: core/templates/register.html:18
 msgid "First- and lastname"
-msgstr "Voor- en achternaam"
+msgstr ""
 
 #: core/templates/register.html:42
 msgid "I agree with the general terms"
-msgstr "Ik ga akkoord met de algemene voorwaarden"
+msgstr ""
 
 #: core/templates/register.html:47
 msgid "Please subscribe me to the newsletter"
-msgstr "Schrijf me in voor de nieuwsbrief"
+msgstr ""
 
 #: core/templates/register_activate.html:5
 msgid ""
 "We could not activate your account. Maybe your account already is activated."
 msgstr ""
-"Wij kunnen je account niet activeren. Misschien is je account al is "
-"geactiveerd."
 
 #: core/templates/register_complete.html:5
 msgid "Please check your e-mail to validate your account."
-msgstr "Controleer je e-mail om je account te valideren."
+msgstr ""
 
 #: core/templates/session_list.html:10
 msgid "Active Sessions"
-msgstr "Actieve sessies"
+msgstr ""
 
 #: core/templates/session_list.html:15
 msgid "Location"
-msgstr "Locatie"
+msgstr ""
 
 #: core/templates/session_list.html:16
 msgid "Device"
-msgstr "Apparaat"
+msgstr ""
 
 #: core/templates/session_list.html:17
 msgid "Last Activity"
-msgstr "Laatste activiteit"
+msgstr ""
 
 #: core/templates/session_list.html:18 core/templates/session_list.html:35
 msgid "End Session"
-msgstr "Sessie beëindigen"
+msgstr ""
 
 #: core/templates/session_list.html:27
 #, python-format
 msgid "%(time)s ago (this session)"
-msgstr "%(time)s geleden (deze sessie)"
+msgstr ""
 
 #: core/templates/session_list.html:29
 #, python-format
 msgid "%(time)s ago"
-msgstr "%(time)s geleden"
+msgstr ""
 
 #: core/templates/session_list.html:46
 msgid ""
 "You can also end all other sessions but the current.\n"
 "        This will log you out on all other devices."
 msgstr ""
-"Je kunt ook alle andere sessies afsluiten. Dit logt je in op alle andere "
-"apparaten."
 
 #: core/templates/session_list.html:48
 msgid "End All Other Sessions"
-msgstr "Beëindig alle andere sessies"
+msgstr ""
 
 #: core/templates/session_list.html:53 core/templates/setup_complete.html:12
 msgid "Back to Profile"
-msgstr "Terug naar profiel"
+msgstr ""
 
 #: core/templates/setup_complete.html:6
 msgid "Enable Two-Factor Authentication"
-msgstr "Twee-factor authenticatie activeren"
+msgstr ""
 
 #: core/templates/setup_complete.html:8
 msgid ""
 "Congratulations, you've successfully enabled two-factor\n"
 "      authentication."
-msgstr "Gefeliciteerd, je hebt two-factor authenticatie succesvol ingesteld."
+msgstr ""
 
 #: core/templates/tf_disable.html:8
 msgid "Disable Two-factor Authentication"
-msgstr "Twee-factor authenticatie uitschakelen"
+msgstr ""
 
 #: core/templates/tf_disable.html:9
 msgid ""
 "You are about to disable two-factor authentication. This\n"
 "        compromises your account security, are you sure?"
 msgstr ""
-"Je bent momenteel bezig met het uitzetten van twee-factor authenticatie. "
-"Weet je zeker dat je wil doorgaan?"
 
 #: core/templates/tf_disable.html:16
 msgid "Yes, I am sure"
-msgstr "Ja, ik weet het zeker"
+msgstr ""
 
 #: core/templates/tf_disable.html:20 core/templates/tf_profile.html:29
 msgid "Disable"
-msgstr "Uitschakelen"
+msgstr ""
 
 #: core/templates/tf_profile.html:6
 msgid "Two-Factor Authentication"
-msgstr "Twee-factor authenticatie"
+msgstr ""
 
 #: core/templates/tf_profile.html:9
 msgid "Tokens will be generated by your token generator."
-msgstr "Codes worden gegenereerd door je generator."
+msgstr ""
 
 #: core/templates/tf_profile.html:13
 msgid ""
 "If you don't have any device with you, you can access\n"
 "        your account using backup tokens."
 msgstr ""
-"Als je geen apparaat bij je hebt, kun je backuptokens gebruiken om in te "
-"loggen."
 
 #: core/templates/tf_profile.html:15
 #, python-format
@@ -491,25 +472,21 @@ msgid_plural ""
 "        You have %(counter)s backup tokens remaining.\n"
 "      "
 msgstr[0] ""
-"\n"
-"Je hebt slechts één backupcode over."
 msgstr[1] ""
-"\n"
-"Je hebt %(counter)s codes over."
 
 #: core/templates/tf_profile.html:22
 msgid "Show Codes"
-msgstr "Toon codes"
+msgstr ""
 
 #: core/templates/tf_profile.html:24
 msgid "Disable Two-Factor Authentication"
-msgstr "Twee-factor authenticatie uitschakelen"
+msgstr ""
 
 #: core/templates/tf_profile.html:25
 msgid ""
 "However we strongly discourage you to do so, you can\n"
 "      also disable two-factor authentication for your account."
-msgstr "We raden echter aan om twee-factor authenticatie niet uit te zetten."
+msgstr ""
 
 #: core/templates/tf_profile.html:36
 msgid ""
@@ -517,12 +494,10 @@ msgid ""
 "        account. Enable two-factor authentication for enhanced account\n"
 "        security."
 msgstr ""
-"Twee-factor authenticatie is niet geactiveerd voor je account. Activeer twee-"
-"factor authenticatie voor een betere beveiliging."
 
 #: core/templates/tf_profile.html:41
 msgid "Enable"
-msgstr "Activeren"
+msgstr ""
 
 #: core/templates/tf_setup.html:17
 msgid ""
@@ -531,24 +506,19 @@ msgid ""
 "            Authenticator. Then, enter the token generated by the app.\n"
 "            "
 msgstr ""
-"Om de code generator te gebruiken, gebruik je smartphone en scan de QR code "
-"hieronder. Gebruik bijvoorbeeld Google Authenticator."
 
 #: core/templates/tf_setup.html:33
 msgid "Next"
-msgstr "Volgende"
+msgstr ""
 
 #: pleio_account/settings.py:136
 msgid "English"
-msgstr "Engels"
+msgstr ""
 
 #: pleio_account/settings.py:137
 msgid "Dutch"
-msgstr "Nederlands"
+msgstr ""
 
 #: pleio_account/settings.py:138
 msgid "French"
 msgstr ""
-
-#~ msgid "Your profile"
-#~ msgstr "Je profiel"

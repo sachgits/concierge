@@ -73,6 +73,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'user_sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -129,11 +130,12 @@ AUTH_USER_MODEL = 'core.User'
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'nl-nl'
+LANGUAGE_CODE = 'en'
 
 LANGUAGES = [
     ('en', _('English')),
-    ('nl', _('Dutch'))
+    ('nl', _('Dutch')),
+    ('fr', _('French'))
 ]
 
 LOCALE_PATHS = (
