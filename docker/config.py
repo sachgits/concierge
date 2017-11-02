@@ -25,7 +25,7 @@ STATIC_ROOT = '/app/static'
 
 CHECK_PREVIOUS_LOGINS = os.getenv('CHECK_PREVIOUS_LOGINS')
 
-FROM_EMAIL = os.getenv('FROM_EMAIL')
+DEFAULT_FROM_EMAIL = os.getenv('FROM_EMAIL')
 
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = os.getenv('EMAIL_PORT')
