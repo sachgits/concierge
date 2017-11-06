@@ -1,4 +1,5 @@
 {% extends "emails/base.html" %}
+{% load user_sessions i18n %}{% trans "<em>unknown on unknown</em>" as unknown_on_unknown %}{% trans "<em>unknown</em>" as unknown %}
 
 {% block content %}
     <p>
@@ -13,8 +14,7 @@
         <br> {% trans "If it was you, please navigate to " %}
         <a href="http://{{ site.domain }}{% url 'accept_previous_login' acceptation_key %}">{% trans "this link" %}</a>
         <br>
-        <br> {% trans "Or copy/paste this link into your browser" %}: http://{{ site.domain }}{% url 'accept_previous_login' acceptation_key
-        %}
+        <br> {% trans "Or copy/paste this link into your browser" %}: http://{{ site.domain }}{% url 'accept_previous_login' acceptation_key %}
         <br>
         <br> {% trans "Otherwise you might want to change your password." %}
     </p>

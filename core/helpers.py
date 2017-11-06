@@ -55,13 +55,14 @@ def unique_filepath(self, filename):
     filename = "%s.%s" % (uuid.uuid4(), ext)
     return os.path.join('avatars/', filename)
 
-def send_suspicious_login_message(request, device_id, email):
+def send_suspicious_login_message(request, device_id, user):
     from .login_session_helpers import get_city, get_country
 
     session = request.session
+
     template_context = {
         'site': get_current_site(request),
-        'user': email,
+        'user': user.email,
         'user_agent': session.user_agent,
         'ip_address': session.ip,
         'city': get_city(session.ip),
@@ -70,10 +71,9 @@ def send_suspicious_login_message(request, device_id, email):
         'pleio_logo_small': request.build_absolute_uri("/static/images/pleio_logo_small.png")
     }
 
-    email.email_user(
+    user.email_user(
         render_to_string('emails/send_suspicious_login_message_subject.txt', template_context),
         render_to_string('emails/send_suspicious_login_message.txt', template_context),
-        settings.DEFAULT_FROM_EMAIL,
         html_message = (render_to_string('emails/send_suspicious_login_message.html', template_context)),
         fail_silently=True
     )

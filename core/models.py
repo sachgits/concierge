@@ -128,8 +128,9 @@ class PreviousLogins(models.Model):
          )
         login.save()
 
-    def is_confirmed_login(session, device_id, email):
-        user = User.objects.get(email=email)
+    def is_confirmed_login(request, device_id, user):
+
+        session = request.session
 
         login = PreviousLogins.objects.all()
         login = login.filter(user=user)
@@ -150,6 +151,7 @@ class PreviousLogins(models.Model):
         return confirmed_login
 
     def update_previous_login(session, pk):
+
         l = PreviousLogins.objects.get(pk=pk)
         try:
             l.last_login_date = timezone.now()

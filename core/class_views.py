@@ -20,7 +20,7 @@ class PleioLoginView(LoginView):
         else:
             self.request.session.set_expiry(0)
 
-        email = self.get_user()
+        user = self.get_user()
         session = self.request.session
 
         check_previous_logins = settings.CHECK_PREVIOUS_LOGINS
@@ -37,11 +37,11 @@ class PleioLoginView(LoginView):
             if previous_login_present:
                 #cookie is present so no need to send an email and no further checking is requiered
                 check_previous_logins = False
-                PreviousLogins.update_previous_login(session, login.pk)
+                PreviousLogins.update_previous_login(self.request, login.pk, user)
 
         if check_previous_logins:
-            if not PreviousLogins.is_confirmed_login(session, device_id, email):
+            if not PreviousLogins.is_confirmed_login(self.request, device_id, user):
                 #no confirmed matching login found, so email must be sent
-                send_suspicious_login_message(self.request, device_id, email)
+                send_suspicious_login_message(self.request, device_id, user)
 
         return LoginView.done(self, form_list, **kwargs)
