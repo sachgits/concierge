@@ -41,3 +41,6 @@ DATABASES = {
 FROM_EMAIL = 'noreply@pleio.nl'
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
+
+# Send users a warning message when suspicious behaviour on their account occurs, e.g. a login on the account from a new (unknown) location.
+CHECK_PREVIOUS_LOGINS = True
