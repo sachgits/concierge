@@ -91,12 +91,33 @@ class User(AbstractBaseUser):
     def email_user(self, subject, message, **kwargs):
         send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [self.email], **kwargs)
 
+    def logged_in_previously(self, session, device_id):
+        # check whether user has previously logged in from this location and using this device
+
+        login = self.previous_logins.filter(
+            ip=session.ip,
+            user_agent=get_device(session.user_agent)
+        )
+
+        known_login = (login.count() > 0)
+
+        if not known_login:
+            PreviousLogins.add_known_login(session, device_id, self)
+        else:
+            l = login[0]
+            PreviousLogins.update_previous_login(session, l.pk)
+
+        login = login.filter(confirmed_login=True)
+        confirmed_login = (login.count() > 0)
+
+        return confirmed_login
+
     @property
     def is_staff(self):
         return self.is_admin
 
 class PreviousLogins(models.Model):
-    user = models.ForeignKey('User', on_delete=models.CASCADE, db_index=True)
+    user = models.ForeignKey('User', on_delete=models.CASCADE, db_index=True, related_name='previous_logins')
     device_id = models.CharField(max_length=40, editable=False, null=True, db_index=True)
     ip = models.GenericIPAddressField(null=True, blank=True, verbose_name='IP')
     user_agent = models.CharField(null=True, blank=True, max_length=200)
@@ -128,31 +149,10 @@ class PreviousLogins(models.Model):
          )
         login.save()
 
-    def is_confirmed_login(request, device_id, user):
-
-        session = request.session
-
-        login = PreviousLogins.objects.all()
-        login = login.filter(user=user)
-        login = login.filter(ip=session.ip)
-        login = login.filter(user_agent=get_device(session.user_agent))
-
-        known_login = (login.count() > 0)
-
-        if not known_login:
-            PreviousLogins.add_known_login(session, device_id, user)
-        else:
-            l = login[0]
-            PreviousLogins.update_previous_login(session, l.pk)
-
-        login = login.filter(confirmed_login=True)
-        confirmed_login = (login.count() > 0)
-
-        return confirmed_login
-
     def update_previous_login(session, pk):
 
         l = PreviousLogins.objects.get(pk=pk)
+
         try:
             l.last_login_date = timezone.now()
             l.ip = session.ip

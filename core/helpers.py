@@ -1,7 +1,6 @@
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.template import RequestContext, Template
-from django.contrib import auth
 from django.conf import settings
 from django.core import signing
 import uuid
@@ -24,7 +23,7 @@ def generate_activation_token(email):
         obj=email
     )
 
-def activate_and_login_user(request, activation_key):
+def activate_user(activation_key):
     from .models import User
 
     try:
@@ -34,18 +33,17 @@ def activate_and_login_user(request, activation_key):
         )
 
         if email is None:
-            return False
+            return None
 
         user = User.objects.get(email=email)
 
         if user.is_active:
-            return False
+            return None
 
         user.is_active = True
         user.save()
 
-        auth.login(request, user)
-        return True
+        return user
 
     except (signing.BadSignature, User.DoesNotExist):
         return False

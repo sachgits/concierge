@@ -1,9 +1,7 @@
 from .forms import PleioAuthenticationForm, PleioAuthenticationTokenForm
-from django.conf import settings
+from .views import check_users_previous_logins
 from two_factor.forms import TOTPDeviceForm, BackupTokenForm
 from two_factor.views.core import LoginView, SetupView
-from .helpers import send_suspicious_login_message
-from .models import PreviousLogins
 
 class PleioLoginView(LoginView):
     template_name = 'login.html'
@@ -21,27 +19,12 @@ class PleioLoginView(LoginView):
             self.request.session.set_expiry(0)
 
         user = self.get_user()
-        session = self.request.session
 
-        check_previous_logins = settings.CHECK_PREVIOUS_LOGINS
-
-        if 'device_id' in self.request.COOKIES:
+        try:
             device_id = self.request.COOKIES['device_id']
+        except:
+            device_id = None
 
-            try:
-                login = PreviousLogins.objects.get(device_id=device_id)
-                previous_login_present = login.confirmed_login
-            except:
-                previous_login_present = False
-
-            if previous_login_present:
-                #cookie is present so no need to send an email and no further checking is requiered
-                check_previous_logins = False
-                PreviousLogins.update_previous_login(self.request, login.pk, user)
-
-        if check_previous_logins:
-            if not PreviousLogins.is_confirmed_login(self.request, device_id, user):
-                #no confirmed matching login found, so email must be sent
-                send_suspicious_login_message(self.request, device_id, user)
+        check_users_previous_logins(self.request, user, device_id)
 
         return LoginView.done(self, form_list, **kwargs)

@@ -2,9 +2,11 @@ from django.contrib.auth.models import AnonymousUser
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.test import TestCase
 from django.contrib import auth
+from django.core import mail
 from django.test.client import RequestFactory
-from .helpers import generate_activation_token, activate_and_login_user
-from .models import User
+from .helpers import generate_activation_token, activate_user, accept_previous_logins, generate_acceptation_token
+from .models import User, PreviousLogins
+from .views import check_users_previous_logins
 
 class UserTestCase(TestCase):
     def setUp(self):
@@ -33,18 +35,41 @@ class UserTestCase(TestCase):
         self.assertEqual(invalid_login, None)
         self.assertEqual(valid_login, self.superuser)
 
-    def test_account_activation_and_login(self):
+    def test_account_activation(self):
         """ Test an account can be activated and login by using the activation token """
         request = self.factory.get("/")
-        request.user = AnonymousUser()
+        request.user = self.user
 
         middleware = SessionMiddleware()
         middleware.process_request(request)
-        
+
         activation_token = generate_activation_token(self.user.email)
-        activate_and_login_user(request, activation_token)
+        activate_user(activation_token)
 
         self.user.refresh_from_db()
 
         self.assertIs(self.user.is_active, True)
         self.assertEqual(request.user, self.user)
+
+    def test_send_email_suspicious_login(self):
+        """ Test  """
+        request = self.factory.get("/")
+
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+
+        request.session.ip = "8.247.18.183" #www.ziggo.nl an existing ip address
+        request.session.user_agent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/62.0.3202.75 Chrome/62.0.3202.75 Safari/537.36"
+
+        device_id = "yj9zaceo1v6i6uw4hr0k2h8qs11zvjgd"
+
+        result = check_users_previous_logins(request, self.user, device_id)
+        self.assertIs(result, False)#no confirmed previous login found, so an email has been sent
+
+        acceptation_token = generate_acceptation_token(device_id)
+        accept_previous_logins(request, acceptation_token)
+
+        result = check_users_previous_logins(request, self.user, device_id)
+        self.assertIs(result, True)#confirmed previous login found, ho email has been sent
+
+
