@@ -33,7 +33,7 @@ legacy_urls = [
 urls = [
     url(r'^register/$', views.register, name='register'),
     url(r'^register/complete/$', views.register_complete, name='register_complete'),
-    url(r'^register/activate/(?P<activation_key>[-:\w]+)/$', views.register_activate, name='register_activate'),
+    url(r'^register/activate/(?P<activation_token>[-:\w]+)/$', views.register_activate, name='register_activate'),
     url(r'^password_reset/$', auth_views.password_reset, { 'template_name': 'password_reset.html' }, name='password_reset'),
     url(r'^password_reset/done/$', auth_views.password_reset_done, { 'template_name': 'password_reset_done.html' }, name='password_reset_done'),
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', auth_views.password_reset_confirm, { 'template_name': 'password_reset_confirm.html' }, name='password_reset_confirm'),
@@ -41,7 +41,7 @@ urls = [
     url(r'^login/$', PleioLoginView.as_view(), name='login'),
     url(r'^logout/$', views.logout, name='logout'),
     url(r'^profile/$', views.profile, name='profile'),
-    url(r'^accept_previous_logins/(?P<acceptation_key>[-:\w]+)/$', views.accept_previous_login, name='accept_previous_login'),
+    url(r'^accept_previous_logins/(?P<acceptation_token>[-:\w]+)/$', views.accept_previous_login, name='accept_previous_login'),
     url(r'^account/login/$', PleioLoginView.as_view(), name='login'),
     url(r'^account/two_factor/setup/$', views.tf_setup, name='tf_setup'),
     url(r'^account/two_factor/setup/complete/$', view=SetupCompleteView.as_view(template_name = 'setup_complete.html'), name='setup_complete' ),

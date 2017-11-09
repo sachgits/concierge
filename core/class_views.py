@@ -1,5 +1,5 @@
 from .forms import PleioAuthenticationForm, PleioAuthenticationTokenForm
-from .views import check_users_previous_logins
+from .models import User
 from two_factor.forms import TOTPDeviceForm, BackupTokenForm
 from two_factor.views.core import LoginView, SetupView
 
@@ -25,6 +25,6 @@ class PleioLoginView(LoginView):
         except:
             device_id = None
 
-        check_users_previous_logins(self.request, user, device_id)
+        user.check_users_previous_logins(self.request)
 
         return LoginView.done(self, form_list, **kwargs)

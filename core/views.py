@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from .helpers import send_activation_token, activate_user, accept_previous_logins, send_suspicious_login_message
 from .forms import RegisterForm, UserProfileForm, PleioTOTPDeviceForm
 from .models import User, PreviousLogins
 from django.urls import reverse
@@ -40,7 +39,7 @@ def register(request):
                 receives_newsletter=data['receives_newsletter']
             )
 
-            send_activation_token(request, user)
+            user.send_activation_token(request)
 
             return redirect('register_complete')
     else:
@@ -53,11 +52,11 @@ def register_complete(request):
     return render(request, 'register_complete.html')
 
 
-def register_activate(request, activation_key=None):
+def register_activate(request, activation_token=None):
     if request.user.is_authenticated():
         return redirect('profile')
 
-    user = activate_user(activation_key)
+    user = User.activate_user(None, activation_token)
 
     if user:
         auth.login(request, user)
@@ -121,35 +120,12 @@ def tf_setup(request):
     })
 
 
-def accept_previous_login(request, acceptation_key=None):
+def accept_previous_login(request, acceptation_token=None):
     try:
-        accept_previous_logins(request, acceptation_key)
+        PreviousLogins.accept_previous_logins(request, acceptation_token)
     except:
         pass
 
     return redirect('profile')
 
-def check_users_previous_logins(request, user, device_id):
-    check_previous_logins = settings.CHECK_PREVIOUS_LOGINS
-    session = request.session
 
-    result = True
-
-    try:
-        login = PreviousLogins.objects.get(device_id=device_id)
-        previous_login_present = login.confirmed_login
-    except:
-        previous_login_present = False
-
-    if previous_login_present:
-        #cookie is present so no need to send an email and no further checking is requiered
-        check_previous_logins = False
-        PreviousLogins.update_previous_login(session, login.pk)
-
-    if check_previous_logins:
-        if not user.logged_in_previously(session, device_id):
-            #no confirmed matching login found, so email must be sent
-            send_suspicious_login_message(request, device_id, user)
-            result = False
-
-    return result
