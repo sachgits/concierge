@@ -264,9 +264,6 @@ class PreviousLogins(models.Model):
             email = signed_value[1]
             user = User.objects.get(email = email)
 
-            print("device_id: ", device_id)
-            print("email: ", email)
-
             if device_id is None:
                 return False
 
