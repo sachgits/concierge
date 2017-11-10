@@ -146,7 +146,7 @@ class User(AbstractBaseUser):
         if previous_login_present:
             # cookie is present so no need to send an email and no further checking is requiered
             send_suspicious_behavior_warnings = False
-            PreviousLogins.update_previous_login(request, login.pk)
+            login.update_previous_login(request)
 
         if send_suspicious_behavior_warnings:
             if not self.logged_in_previously(request):
@@ -171,8 +171,7 @@ class User(AbstractBaseUser):
             # request.user is atm still "Anonymoususer", so have to add self as second arg
             PreviousLogins.add_known_login(request, self)
         else:
-            l = login[0]
-            PreviousLogins.update_previous_login(request, l.pk)
+            login[0].update_previous_login(request)
 
         login = login.filter(confirmed_login=True)
         confirmed_login = (login.count() > 0)
@@ -241,19 +240,17 @@ class PreviousLogins(models.Model):
          )
         login.save()
 
-    def update_previous_login(request, pk):
+    def update_previous_login(self, request):
         session = request.session
 
-        l = PreviousLogins.objects.get(pk=pk)
-
         try:
-            l.last_login_date = timezone.now()
-            l.ip = session.ip
-            l.user_agent = get_device(session.user_agent)
-            l.city = get_city(session.ip)
-            l.country = get_country(session.ip)
-            l.lat_lon = get_lat_lon(session.ip)
-            l.save()
+            self.last_login_date = timezone.now()
+            self.ip = session.ip
+            self.user_agent = get_device(session.user_agent)
+            self.city = get_city(session.ip)
+            self.country = get_country(session.ip)
+            self.lat_lon = get_lat_lon(session.ip)
+            self.save()
         except:
             pass
 
