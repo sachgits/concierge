@@ -1,10 +1,13 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils import timezone
 from django.utils.text import slugify
+from django.core import signing
 from django.core.mail import send_mail
 from django.contrib import admin
+from django.contrib.sites.shortcuts import get_current_site
 from django.db import models
 from django.conf import settings
+from django.template.loader import render_to_string
 from .helpers import unique_filepath
 from .login_session_helpers import get_city, get_country, get_device, get_lat_lon
 
@@ -91,8 +94,71 @@ class User(AbstractBaseUser):
     def email_user(self, subject, message, **kwargs):
         send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [self.email], **kwargs)
 
-    def logged_in_previously(self, session, device_id):
+    def send_activation_token(self, request):
+        template_context = {
+            'site': get_current_site(request),
+            'expiration_days': settings.ACCOUNT_ACTIVATION_DAYS,
+            'activation_token': signing.dumps(obj=self.email)
+        }
+
+        self.email_user(
+            render_to_string('emails/register_subject.txt', template_context),
+            render_to_string('emails/register.txt', template_context),
+            html_message = (render_to_string('emails/register.html', template_context)),
+            fail_silently = True
+        )
+
+    def activate_user(self, activation_token):
+        try:
+            email = signing.loads(
+                activation_token,
+                max_age=settings.ACCOUNT_ACTIVATION_DAYS * 86400
+            )
+
+            if email is None:
+                return None
+
+            self = User.objects.get(email=email)
+
+            if self.is_active:
+                return None
+
+            self.is_active = True
+            self.save()
+
+            return self
+
+        except (signing.BadSignature, User.DoesNotExist):
+            return None
+
+    def check_users_previous_logins(self, request):
+        send_suspicious_behavior_warnings = settings.SEND_SUSPICIOUS_BEHAVIOR_WARNINGS
+
+        result = True
+
+        try:
+            device_id = request.COOKIES['device_id']
+            login = self.previous_logins.get(device_id=device_id)
+            previous_login_present = login.confirmed_login
+        except:
+            previous_login_present = False
+
+        if previous_login_present:
+            # cookie is present so no need to send an email and no further checking is requiered
+            send_suspicious_behavior_warnings = False
+            login.update_previous_login(request)
+
+        if send_suspicious_behavior_warnings:
+            if not self.logged_in_previously(request):
+                # no confirmed matching login found, so email must be sent
+                self.send_suspicious_login_message(request)
+                result = False
+
+        return result
+
+    def logged_in_previously(self, request):
         # check whether user has previously logged in from this location and using this device
+        session = request.session
 
         login = self.previous_logins.filter(
             ip=session.ip,
@@ -102,15 +168,37 @@ class User(AbstractBaseUser):
         known_login = (login.count() > 0)
 
         if not known_login:
-            PreviousLogins.add_known_login(session, device_id, self)
+            # request.user is atm still "Anonymoususer", so have to add self as second arg
+            PreviousLogins.add_known_login(request, self)
         else:
-            l = login[0]
-            PreviousLogins.update_previous_login(session, l.pk)
+            login[0].update_previous_login(request)
 
         login = login.filter(confirmed_login=True)
         confirmed_login = (login.count() > 0)
 
         return confirmed_login
+
+    def send_suspicious_login_message(self, request):
+        session = request.session
+        device_id = request.COOKIES['device_id']
+
+        template_context = {
+            'site': get_current_site(request),
+            'user': self.email,
+            'user_agent': session.user_agent,
+            'ip_address': session.ip,
+            'city': get_city(session.ip),
+            'country': get_country(session.ip),
+            'acceptation_token': signing.dumps(obj=(device_id, self.email)),
+            'pleio_logo_small': request.build_absolute_uri("/static/images/pleio_logo_small.png")
+        }
+
+        self.email_user(
+            render_to_string('emails/send_suspicious_login_message_subject.txt', template_context),
+            render_to_string('emails/send_suspicious_login_message.txt', template_context),
+            html_message=(render_to_string('emails/send_suspicious_login_message.html', template_context)),
+            fail_silently=True
+        )
 
     @property
     def is_staff(self):
@@ -128,7 +216,10 @@ class PreviousLogins(models.Model):
     last_login_date = models.DateTimeField(default=timezone.now)
     confirmed_login = models.BooleanField(default=False)
 
-    def add_known_login(session, device_id, user):
+    def add_known_login(request, user):
+        session = request.session
+        device_id = request.COOKIES['device_id']
+
         lat_lon = get_lat_lon(session.ip)
         try:
             latitude = lat_lon[0]
@@ -149,19 +240,43 @@ class PreviousLogins(models.Model):
          )
         login.save()
 
-    def update_previous_login(session, pk):
-
-        l = PreviousLogins.objects.get(pk=pk)
+    def update_previous_login(self, request):
+        session = request.session
 
         try:
-            l.last_login_date = timezone.now()
-            l.ip = session.ip
-            l.user_agent = get_device(session.user_agent)
-            l.city = get_city(session.ip)
-            l.country = get_country(session.ip)
-            l.lat_lon = get_lat_lon(session.ip)
-            l.save()
+            self.last_login_date = timezone.now()
+            self.ip = session.ip
+            self.user_agent = get_device(session.user_agent)
+            self.city = get_city(session.ip)
+            self.country = get_country(session.ip)
+            self.lat_lon = get_lat_lon(session.ip)
+            self.save()
         except:
             pass
+
+    def accept_previous_logins(request, acceptation_token):
+        try:
+            signed_value = signing.loads(
+                acceptation_token,
+                max_age=settings.ACCOUNT_ACTIVATION_DAYS * 86400
+            )
+            device_id = signed_value[0]
+            email = signed_value[1]
+            user = User.objects.get(email = email)
+
+            if device_id is None:
+                return False
+
+            self = PreviousLogins.objects.get(
+                user=user,
+                device_id=device_id
+            )
+            self.confirmed_login = True
+            self.save()
+
+            return True
+
+        except (signing.BadSignature, PreviousLogins.DoesNotExist):
+            return False
 
 admin.site.register(User)

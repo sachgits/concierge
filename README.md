@@ -7,15 +7,10 @@ Make sure [Docker](https://www.docker.com/) and [yarn](https://yarnpkg.com/lang/
     docker-compose up
     yarn install
     yarn run watch
-    
-Creata a database using:
 
-    docker-compose exec web python manage.py migrate
-    
 Then create a superuser account using:
+    docker-compose exec web python manage.py createsuperuser
 
-    docker-compose exec web python manage.py makesuperuser
-    
 Now login with your new (superuser) account on http://localhost:8000
 
 ## Setup development (manually)
@@ -32,7 +27,7 @@ Create a database using
 Now create a superuser account using:
 
     python manage.py createsuperuser
-    
+
 Start a yarn and Django server using:
 
     python manage.py runserver localhost:8000
