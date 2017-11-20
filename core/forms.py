@@ -5,11 +5,19 @@ from django.contrib.auth.forms import AuthenticationForm
 from two_factor.forms import AuthenticationTokenForm, TOTPDeviceForm
 from two_factor.utils import totp_digits
 from .models import User
+from emailvalidator.models import EmailRegExValidator
+import re
 
 
 class EmailField(forms.EmailField):
     def clean(self, value):
         super(EmailField, self).clean(value)
+        validators = EmailRegExValidator.objects.all()
+        regexes = [re.compile(r.regex) for r in validators]
+        if not any(regex.match(value) for regex in regexes):
+            raise forms.ValidationError(
+                _("Your email address is not allowed.")
+            )
         try:
             User.objects.get(email=value)
             raise forms.ValidationError("This e-mail is already registered.")
