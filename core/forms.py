@@ -4,17 +4,14 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from two_factor.forms import AuthenticationTokenForm, TOTPDeviceForm
 from two_factor.utils import totp_digits
+from emailvalidator.validator import is_email_valid
 from .models import User
-from emailvalidator.models import EmailRegExValidator
-import re
 
 
 class EmailField(forms.EmailField):
     def clean(self, value):
         super(EmailField, self).clean(value)
-        validators = EmailRegExValidator.objects.all()
-        regexes = [re.compile(r.regex) for r in validators]
-        if not any(regex.match(value) for regex in regexes):
+        if not is_email_valid(value):
             raise forms.ValidationError(
                 _("Your email address is not allowed.")
             )
