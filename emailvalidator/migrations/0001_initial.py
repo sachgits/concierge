@@ -29,4 +29,10 @@ class Migration(migrations.Migration):
                 ('EmailDomainGroup', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='emailvalidator.EmailDomainGroup')),
             ],
         ),
+        migrations.RunSQL(
+          [('INSERT INTO emailvalidator_emaildomaingroup (name) values (%s)', ['Any'])],
+        ),
+        migrations.RunSQL(
+          [('INSERT INTO emailvalidator_emailregexvalidator (regex, EmailDomainGroup_id) values (%s, 1)', ['.*'])]
+        ),
     ]
