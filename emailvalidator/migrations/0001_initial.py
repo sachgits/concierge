@@ -33,6 +33,6 @@ class Migration(migrations.Migration):
           [('INSERT INTO emailvalidator_emaildomaingroup (name) values (%s)', ['Any'])],
         ),
         migrations.RunSQL(
-          [('INSERT INTO emailvalidator_emailregexvalidator (regex, EmailDomainGroup_id) values (%s, 1)', ['.*'])]
+          [('INSERT INTO emailvalidator_emailregexvalidator (regex, "EmailDomainGroup_id") values (%s, 1)', ['.*'])]
         ),
     ]
