@@ -24,7 +24,7 @@ class EmailDomainGroupAdmin(admin.ModelAdmin):
         Return list of regex patterns within the specified group
         """
         return [r.regex for r in
-                EmailRegExValidator.objects.filter(EmailDomainGroup=obj)]
+                EmailRegExValidator.objects.filter(group=obj)]
 
     get_regexes.short_description = "Regular Expressions"
     inlines = [

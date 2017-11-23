@@ -26,13 +26,13 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('regex', models.CharField(max_length=100)),
-                ('EmailDomainGroup', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='emailvalidator.EmailDomainGroup')),
+                ('group', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='emailvalidator.EmailDomainGroup')),
             ],
         ),
         migrations.RunSQL(
           [('INSERT INTO emailvalidator_emaildomaingroup (name) values (%s)', ['Any'])],
         ),
         migrations.RunSQL(
-          [('INSERT INTO emailvalidator_emailregexvalidator (regex, "EmailDomainGroup_id") values (%s, 1)', ['.*'])]
+          [('INSERT INTO emailvalidator_emailregexvalidator (regex, group_id) values (%s, 1)', ['.*'])]
         ),
     ]
