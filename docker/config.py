@@ -17,13 +17,15 @@ DATABASES = {
 
 STATIC_ROOT = '/app/static'
 
-LANGUAGE_CODE = 'nl-nl'
+LANGUAGE_CODE = 'en'
 
-TIME_ZONE = 'Europe/Amsterdam'
+TIME_ZONE = 'America/Toronto'
 
 STATIC_ROOT = '/app/static'
 
 CHECK_PREVIOUS_LOGINS = os.getenv('CHECK_PREVIOUS_LOGINS')
+
+SEND_SUSPICIOUS_BEHAVIOR_WARNINGS = os.getenv('SEND_SUSPICIOUS_BEHAVIOR_WARNINGS')
 
 DEFAULT_FROM_EMAIL = os.getenv('FROM_EMAIL')
 
