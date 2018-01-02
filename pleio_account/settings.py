@@ -47,8 +47,6 @@ INSTALLED_APPS = [
     'django_otp.plugins.otp_static',
     'django_otp.plugins.otp_totp',
     'two_factor',
-    'oidc_provider',
-    'corsheaders'
 ]
 
 REST_FRAMEWORK = {
@@ -66,7 +64,6 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'user_sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -140,7 +137,7 @@ LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
 )
 
-TIME_ZONE = 'America/Toronto'
+TIME_ZONE = 'Europe/Amsterdam'
 
 USE_I18N = True
 
@@ -165,12 +162,9 @@ GEOIP_PATH = os.path.join(BASE_DIR, 'assets/geopip2/')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-LOGIN_URL = '/account/login/'
-# LOGIN_URL = 'two_factor:login'
+LOGIN_URL = 'two_factor:login'
 LOGIN_REDIRECT_URL = '/profile/'
 LOGOUT_REDIRECT_URL = 'two_factor:login'
-
-OIDC_USERINFO = 'pleio_account.oidc_provider_settings.userinfo'
 
 PASSWORD_RESET_TIMEOUT_DAYS = 1
 ACCOUNT_ACTIVATION_DAYS = 7
