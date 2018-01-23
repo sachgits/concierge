@@ -1,4 +1,5 @@
 import os
+import sys
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG')
@@ -14,6 +15,9 @@ DATABASES = {
         'NAME': os.getenv('DB_NAME'),
     }
 }
+
+if 'test' in sys.argv or 'test_coverage' in sys.argv:
+    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
 
 STATIC_ROOT = '/app/static'
 
@@ -36,3 +40,4 @@ EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL')
 
 SITE_URL = os.getenv('SITE_URL', None)
 CORS_ORIGIN_WHITELIST = os.getenv('CORS_ORIGIN_WHITELIST', '').split(',')
+
