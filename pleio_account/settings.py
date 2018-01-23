@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'django_otp.plugins.otp_static',
     'django_otp.plugins.otp_totp',
     'two_factor',
+    'oidc_provider',
+    'corsheaders'
 ]
 
 REST_FRAMEWORK = {
@@ -63,6 +65,7 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'core.middleware.XRealIPMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'user_sessions.middleware.SessionMiddleware',
@@ -162,6 +165,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/profile/'
 LOGOUT_REDIRECT_URL = '/logout/'
+
+OIDC_USERINFO = 'pleio_account.oidc_provider_settings.userinfo'
 
 PASSWORD_RESET_TIMEOUT_DAYS = 1
 ACCOUNT_ACTIVATION_DAYS = 7
