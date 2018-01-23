@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 from django.utils.translation import ugettext_lazy as _
-from .config import *
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -64,6 +63,7 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+    'core.middleware.XRealIPMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'user_sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -74,7 +74,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django_otp.middleware.OTPMiddleware',
-    'core.middleware.XRealIPMiddleware',
+    'core.middleware.PartnerSiteMiddleware',
     'core.middleware.DeviceIdMiddleware'
 ]
 
@@ -98,7 +98,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'pleio_account.wsgi.application'
-
 
 SESSION_ENGINE = 'user_sessions.backends.db'
 
@@ -137,8 +136,6 @@ LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
 )
 
-TIME_ZONE = 'Europe/Amsterdam'
-
 USE_I18N = True
 
 USE_L10N = True
@@ -162,9 +159,9 @@ GEOIP_PATH = os.path.join(BASE_DIR, 'assets/geopip2/')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-LOGIN_URL = 'two_factor:login'
+LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/profile/'
-LOGOUT_REDIRECT_URL = 'two_factor:login'
+LOGOUT_REDIRECT_URL = '/logout/'
 
 PASSWORD_RESET_TIMEOUT_DAYS = 1
 ACCOUNT_ACTIVATION_DAYS = 7
@@ -184,3 +181,14 @@ LOGGING = {
         },
     },
 }
+
+TIME_ZONE = 'Europe/Amsterdam'
+
+RECAPTCHA_MINUTES_THRESHOLD = 30
+RECAPTCHA_NUMBER_INVALID_LOGINS = 10 
+
+SITE_TITLE = 'Pleio_account'
+SITE_LOGO = 'images/logo.svg'
+SITE_FAVICON = 'images/favicon.png'
+
+from .config import *
