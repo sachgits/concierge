@@ -1,4 +1,5 @@
 import os
+import sys
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG')
@@ -14,6 +15,9 @@ DATABASES = {
         'NAME': os.getenv('DB_NAME'),
     }
 }
+
+if 'test' in sys.argv or 'test_coverage' in sys.argv:
+    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
 
 STATIC_ROOT = '/app/static'
 
