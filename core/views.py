@@ -30,6 +30,11 @@ def home(request):
 
 
 def logout(request):
+    if request.session.get('samlLogin'):
+        request.session.pop('samlLogin')
+        request.session['slo'] = 'slo'
+        return redirect('saml')
+
     auth.logout(request)
     return redirect('login')
 

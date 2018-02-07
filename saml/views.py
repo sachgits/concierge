@@ -21,7 +21,7 @@ def init_saml_auth(req, idp_shortname=None):
     if idp:
         configuration = {
             "strict": True,
-            "debug": True,
+            "debug": settings.DEBUG,
             "sp": settings.SAML2_SP,
             "idp": idp.get_saml_configuration()
         }
@@ -48,7 +48,17 @@ def prepare_django_request(request):
 @csrf_exempt
 def saml(request):
     req = prepare_django_request(request)
-    idp_shortname = "Test1"
+    if request.session.get('slo'):
+        request.session.pop('slo')
+        req['get_data']['slo'] = 'slo'
+        
+    if 'idp' in req['get_data']:
+        request.session['idp'] = req['get_data']['idp']
+    idp_shortname = request.session.get('idp') or None
+
+    if not idp_shortname:
+        return redirect(settings.LOGIN_REDIRECT_URL)        
+
     auth = init_saml_auth(req, idp_shortname=idp_shortname)
 
     attributes = []
@@ -66,19 +76,24 @@ def saml(request):
             attributes = auth.get_attributes()
             name_id = auth.get_nameid()
             session_index = auth.get_session_index()
+            
+            request.session['samlUserdata'] = attributes
+            request.session['samlNameId'] = name_id
+            request.session['samlSessionIndex'] = session_index
 
             email = attributes.get('email')[0]
             extid = ExternalIds.check_externalid(shortname=idp_shortname, externalid=email)
             user = User.objects.get(pk=extid.userid.pk)
             auth_login(request, user)
+            request.session['samlLogin'] = True
 
         return redirect(settings.LOGIN_REDIRECT_URL)
 
     elif 'slo' in req['get_data']:
         return HttpResponseRedirect(auth.logout(
             return_to=settings.LOGOUT_REDIRECT_URL,
-            name_id=request.GET.get('name_id'),
-            session_index=request.GET.get('session_index')
+            name_id=request.session.get('samlNameId'),
+            session_index=request.session.get('samlSessionIndex')
         ))
 
     elif 'sls' in req['get_data']:
