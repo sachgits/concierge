@@ -11,3 +11,4 @@ media/
 .idea/
 concierge/config.py
 .vscode/
+saml/configuration

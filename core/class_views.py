@@ -94,6 +94,7 @@ class PleioLoginView(TemplateView):
             device = default_device(user)
             if not device:
                 auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                user.check_users_previous_logins(request)
                 return redirect(next)
             else:
                 request.session['login_step'] = 'token'
@@ -126,6 +127,7 @@ class PleioLoginView(TemplateView):
         form = PleioAuthenticationTokenForm(user, request, data=request.POST)
         if form.is_valid():
             auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            user.check_users_previous_logins(request)
             return redirect(next)
         else:
             EventLog.add_event(request, 'invalid login')
@@ -140,6 +142,7 @@ class PleioLoginView(TemplateView):
         form = PleioBackupTokenForm(user, request, data=request.POST)
         if form.is_valid():
             auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            user.check_users_previous_logins(request)
             return redirect(next)
         else:
             EventLog.add_event(request, 'invalid login')

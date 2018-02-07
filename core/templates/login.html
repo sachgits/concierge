@@ -5,6 +5,26 @@
 
 {% block content %}
 
+<form action="/saml/">
+    {% csrf_token %}
+    <input type="hidden" name="sso" value="sso" />
+    <div class="login__step-title">
+        <div>
+            <h2>{% trans "Sign in" %}</h2>
+            <p>{% trans "with your Organization-account" %}</p>
+        </div>
+        <img src="/static/images/logo-icon.svg" class="login__step-icon"/>
+        <div>
+            <select name="idp">
+                <option value="Test1">SAML test IDP</option>
+            </select>
+        </div>
+    </div>
+    <div class="login__buttons">
+            <button name="login" class="button ___stretch ___active login__login" type="submit">{% trans "Login" %}</button>
+    </div>
+</form>
+
 <form method="post" action=".">
     {% csrf_token %}
     <input type="hidden" name="next" value="{{next}}" />

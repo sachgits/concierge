@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'emailvalidator',
     'api',
     'oauth2_provider',
+    'saml',
     'rest_framework',
     'webpack_loader',
     'django.contrib.admin',

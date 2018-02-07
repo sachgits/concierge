@@ -20,12 +20,12 @@ from django.contrib.auth import views as auth_views
 from django.core.urlresolvers import RegexURLPattern, RegexURLResolver
 from django.views.decorators.clickjacking import xframe_options_exempt
 from oauth2_provider import views as oauth2_views
+from saml import views as saml_views
 from api import views as api_views
 from django.contrib import admin
 from core import views
 from core.class_views import PleioLoginView, PleioSessionDeleteView, PleioSessionDeleteOtherView
 from django.views.i18n import JavaScriptCatalog
-
 
 class DecoratedURLPattern(RegexURLPattern):
     def resolve(self, *args, **kwargs):
@@ -110,8 +110,12 @@ oidc_urls = [
 django_urls = [
     url(r'^jsi18n/$', JavaScriptCatalog.as_view(), name='javascript-catalog'),
 ]
-
-urlpatterns = legacy_urls + urls + tf_urls + us_urls + oidc_urls + django_urls
+saml_urls = [
+    url(r'^saml/$', saml_views.saml, name='saml'),
+    url(r'^saml/attrs/$', saml_views.attrs, name='saml-attrs'),
+    url(r'^saml/metadata/$', saml_views.metadata, name='saml-metadata'),
+]
+urlpatterns = legacy_urls + urls + tf_urls + us_urls + oidc_urls + django_urls + saml_urls
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

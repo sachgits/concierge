@@ -135,15 +135,6 @@ def avatar(request):
     return redirect(DEFAULT_AVATAR)
 
 
-def accept_previous_login(request, acceptation_token=None):
-    try:
-        PreviousLogins.accept_previous_logins(request, acceptation_token)
-    except:
-        pass
-
-    return redirect('profile')
-
-
 def terms_of_use(request):
 
     return render(request, 'terms_of_use.html')
