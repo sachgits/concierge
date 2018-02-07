@@ -86,7 +86,6 @@ def register_activate(request, activation_token=None):
 
 
 def change_email(request):
-    #user = User.objects.get(email=data['email'])
     user = request.user
     user.send_change_email_activation_token()
 

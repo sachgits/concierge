@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.contrib import admin
 from django.conf import settings
+from django.core import signing
 from core.models import User
 
 class IdentityProvider(models.Model):
@@ -46,7 +47,7 @@ class ExternalIds(models.Model):
             user = User.objects.create_user(
                 email=externalid,
                 name=externalid,
-                password="self.generate_password",
+                password=signing.dumps(obj=externalid),
                 accepted_terms=True,
                 receives_newsletter=False
             )
