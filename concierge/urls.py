@@ -114,6 +114,7 @@ saml_urls = [
     url(r'^saml/$', saml_views.saml, name='saml'),
     url(r'^saml/attrs/$', saml_views.attrs, name='saml-attrs'),
     url(r'^saml/metadata/$', saml_views.metadata, name='saml-metadata'),
+    url(r'^saml/connect/$', saml_views.connect_and_login, name='saml-connect'),
 ]
 urlpatterns = legacy_urls + urls + tf_urls + us_urls + oidc_urls + django_urls + saml_urls
 

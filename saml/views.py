@@ -1,16 +1,20 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
-from django.urls import reverse
+from django.core import signing
 from django.http import (HttpResponse, HttpResponseRedirect,
                          HttpResponseServerError)
 from django.template import RequestContext
 from saml.models import IdentityProvider, ExternalIds
-from core.models import User
+from core.models import User, EventLog
+from core.class_views import PleioLoginView
+from core.forms import PleioAuthenticationForm
 from onelogin.saml2.auth import OneLogin_Saml2_Auth
 from onelogin.saml2.settings import OneLogin_Saml2_Settings
 from onelogin.saml2.utils import OneLogin_Saml2_Utils
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login as auth_login
+import requests
+
 
 def init_saml_auth(req, idp_shortname=None):
     try:
@@ -82,10 +86,14 @@ def saml(request):
             request.session['samlSessionIndex'] = session_index
 
             email = attributes.get('email')[0]
-            extid = ExternalIds.check_externalid(shortname=idp_shortname, externalid=email)
+            extid = check_externalid(request, shortname=idp_shortname, externalid=email)
+            if not extid:
+                return redirect(settings.LOGIN_URL)
+
             user = User.objects.get(pk=extid.userid.pk)
-            auth_login(request, user)
-            request.session['samlLogin'] = True
+
+            pl = PleioLoginView()
+            pl.post_login_process(request, user, next=None)
 
         return redirect(settings.LOGIN_REDIRECT_URL)
 
@@ -136,3 +144,79 @@ def metadata(request):
     else:
         resp = HttpResponseServerError(content=', '.join(errors))
     return resp
+
+
+def check_externalid(request, **kwargs):
+    shortname=kwargs.get('shortname') 
+    externalid=kwargs.get('externalid')
+    try:
+        idp = IdentityProvider.objects.get(shortname=shortname)
+    except IdentityProvider.DoesNotExist:
+        return None
+
+    request.session['samlConnect'] = True
+
+    try:
+        extid = ExternalIds.objects.get(identityproviderid=idp, externalid=externalid)
+    except ExternalIds.DoesNotExist:
+        extid = None
+
+    return extid
+
+
+def connect_and_login(request):
+    extid = connect(request)
+    if not extid:
+        return redirect(settings.LOGIN_URL) 
+
+    user = User.objects.get(pk=extid.userid.pk)
+
+    pl = PleioLoginView()
+    pl.post_login_process(request, user, next=None)
+
+    return redirect(settings.LOGIN_REDIRECT_URL) 
+
+
+def connect(request, user_email=None):
+    idp_shortname = request.session.get('idp') or None
+    if not idp_shortname:
+        return None        
+
+    samlUserdata = request.session.get('samlUserdata') or None
+    if samlUserdata:       
+        email = samlUserdata.get('email')[0] or None
+    if not email:
+        return redirect(settings.LOGIN_REDIRECT_URL)        
+    if not user_email:
+        user_email = email
+
+    try:
+        idp = IdentityProvider.objects.get(shortname=idp_shortname)
+    except IdentityProvider.DoesNotExist:
+        return None 
+
+    try:
+        user = User.objects.get(email=user_email)
+    except User.DoesNotExist:      
+        user = User.objects.create_user(
+            email=email,
+            name=email,
+            password=signing.dumps(obj=email),
+            accepted_terms=True,
+            receives_newsletter=False
+            )
+        user.is_active=True
+        user.save()
+        #user.send_set_password_email()
+
+    try:
+        extid = ExternalIds.objects.get(identityproviderid=idp, externalid=email)
+    except ExternalIds.DoesNotExist:
+        extid= ExternalIds.objects.create(
+            identityproviderid=idp,
+            externalid=email,
+            userid=user
+        )
+
+    return extid
+

@@ -13,6 +13,9 @@ class IdentityProvider(models.Model):
     sloId = models.URLField(max_length=256, null=False)
     x509cert = models.CharField(max_length=8192, null=False)
 
+    def __str__(self):
+        return self.shortname
+
     def get_saml_configuration(self):
         return {
             "entityId": self.entityId,
@@ -32,38 +35,6 @@ class ExternalIds(models.Model):
     identityproviderid = models.ForeignKey('IdentityProvider', on_delete=models.CASCADE, db_index=True)
     externalid = models.CharField(max_length=100, db_index=True, unique=True)
     userid = models.ForeignKey('core.User')
-
-    def check_externalid(**kwargs):
-        shortname=kwargs.get('shortname') 
-        externalid=kwargs.get('externalid')
-        try:
-            idp = IdentityProvider.objects.get(shortname=shortname)
-        except IdentityProvider.DoesNotExist:
-            return None
-
-        try:
-            user = User.objects.get(email=externalid)
-        except User.DoesNotExist:
-            user = User.objects.create_user(
-                email=externalid,
-                name=externalid,
-                password=signing.dumps(obj=externalid),
-                accepted_terms=True,
-                receives_newsletter=False
-            )
-            user.is_active=True
-            user.save()
-
-        try:
-            extid = ExternalIds.objects.get(identityproviderid=idp, externalid=externalid)
-        except ExternalIds.DoesNotExist:
-            extid= ExternalIds.objects.create(
-                identityproviderid=idp,
-                externalid=externalid,
-                userid=user
-            )
-
-        return extid
 
 
 admin.site.register(IdentityProvider)

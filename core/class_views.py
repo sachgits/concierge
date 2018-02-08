@@ -21,6 +21,7 @@ from django.contrib.auth import login as auth_login
 from two_factor.utils import default_device
 import django_otp
 from urllib.parse import urlparse
+from saml import views as saml_views
 
 class PleioLoginView(TemplateView):
 
@@ -90,15 +91,7 @@ class PleioLoginView(TemplateView):
         if form.is_valid():
             username = form.cleaned_data.get('username')
             user = User.objects.get(email=username)
-            request.session['username'] = username
-            device = default_device(user)
-            if not device:
-                auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                user.check_users_previous_logins(request)
-                return redirect(next)
-            else:
-                request.session['login_step'] = 'token'
-                form = PleioAuthenticationTokenForm(user, request)
+            return self.post_login_process(request, user, next)
         else:
             for key, value in form.errors.items():
                 if value[0] == 'inactive':
@@ -119,6 +112,23 @@ class PleioLoginView(TemplateView):
             }
         )
 
+    def post_login_process(self, request, user, next=None):
+        request.session['username'] = user.email
+        device = default_device(user)
+        if not device:
+            return self.post_login_user(request, user, next)
+        else:
+            request.session['login_step'] = 'token'
+            form = PleioAuthenticationTokenForm(user, request)
+
+        return render(request, 'login.html', {
+            'form' : form, 
+            'login_step' : request.session.get('login_step'),
+            'reCAPTCHA' : EventLog.reCAPTCHA_needed(request), 
+            'next' : next 
+            }
+        )
+
     def post_token(self, request, *args, **kwargs):
         next = request.POST.get('next')
         if not is_safe_url(next):
@@ -126,9 +136,7 @@ class PleioLoginView(TemplateView):
         user = User.objects.get(email=request.session.get('username'))
         form = PleioAuthenticationTokenForm(user, request, data=request.POST)
         if form.is_valid():
-            auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            user.check_users_previous_logins(request)
-            return redirect(next)
+            return self.post_login_user(request, user, next)
         else:
             EventLog.add_event(request, 'invalid login')
 
@@ -136,18 +144,28 @@ class PleioLoginView(TemplateView):
 
     def post_backuptoken(self, request, *args, **kwargs):
         next = request.POST.get('next')
-        if not is_safe_url(next):
-            next = settings.LOGIN_REDIRECT_URL
         user = User.objects.get(email=request.session.get('username'))
         form = PleioBackupTokenForm(user, request, data=request.POST)
         if form.is_valid():
-            auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            user.check_users_previous_logins(request)
-            return redirect(next)
+            return self.post_login_user(request, user, next)
         else:
             EventLog.add_event(request, 'invalid login')
 
         return render(request, 'login.html', {'form' : form, 'login_step' : request.session.get('login_step') })
+
+    def post_login_user(self, request, user, next=None):
+        if not is_safe_url(next):
+            next = settings.LOGIN_REDIRECT_URL
+
+        auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend'))
+        user.check_users_previous_logins(request)
+
+        if request.session.get('samlConnect'):
+            request.session.pop('samlConnect')
+            request.session['samlLogin'] = True
+            extid = saml_views.connect(request, user.email)
+
+        return redirect(next)
     
     def set_partner_site_info(self):
         try:

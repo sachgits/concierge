@@ -5,25 +5,44 @@
 
 {% block content %}
 
-<form action="/saml/">
-    {% csrf_token %}
-    <input type="hidden" name="sso" value="sso" />
-    <div class="login__step-title">
-        <div>
-            <h2>{% trans "Sign in" %}</h2>
-            <p>{% trans "with your Organization-account" %}</p>
+{% if login_step == 'login' %}
+    {% if request.session.samlConnect %}
+    <form action="/saml/connect">
+        {% csrf_token %}
+        <input type="hidden" name="sso" value="sso" />
+        <div class="login__step-title">
+            <div>
+                <h2>{% trans "Auto-create new Pleio-account" %}</h2>
+                <p>{% trans "based on your Organization-account" %}</p>
+            </div>
+            <img src="/static/images/logo-icon.svg" class="login__step-icon"/>
         </div>
-        <img src="/static/images/logo-icon.svg" class="login__step-icon"/>
-        <div>
-            <select name="idp">
-                <option value="Test1">SAML test IDP</option>
-            </select>
+        <div class="login__buttons">
+                <button name="login" class="button ___stretch ___active login__login" type="submit">{% trans "Connect" %}</button>
         </div>
-    </div>
-    <div class="login__buttons">
-            <button name="login" class="button ___stretch ___active login__login" type="submit">{% trans "Login" %}</button>
-    </div>
-</form>
+    </form>
+    {% else %}
+        <form action="/saml/">
+            {% csrf_token %}
+            <input type="hidden" name="sso" value="sso" />
+            <div class="login__step-title">
+                <div>
+                    <h2>{% trans "Sign in" %}</h2>
+                    <p>{% trans "with your Organization-account" %}</p>
+                </div>
+                <img src="/static/images/logo-icon.svg" class="login__step-icon"/>
+                <div>
+                    <select name="idp">
+                        <option value="Test1">SAML test IDP</option>
+                    </select>
+                </div>
+            </div>
+            <div class="login__buttons">
+                    <button name="login" class="button ___stretch ___active login__login" type="submit">{% trans "Login" %}</button>
+            </div>
+        </form>
+    {% endif %}
+{% endif %}
 
 <form method="post" action=".">
     {% csrf_token %}
@@ -32,8 +51,13 @@
         <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
         <div class="login__step-title">
             <div>
-                <h2>{% trans "Sign in" %}</h2>
-                <p>{% trans "with your Pleio-account" %}</p>
+                {% if request.session.samlConnect %}
+                    <h2>{% trans "Connect your existing Pleio-account" %}</h2>
+                    <p>{% trans "with your Organization-account" %}</p>
+            {% else %}
+                    <h2>{% trans "Sign in" %}</h2>
+                    <p>{% trans "with your Pleio-account" %}</p>
+                {% endif %}
             </div>
             <img src="/static/images/logo-icon.svg" class="login__step-icon"/>
         </div>
