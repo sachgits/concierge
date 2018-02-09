@@ -50,6 +50,9 @@ SITE_TITLE = 'Pleio_account'
 SITE_LOGO = 'images/logo.svg'
 SITE_FAVICON = 'images/favicon.png'
 
+#This setting controls whether an image should be displayed when a user is also a member of other group(s) than "Any"
+SHOW_GOVERNMENT_BADGE = True
+
 # Send users a warning message when suspicious behaviour on their account occurs, e.g. a login on the account from a new (unknown) location.
 SEND_SUSPICIOUS_BEHAVIOR_WARNINGS = True
 

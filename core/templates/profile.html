@@ -1,6 +1,7 @@
 {% extends "base_account.html" %}
 {% load i18n %}
 {% load Pleio_templatetags %}
+{% load show_government_badge %}
 
 {% block title %}Login{% endblock %}
 
@@ -50,7 +51,10 @@
                         <label for="id_email">{% trans "Email" %}</label>
                         {{ form.errors.email }}
                         {{ form.email }}
-                        <span class="badge green __uppercase">{% include_asset "icons/check.svg" %}{% trans "Government" %}</span>
+                        {% show_government_badge form.email.value as show_badge %}
+                        {% if show_badge %}
+                            <span class="badge green __uppercase">{% include_asset "icons/check.svg" %}{% trans "Government" %}</span>
+                        {% endif %}
                     </div>
                     {% if text_change_pending %}
                         <div>
