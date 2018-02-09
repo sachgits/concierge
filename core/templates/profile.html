@@ -16,6 +16,9 @@
                 {% if 'email' in message.tags %}
                     <div class="textcolor_primary">{% trans "Email address changed" %}</div>
                     <div class="textcolor_secondary">{% trans "You can now login using your new email adress" %}</div>
+                {% elif 'profile' in message.tags %}
+                    <div class="textcolor_primary">{% trans "Profile changed" %}</div>
+                    <div class="textcolor_secondary">{% trans "Your profile has been changed" %}</div>
                 {% else %}
                     <div class="textcolor_secondary">{{ message }}</div>
                 {% endif %}
@@ -63,6 +66,12 @@
                             {% trans "Click " %}<a href="{% url 'change_email' %}"><b>{% trans "here" %}</b></a> {% trans "to resend the confirmation e-mail." %}
                         </div>
                     {% endif %}
+                    <div class="register__check">
+                        {{ form.errors.receives_newsletter }}
+                        {{ form.receives_newsletter }}
+                        <label for="id_receives_newsletter">{% trans "Please subscribe me to the Pleio newsletter" %}</label>
+                    </div>
+                            
             </fieldset>
                 <div class="card__action ___addpadding-side">
                     <button name="update" class="button ___clear" type="submit">{% trans "Save" %}</button>

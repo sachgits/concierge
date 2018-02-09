@@ -54,7 +54,7 @@
                         </a>
                     </li>
                     <li>
-                        {% if request.path >= '/securitypages/' %}
+                        {% if request.path == '/securitypages/' %}
                             <a href="{% url 'security_pages' %}" class="account-menu__list current">
                         {% else %}
                             <a href="{% url 'security_pages' %}">
@@ -63,6 +63,19 @@
                             <div>
                                 <span class="title">{% trans "Security" %}</span><br />
                                 {% trans "Password" %}, {% trans "Sessions" %}, {% trans "Two-factor authentication" %}
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        {% if request.path == '/saml/connections/' %}
+                            <a href="{% url 'saml_connections' %}" class="account-menu__list current">
+                        {% else %}
+                            <a href="{% url 'saml_connections' %}">
+                        {% endif %}
+                            {% include_asset "icons/os-android.svg" %}
+                            <div>
+                                <span class="title">{% trans "Connections" %}</span><br />
+                                {% trans "Existing connections between your organisation(s) and Pleio-accounts" %}
                             </div>
                         </a>
                     </li>

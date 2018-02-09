@@ -72,7 +72,7 @@ class RegisterForm(forms.Form):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ('name', 'email', 'avatar')
+        fields = ('name', 'email', 'receives_newsletter', 'avatar')
 
     error_messages = {
         'duplicate_email': _("This email is already registered."),

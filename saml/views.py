@@ -1,10 +1,14 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.core import signing
+from django.contrib.auth import authenticate, update_session_auth_hash
+from django.contrib import messages
 from django.http import (HttpResponse, HttpResponseRedirect,
                          HttpResponseServerError)
 from django.template import RequestContext
+from django.utils.translation import gettext, gettext_lazy as _
 from saml.models import IdentityProvider, ExternalIds
+from saml.forms import SetPasswordForm, ShowConnectionsForm
 from core.models import User, EventLog
 from core.class_views import PleioLoginView
 from core.forms import PleioAuthenticationForm
@@ -14,7 +18,7 @@ from onelogin.saml2.utils import OneLogin_Saml2_Utils
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login as auth_login
 import requests
-
+from core.forms import UserProfileForm
 
 def init_saml_auth(req, idp_shortname=None):
     try:
@@ -207,7 +211,7 @@ def connect(request, user_email=None):
             )
         user.is_active=True
         user.save()
-        #user.send_set_password_email()
+        user.send_set_password_activation_token()
 
     try:
         extid = ExternalIds.objects.get(identityproviderid=idp, externalid=email)
@@ -219,4 +223,50 @@ def connect(request, user_email=None):
         )
 
     return extid
+
+
+def set_new_password(request, activation_token=None):
+    if request.method == 'POST':
+        user = request.user
+        print('user.email1: ', user.email)
+        print('user.password1: ', user.password)
+        form = SetPasswordForm(request.POST, user=user)
+        if form.is_valid():
+            data = form.cleaned_data
+            user.set_password(data['new_password2'])
+            user.save()
+            print('user.email2: ', user.email)
+            print('user.password2: ', user.password)
+            update_session_auth_hash(request, user)
+            messages.success(request, _('Password changed'), extra_tags='password')
+            return redirect('profile')
+        else:
+            return render(request, 'set_new_password.html', { 'form': form })
+    else:
+        user = User.set_new_password(None, activation_token)
+        if not user:
+            return redirect(settings.LOGIN_URL)
+        auth_login(request, user)
+        form = SetPasswordForm(request.GET, user=user)
+        return render(request, 'set_new_password.html', { 'form': form })
+
+    return redirect(settings.LOGIN_URL)
+
+
+
+def show_connections(request):
+    connections = ExternalIds.objects.filter(userid=request.user)    
+
+    return render(request, 'show_connections.html', {'connections': connections})
+
+
+
+def delete_connection(request, pk=None):
+    if pk:
+        try:
+            connection = ExternalIds.objects.get(pk=pk).delete()
+        except:
+            pass
+
+    return redirect('saml_connections')
 

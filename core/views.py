@@ -113,6 +113,7 @@ def profile(request):
             if new_email and (new_email != new_email_save):
                 change_email(request)
             form = UserProfileForm(instance=request.user)
+            messages.success(request, _('Profile changed'), extra_tags='profile')
     else:
         form = UserProfileForm(instance=request.user)
 

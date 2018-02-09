@@ -115,6 +115,9 @@ saml_urls = [
     url(r'^saml/attrs/$', saml_views.attrs, name='saml-attrs'),
     url(r'^saml/metadata/$', saml_views.metadata, name='saml-metadata'),
     url(r'^saml/connect/$', saml_views.connect_and_login, name='saml-connect'),
+    url(r'^saml/set_new_password/(?P<activation_token>[-:\w]+)/$', saml_views.set_new_password, name='set_new_password'),
+    url(r'^saml/connections/$', saml_views.show_connections, name='saml_connections'),
+    url(r'^saml/connection_delete/(?P<pk>\w+)/$', saml_views.delete_connection, name='saml_connection_delete'),
 ]
 urlpatterns = legacy_urls + urls + tf_urls + us_urls + oidc_urls + django_urls + saml_urls
 

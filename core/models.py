@@ -129,6 +129,20 @@ class User(AbstractBaseUser):
             email=self.new_email
         )
 
+    def send_set_password_activation_token(self):
+        template_context = {
+            'user': self,
+            'activation_token': signing.dumps(obj=self.email),
+        }
+ 
+        self.email_user(
+            render_to_string('emails/set_new_password_subject.txt', template_context),
+            render_to_string('emails/set_new_password.txt', template_context),
+            html_message = (render_to_string('emails/set_new_password.html', template_context)),
+            fail_silently = True,
+            email=self.email
+        )
+
     def activate_user(self, activation_token):
         try:
             email = signing.loads(
@@ -167,6 +181,20 @@ class User(AbstractBaseUser):
             self.email = self.new_email
             self.new_email = None
             self.save()
+
+            return self
+
+        except (signing.BadSignature, User.DoesNotExist):
+            return None
+
+    def set_new_password(self, activation_token):
+        try:
+            email = signing.loads(
+                activation_token,
+                max_age=settings.ACCOUNT_ACTIVATION_DAYS * 86400
+            )
+
+            self = User.objects.get(email=email)
 
             return self
 
