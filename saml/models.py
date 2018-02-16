@@ -34,7 +34,7 @@ class IdentityProvider(models.Model):
 class ExternalIds(models.Model):
     identityproviderid = models.ForeignKey('IdentityProvider', on_delete=models.CASCADE, db_index=True)
     externalid = models.CharField(max_length=100, db_index=True, unique=True)
-    userid = models.ForeignKey('core.User')
+    userid = models.ForeignKey('core.User', on_delete=models.CASCADE, db_index=True)
 
 
 admin.site.register(IdentityProvider)

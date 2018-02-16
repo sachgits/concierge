@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from .forms import RegisterForm, UserProfileForm, PleioTOTPDeviceForm, ChangePasswordForm
+from .forms import RegisterForm, UserProfileForm, PleioTOTPDeviceForm, ChangePasswordForm, DeleteAccountForm
 from .models import User, PreviousLogins
 from django.urls import reverse
 from base64 import b32encode
@@ -30,10 +30,16 @@ def home(request):
 
 
 def logout(request):
-    if request.session.get('samlLogin'):
+    #If user has logged in via SAML IDP verification, the user has to log out at SAML IDP first
+    if request.session.get('samlLogin', None):
         request.session.pop('samlLogin')
         request.session['slo'] = 'slo'
         return redirect('saml')
+
+    #If needed the account can be deleted now that user has been logged out at SAML IDP
+    if request.session.get('DeleteAccountPending', None):
+        request.session.pop('DeleteAccountPending')
+        request.user.delete()
 
     auth.logout(request)
     return redirect('login')
@@ -231,3 +237,18 @@ def user_sessions_form(request):
     user_sessions = PleioSessionListView.as_view(template_name='security_pages.html')(request).context_data
 
     return user_sessions['object_list']
+
+@login_required
+def delete_account(request):
+    if request.method == 'POST':
+        form = DeleteAccountForm(request.POST, request.FILES, user=request.user)
+        if form.is_valid():
+            #delay actual deleting of the account to preserve the session needed to log out at SAML IDP
+            request.session['DeleteAccountPending'] = True
+            messages.success(request, _('Account deleted'), extra_tags='account_deleted')
+            return redirect(settings.LOGOUT_REDIRECT_URL)
+    else:
+        form = DeleteAccountForm(user=request.user)
+        
+
+    return render(request, 'delete_account.html', { 'form': form })

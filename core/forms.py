@@ -260,3 +260,27 @@ class ChangePasswordForm(forms.Form):
 
         password_validation.validate_password(self.cleaned_data.get('new_password2'))
         return new_password2
+
+
+class DeleteAccountForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(DeleteAccountForm, self).__init__(*args, **kwargs)
+
+    error_messages = {
+        'invalid_password': _("The password is invalid."),
+    }
+
+    old_password = forms.CharField(strip=False, widget=forms.PasswordInput)
+
+    def clean_old_password(self):
+        old_password = self.cleaned_data.get("old_password")
+        user = authenticate(username=self.user.email, password=old_password)
+        
+        if user is None:
+            raise forms.ValidationError(
+                self.error_messages['invalid_password'],
+                code='invalid_password',
+            )
+
+        return old_password

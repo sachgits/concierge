@@ -9,22 +9,38 @@
     <h2>{% trans "Profile" %}</h2>
     
     {% if messages %}
-        <ul class="messages correct">
-            {% for message in messages %}
-            <li>
-                {% include_asset "icons/check.svg" %}
-                {% if 'email' in message.tags %}
-                    <div class="textcolor_primary">{% trans "Email address changed" %}</div>
-                    <div class="textcolor_secondary">{% trans "You can now login using your new email adress" %}</div>
-                {% elif 'profile' in message.tags %}
-                    <div class="textcolor_primary">{% trans "Profile changed" %}</div>
-                    <div class="textcolor_secondary">{% trans "Your profile has been changed" %}</div>
-                {% else %}
+        {% if 'success' in message.tags %}
+            <ul class="messages correct">
+                {% for message in messages %}
+                <li>
+                    {% include_asset "icons/check.svg" %}
+                    {% if 'password' in message.tags %}
+                        <div class="textcolor_primary">{% trans "Password changed" %}</div>
+                        <div class="textcolor_secondary">{% trans "You can now login using your new password" %}</div>
+                    {% elif 'email' in message.tags %}
+                        <div class="textcolor_primary">{% trans "Email address changed" %}</div>
+                        <div class="textcolor_secondary">{% trans "You can now login using your new email adress" %}</div>
+                    {% elif 'profile' in message.tags %}
+                        <div class="textcolor_primary">{% trans "Profile changed" %}</div>
+                        <div class="textcolor_secondary">{% trans "Your profile has been changed" %}</div>
+                    {% else %}
+                        <div class="textcolor_primary">{% trans 'Success' %}</div>
+                        <div class="textcolor_secondary">{{ message }}</div>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        {% elif 'error' in message.tags %}
+            <ul class="messages error">
+                {% for message in messages %}
+                <li>
+                    {% include_asset "icons/account-alert.svg" %}
+                    <div class="textcolor_primary">{% trans 'Error' %}</div>
                     <div class="textcolor_secondary">{{ message }}</div>
-                {% endif %}
-            </li>
-            {% endfor %}
-        </ul>
+                </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     {% endif %}
 
         <form enctype="multipart/form-data" method="post" action=".">

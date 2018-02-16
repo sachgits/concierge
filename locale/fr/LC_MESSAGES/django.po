@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-13 23:33+0100\n"
+"POT-Creation-Date: 2018-03-20 10:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: concierge/settings.py:138
+#: concierge/settings.py:139
 msgid "English"
 msgstr ""
 
-#: concierge/settings.py:139
+#: concierge/settings.py:140
 msgid "Dutch"
 msgstr ""
 
-#: concierge/settings.py:140
+#: concierge/settings.py:141
 msgid "French"
 msgstr ""
 
@@ -34,7 +34,7 @@ msgstr ""
 msgid "Your email address is not allowed."
 msgstr ""
 
-#: core/forms.py:33 core/forms.py:232
+#: core/forms.py:33 core/forms.py:232 saml/forms.py:21
 msgid "The two password fields didn't match."
 msgstr ""
 
@@ -50,7 +50,7 @@ msgstr ""
 msgid "Please enter your OTP token."
 msgstr ""
 
-#: core/forms.py:231
+#: core/forms.py:231 core/forms.py:271 saml/forms.py:20
 msgid "The password is invalid."
 msgstr ""
 
@@ -177,11 +177,11 @@ msgstr ""
 msgid "Generate Tokens"
 msgstr ""
 
-#: core/templates/base.html:38 core/templates/base_account.html:28
+#: core/templates/base.html:35 core/templates/base_account.html:28
 msgid "Back to the homepage"
 msgstr ""
 
-#: core/templates/base_account.html:35
+#: core/templates/base_account.html:35 core/templates/set_new_password.html:15
 msgid "Welcome"
 msgstr ""
 
@@ -193,11 +193,11 @@ msgstr ""
 msgid "Profiel"
 msgstr ""
 
-#: core/templates/base_account.html:52 core/templates/profile.html:31
+#: core/templates/base_account.html:52 core/templates/profile.html:50
 msgid "Your details"
 msgstr ""
 
-#: core/templates/base_account.html:52 core/templates/profile.html:73
+#: core/templates/base_account.html:52 core/templates/profile.html:98
 msgid "Avatar"
 msgstr ""
 
@@ -205,8 +205,8 @@ msgstr ""
 msgid "Security"
 msgstr ""
 
-#: core/templates/base_account.html:65 core/templates/login.html:49
-#: core/templates/register.html:47
+#: core/templates/base_account.html:65 core/templates/login.html:117
+#: core/templates/register.html:47 core/templates/set_new_password.html:33
 msgid "Password"
 msgstr ""
 
@@ -218,10 +218,64 @@ msgstr ""
 msgid "Two-factor authentication"
 msgstr ""
 
-#: core/templates/base_account.html:73
+#: core/templates/base_account.html:77 core/templates/show_connections.html:7
+msgid "Connections"
+msgstr ""
+
+#: core/templates/base_account.html:78
+msgid "Existing connections between your organisation(s) and Pleio-accounts"
+msgstr ""
+
+#: core/templates/base_account.html:86
+#: core/templates/security_pages/show_connections.html:36
 #: core/templates/security_pages/user_sessions.html:39
 #: core/templates/session_list.html:42
 msgid "Logout"
+msgstr ""
+
+#: core/templates/base_account.html:94 core/templates/delete_account.html:14
+#: core/templates/delete_account.html:47
+msgid "Delete my account"
+msgstr ""
+
+#: core/templates/delete_account.html:23 core/templates/profile.html:18
+#: core/templates/security_pages.html:27
+#: core/templates/show_connections.html:15 saml/views.py:241
+msgid "Password changed"
+msgstr ""
+
+#: core/templates/delete_account.html:24 core/templates/profile.html:19
+#: core/templates/security_pages.html:28
+#: core/templates/show_connections.html:16
+msgid "You can now login using your new password"
+msgstr ""
+
+#: core/templates/delete_account.html:26 core/templates/login.html:14
+#: core/templates/profile.html:27 core/templates/security_pages.html:36
+msgid "Success"
+msgstr ""
+
+#: core/templates/delete_account.html:37 core/templates/login.html:24
+#: core/templates/profile.html:38 core/templates/security_pages.html:47
+msgid "Error"
+msgstr ""
+
+#: core/templates/delete_account.html:56
+msgid ""
+"If you confirm your password, your account will be deleted. \n"
+"                            You have to register again if you would like to "
+"rejoin this site."
+msgstr ""
+
+#: core/templates/delete_account.html:67
+#: core/templates/security_pages/change_password.html:23
+msgid "Current Password"
+msgstr ""
+
+#: core/templates/delete_account.html:78
+#: core/templates/password_reset_confirm.html:39
+#: core/templates/security_pages/change_password.html:50
+msgid "Confirm"
 msgstr ""
 
 #: core/templates/emails/change_email.html:7
@@ -229,6 +283,8 @@ msgstr ""
 #: core/templates/emails/register.html:7 core/templates/emails/register.txt:3
 #: core/templates/emails/reset_password.html:5
 #: core/templates/emails/reset_password.txt:2
+#: core/templates/emails/set_new_password.html:7
+#: core/templates/emails/set_new_password.txt:3
 #: core/templates/emails/suspicious_login.html:5
 #: core/templates/emails/suspicious_login.txt:3
 msgid "Dear"
@@ -267,6 +323,15 @@ msgstr ""
 msgid "Request for a new password"
 msgstr ""
 
+#: core/templates/emails/set_new_password.html:9
+#: core/templates/emails/set_new_password.txt:5
+msgid "Please set your new password by following this link"
+msgstr ""
+
+#: core/templates/emails/set_new_password_subject.txt:1
+msgid "Please set your new password"
+msgstr ""
+
 #: core/templates/emails/suspicious_login.html:2
 #: core/templates/emails/suspicious_login.txt:1
 msgid "<em>unknown on unknown</em>"
@@ -296,96 +361,119 @@ msgstr ""
 msgid "Logged in from a new location"
 msgstr ""
 
-#: core/templates/login.html:15 core/templates/login.html:91
+#: core/templates/login.html:39
+msgid "Auto-create new Pleio-account"
+msgstr ""
+
+#: core/templates/login.html:40
+msgid "based on your Organisation-account"
+msgstr ""
+
+#: core/templates/login.html:45
+msgid "Connect"
+msgstr ""
+
+#: core/templates/login.html:54 core/templates/login.html:82
+#: core/templates/login.html:159
 msgid "Sign in"
 msgstr ""
 
-#: core/templates/login.html:16 core/templates/login.html:92
-msgid "with your Pleio-account"
+#: core/templates/login.html:55 core/templates/login.html:80
+msgid "with your Organisation-account"
 msgstr ""
 
-#: core/templates/login.html:26 core/templates/register.html:26
-msgid "Login failed."
-msgstr ""
-
-#: core/templates/login.html:27 core/templates/register.html:27
-msgid "Please check Google captcha."
-msgstr ""
-
-#: core/templates/login.html:29
-msgid "Please enter a correct email and password."
-msgstr ""
-
-#: core/templates/login.html:30
-msgid "Note that both fields may be case-sensitive."
-msgstr ""
-
-#: core/templates/login.html:32
-msgid "This account is inactive."
-msgstr ""
-
-#: core/templates/login.html:33
-msgid "Please check your email to validate your account."
-msgstr ""
-
-#: core/templates/login.html:35
-msgid "Invalid login."
-msgstr ""
-
-#: core/templates/login.html:44 core/templates/password_reset.html:25
-msgid "Email address"
-msgstr ""
-
-#: core/templates/login.html:53 core/templates/password_reset.html:11
-#: core/templates/password_reset_done.html:8
-msgid "Forgot password"
-msgstr ""
-
-#: core/templates/login.html:63 core/templates/login.html:122
-#: core/templates/password_reset.html:32
+#: core/templates/login.html:65 core/templates/login.html:131
+#: core/templates/login.html:190 core/templates/password_reset.html:32
 #: core/templates/password_reset_complete.html:23
 #: core/templates/password_reset_done.html:23 core/templates/register.html:82
 #: core/templates/register_complete.html:15
 msgid "Login"
 msgstr ""
 
-#: core/templates/login.html:64
+#: core/templates/login.html:79
+msgid "Connect your existing Pleio-account"
+msgstr ""
+
+#: core/templates/login.html:83 core/templates/login.html:160
+msgid "with your Pleio-account"
+msgstr ""
+
+#: core/templates/login.html:94 core/templates/register.html:26
+msgid "Login failed."
+msgstr ""
+
+#: core/templates/login.html:95 core/templates/register.html:27
+msgid "Please check Google captcha."
+msgstr ""
+
+#: core/templates/login.html:97
+msgid "Please enter a correct email and password."
+msgstr ""
+
+#: core/templates/login.html:98
+msgid "Note that both fields may be case-sensitive."
+msgstr ""
+
+#: core/templates/login.html:100
+msgid "This account is inactive."
+msgstr ""
+
+#: core/templates/login.html:101
+msgid "Please check your email to validate your account."
+msgstr ""
+
+#: core/templates/login.html:103
+msgid "Invalid login."
+msgstr ""
+
+#: core/templates/login.html:112 core/templates/password_reset.html:25
+#: core/templates/security_pages/show_connections.html:14
+#: core/templates/show_connections.html:34
+msgid "Email address"
+msgstr ""
+
+#: core/templates/login.html:121 core/templates/password_reset.html:11
+#: core/templates/password_reset_done.html:8
+msgid "Forgot password"
+msgstr ""
+
+#: core/templates/login.html:132
 msgid "Register account"
 msgstr ""
 
-#: core/templates/login.html:73
+#: core/templates/login.html:141
 msgid "Secure your account"
 msgstr ""
 
-#: core/templates/login.html:74
+#: core/templates/login.html:142
 msgid "Enable two factor authentication"
 msgstr ""
 
-#: core/templates/login.html:101 core/templates/login.html:148
+#: core/templates/login.html:169 core/templates/login.html:216
 msgid "Invalid token."
 msgstr ""
 
-#: core/templates/login.html:102 core/templates/login.html:149
+#: core/templates/login.html:170 core/templates/login.html:217
 msgid "Please make sure you have entered it correctly."
 msgstr ""
 
-#: core/templates/login.html:110
+#: core/templates/login.html:178
 msgid "Two factor authentication"
 msgstr ""
 
-#: core/templates/login.html:111
+#: core/templates/login.html:179
 msgid "Fill in a code from your code generator."
 msgstr ""
 
-#: core/templates/login.html:123
+#: core/templates/login.html:191
 msgid "Cancel"
 msgstr ""
 
-#: core/templates/login.html:128 core/templates/login.html:160
+#: core/templates/login.html:196 core/templates/login.html:228
 msgid "Use backuptoken"
 msgstr ""
 
-#: core/templates/login.html:139
+#: core/templates/login.html:207
 msgid ""
 "Use this form for entering backup tokens for logging in.\n"
 "         These tokens have been generated for you to print and keep safe. "
@@ -393,7 +481,7 @@ msgid ""
 "             enter one of these backup tokens to login to your account."
 msgstr ""
 
-#: core/templates/login.html:161
+#: core/templates/login.html:229
 msgid "Back"
 msgstr ""
 
@@ -415,7 +503,7 @@ msgstr ""
 msgid "Need help?"
 msgstr ""
 
-#: core/templates/password_reset.html:42 core/templates/profile.html:51
+#: core/templates/password_reset.html:42 core/templates/profile.html:70
 #: core/templates/register.html:42
 msgid "Email"
 msgstr ""
@@ -438,11 +526,6 @@ msgstr ""
 msgid "New Password (again)"
 msgstr ""
 
-#: core/templates/password_reset_confirm.html:39
-#: core/templates/security_pages/change_password.html:50
-msgid "Confirm"
-msgstr ""
-
 #: core/templates/password_reset_done.html:17
 msgid "Email sent"
 msgstr ""
@@ -457,51 +540,65 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: core/templates/profile.html:17 core/views.py:94
+#: core/templates/profile.html:21 core/templates/security_pages.html:30
+#: core/views.py:104
 msgid "Email address changed"
 msgstr ""
 
-#: core/templates/profile.html:18
+#: core/templates/profile.html:22 core/templates/security_pages.html:31
 msgid "You can now login using your new email adress"
 msgstr ""
 
-#: core/templates/profile.html:37
-msgid "Invalid email address."
+#: core/templates/profile.html:24 core/templates/security_pages.html:33
+#: core/views.py:122
+msgid "Profile changed"
 msgstr ""
 
-#: core/templates/profile.html:46
-msgid "Name"
+#: core/templates/profile.html:25 core/templates/security_pages.html:34
+msgid "Your profile has been changed"
 msgstr ""
 
 #: core/templates/profile.html:56
+msgid "Invalid email address."
+msgstr ""
+
+#: core/templates/profile.html:65
+msgid "Name"
+msgstr ""
+
+#: core/templates/profile.html:75
 msgid "Government"
 msgstr ""
 
-#: core/templates/profile.html:62
+#: core/templates/profile.html:81
 msgid "Please check your inbox to validate the change."
 msgstr ""
 
-#: core/templates/profile.html:63
+#: core/templates/profile.html:82
 msgid "Click "
 msgstr ""
 
-#: core/templates/profile.html:63
+#: core/templates/profile.html:82
 msgid "here"
 msgstr ""
 
-#: core/templates/profile.html:63
+#: core/templates/profile.html:82
 msgid "to resend the confirmation e-mail."
 msgstr ""
 
-#: core/templates/profile.html:68
+#: core/templates/profile.html:88 core/templates/register.html:70
+msgid "Please subscribe me to the Pleio newsletter"
+msgstr ""
+
+#: core/templates/profile.html:93
 msgid "Save"
 msgstr ""
 
-#: core/templates/profile.html:86
+#: core/templates/profile.html:111
 msgid "Choose an avatar"
 msgstr ""
 
-#: core/templates/profile.html:89
+#: core/templates/profile.html:114
 msgid "Remove avatar"
 msgstr ""
 
@@ -517,7 +614,7 @@ msgstr ""
 msgid "First- and lastname"
 msgstr ""
 
-#: core/templates/register.html:54
+#: core/templates/register.html:54 core/templates/set_new_password.html:40
 msgid "Password (again)"
 msgstr ""
 
@@ -527,10 +624,6 @@ msgstr ""
 
 #: core/templates/register.html:65
 msgid " general terms"
-msgstr ""
-
-#: core/templates/register.html:70
-msgid "Please subscribe me to the Pleio newsletter"
 msgstr ""
 
 #: core/templates/register_activate.html:9
@@ -550,16 +643,39 @@ msgid ""
 "Open the link in the Pleio verification email to complete your registration."
 msgstr ""
 
-#: core/templates/security_pages.html:26
-msgid "Password changed"
+#: core/templates/security_pages/show_connections.html:3
+#: core/templates/show_connections.html:27
+msgid "Connections between your organisation(s) and Pleio_account"
 msgstr ""
 
-#: core/templates/security_pages.html:27
-msgid "You can now login using your new password"
+#: core/templates/security_pages/show_connections.html:7
+#: core/templates/security_pages/user_sessions.html:8
+#: core/templates/session_list.html:11
+msgid "Signed in devices"
 msgstr ""
 
-#: core/templates/security_pages/change_password.html:23
-msgid "Current Password"
+#: core/templates/security_pages/show_connections.html:13
+#: core/templates/show_connections.html:33
+msgid "Organisation"
+msgstr ""
+
+#: core/templates/security_pages/show_connections.html:27
+#: core/templates/security_pages/user_sessions.html:30
+#: core/templates/session_list.html:33
+msgid "this session"
+msgstr ""
+
+#: core/templates/security_pages/show_connections.html:29
+#: core/templates/security_pages/user_sessions.html:32
+#: core/templates/session_list.html:35
+#, python-format
+msgid "%(time)s ago"
+msgstr ""
+
+#: core/templates/security_pages/show_connections.html:51
+#: core/templates/security_pages/user_sessions.html:54
+#: core/templates/session_list.html:57
+msgid "End All Other Sessions"
 msgstr ""
 
 #: core/templates/security_pages/two_factor_authorization.html:4
@@ -690,11 +806,6 @@ msgstr ""
 msgid "Active Sessions"
 msgstr ""
 
-#: core/templates/security_pages/user_sessions.html:8
-#: core/templates/session_list.html:11
-msgid "Signed in devices"
-msgstr ""
-
 #: core/templates/security_pages/user_sessions.html:10
 #: core/templates/session_list.html:13
 msgid "unknown on unknown"
@@ -715,20 +826,16 @@ msgstr ""
 msgid "Location"
 msgstr ""
 
-#: core/templates/security_pages/user_sessions.html:30
-#: core/templates/session_list.html:33
-msgid "this session"
+#: core/templates/set_new_password.html:16
+msgid "Set the passsword for your new Pleio-account"
 msgstr ""
 
-#: core/templates/security_pages/user_sessions.html:32
-#: core/templates/session_list.html:35
-#, python-format
-msgid "%(time)s ago"
+#: core/templates/set_new_password.html:25
+msgid "Set password failed."
 msgstr ""
 
-#: core/templates/security_pages/user_sessions.html:54
-#: core/templates/session_list.html:57
-msgid "End All Other Sessions"
+#: core/templates/set_new_password.html:48
+msgid "Set password"
 msgstr ""
 
 #: core/templates/setup_complete.html:8
@@ -739,6 +846,10 @@ msgstr ""
 
 #: core/templates/setup_complete.html:11
 msgid "Back to Profile"
+msgstr ""
+
+#: core/templates/show_connections.html:46
+msgid "Disconnect"
 msgstr ""
 
 #: core/templates/terms_of_use.html:6
@@ -785,10 +896,14 @@ msgid ""
 "                    security."
 msgstr ""
 
-#: core/views.py:116
+#: core/views.py:127
 msgid "There is a pending change of your email to "
 msgstr ""
 
-#: core/views.py:171
+#: core/views.py:173
 msgid "Password has been changed successfully."
+msgstr ""
+
+#: core/views.py:248
+msgid "Account deleted"
 msgstr ""
