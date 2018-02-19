@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils import timezone
 from django.utils.text import slugify
+from django.utils.translation import get_language, gettext, gettext_lazy as _
+from django.utils.safestring import mark_safe
 from django.core import signing
 from django.core.mail import send_mail
 from django.contrib import admin
@@ -337,6 +339,7 @@ class PreviousLogins(models.Model):
         except PreviousLogins.DoesNotExist:
             return False
 
+
 class PleioPartnerSite(models.Model):
     partner_site_url = models.URLField(null=False, db_index=True)
     partner_site_name = models.CharField(null=False, max_length=200)
@@ -367,7 +370,40 @@ class EventLog(models.Model):
         )
 
         return (events.count() > settings.RECAPTCHA_NUMBER_INVALID_LOGINS)
+
+
+class PleioHTMLSnippets(models.Model):
+    page_name = models.CharField(null=False, max_length=50, db_index=True)
+    language_code = models.CharField(null=False, max_length=10)
+    html_snippet = models.TextField(null=False)
+
+    def __str__(self):
+        return self.page_name
+
+    def get_html_snippet(request, page_name, language_code=None):
+        page_found = True
+        if not page_name:
+            page_found = False
+
+        if not language_code:
+            language_code = get_language()
+
+        try:
+            row = PleioHTMLSnippets.objects.get(page_name=page_name, language_code=language_code)
+        except:
+            try: 
+                row = PleioHTMLSnippets.objects.filter(page_name=page_name)[0]
+            except:
+                page_found = False
+
+        if page_found:
+            result = mark_safe(row.html_snippet)
+        else:
+            result = _("<H1>Page under construction</H1>")
+
+        return mark_safe(result)
         
 
 admin.site.register(User)
 admin.site.register(PleioPartnerSite)
+admin.site.register(PleioHTMLSnippets)

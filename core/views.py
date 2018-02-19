@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from .forms import RegisterForm, UserProfileForm, PleioTOTPDeviceForm, ChangePasswordForm, DeleteAccountForm
-from .models import User, PreviousLogins
+from .forms import RegisterForm, UserProfileForm, PleioTOTPDeviceForm, ChangePasswordForm, DeleteAccountForm, HTMLSnippetForm
+from .models import User, PreviousLogins, PleioHTMLSnippets
 from django.urls import reverse
 from base64 import b32encode
 from binascii import unhexlify
@@ -146,10 +146,13 @@ def avatar(request):
     return redirect(DEFAULT_AVATAR)
 
 
-def terms_of_use(request):
+def html_snippet(request, page_name=None):
+    html_snippet = PleioHTMLSnippets.get_html_snippet(request, page_name=page_name)
 
-    return render(request, 'terms_of_use.html')
-
+    if request.user.is_authenticated:
+        return render(request, 'html_snippet_account.html', {'html_snippet': html_snippet})
+    else:
+        return render(request, 'html_snippet.html', {'html_snippet': html_snippet})
 
 @login_required
 def security_pages(request, page_action=None):

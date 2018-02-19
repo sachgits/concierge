@@ -277,6 +277,8 @@ msgid ""
 "                            You have to register again if you would like to "
 "rejoin this site."
 msgstr ""
+"Als je je wachtwoord bevestigt, wordt je account verwijderd. \n"
+"Je moet je opnieuw registreren wanneer je deze site weer wil gebruiken."
 
 #: core/templates/delete_account.html:67
 #: core/templates/security_pages/change_password.html:23
