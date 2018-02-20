@@ -8,7 +8,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from two_factor.forms import AuthenticationTokenForm, TOTPDeviceForm
 from two_factor.utils import totp_digits, default_device
 from emailvalidator.validator import is_email_valid
-from .models import User, EventLog, PleioHTMLSnippets
+from .models import User, EventLog, PleioLegalText
 from django_otp.forms import OTPTokenForm
 from django.forms import Form
 from django.conf import settings
@@ -286,7 +286,7 @@ class DeleteAccountForm(forms.Form):
         return old_password
 
 
-class HTMLSnippetForm(forms.ModelForm):
+class LegalTextForm(forms.ModelForm):
     class Meta:
-        model = PleioHTMLSnippets
-        fields = ('html_snippet',)
+        model = PleioLegalText
+        fields = ('legal_text',)

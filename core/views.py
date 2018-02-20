@@ -1,14 +1,15 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from .forms import RegisterForm, UserProfileForm, PleioTOTPDeviceForm, ChangePasswordForm, DeleteAccountForm, HTMLSnippetForm
-from .models import User, PreviousLogins, PleioHTMLSnippets
+from .forms import RegisterForm, UserProfileForm, PleioTOTPDeviceForm, ChangePasswordForm, DeleteAccountForm, LegalTextForm
+from .models import User, PreviousLogins, PleioLegalText
 from django.urls import reverse
 from base64 import b32encode
 from binascii import unhexlify
 from django_otp.util import random_hex
 import django_otp
 from django.conf import settings
+from saml.models import IdentityProvider
 
 from django.contrib.auth import views as auth_views
 from django.contrib.auth import authenticate, update_session_auth_hash
@@ -30,15 +31,21 @@ def home(request):
 
 
 def logout(request):
-    #If user has logged in via SAML IDP verification, the user has to log out at SAML IDP first
-    if request.session.get('samlLogin', None):
-        request.session.pop('samlLogin')
-        request.session['slo'] = 'slo'
-        return redirect('saml')
+    #If user has logged in via SAML IDP verification, the user has to log out at SAML IDP first if the IDP supports / allows that
+    # IdentityProvider.sloId either contains url for single logout or is empty 
+    if request.session.pop('samlLogin', None):
+        idp = request.session.get('idp', None)
+        if idp:
+            try:
+                slo = IdentityProvider.objects.get(shortname=idp).sloId
+            except:
+                slo = None
+        if slo:
+            request.session['slo'] = 'slo'
+            return redirect('saml')
 
     #If needed the account can be deleted now that user has been logged out at SAML IDP
-    if request.session.get('DeleteAccountPending', None):
-        request.session.pop('DeleteAccountPending')
+    if request.session.pop('DeleteAccountPending', None):
         request.user.delete()
 
     auth.logout(request)
@@ -48,6 +55,8 @@ def logout(request):
 def register(request):
     if request.user.is_authenticated():
         return redirect('profile')
+
+    legal_text = PleioLegalText.get_legal_text(request, page_name='terms')
 
     if request.method == "POST":
         form = RegisterForm(request.POST)
@@ -71,7 +80,7 @@ def register(request):
     else:
         form = RegisterForm()
 
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'register.html', {'form': form, 'legal_text': legal_text})
 
 
 def register_complete(request):
@@ -146,13 +155,13 @@ def avatar(request):
     return redirect(DEFAULT_AVATAR)
 
 
-def html_snippet(request, page_name=None):
-    html_snippet = PleioHTMLSnippets.get_html_snippet(request, page_name=page_name)
+def legal_pages(request, page_name=None, language_code=None):
+    legal_text = PleioLegalText.get_legal_text(request, page_name=page_name, language_code=language_code)
 
     if request.user.is_authenticated:
-        return render(request, 'html_snippet_account.html', {'html_snippet': html_snippet})
+        return render(request, 'legal_text_account.html', {'legal_text': legal_text})
     else:
-        return render(request, 'html_snippet.html', {'html_snippet': html_snippet})
+        return render(request, 'legal_text.html', {'legal_text': legal_text})
 
 @login_required
 def security_pages(request, page_action=None):

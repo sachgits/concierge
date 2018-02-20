@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_register.html" %}
 {% load i18n %}
 {% load Pleio_templatetags %}
 {% load settings_value %}
@@ -62,7 +62,7 @@
             <div class="register__check">
                 {{ form.errors.accepted_terms }}
                 {{ form.accepted_terms }}
-                <label for="id_accepted_terms">{% trans "I agree with the "%}</label><a href="{% url 'html_snippet' page_name='terms' %}">{% trans " general terms"%}</a>
+                <label for="id_accepted_terms">{% trans "I agree with the general terms"%}
             </div>
             <div class="register__check">
                 {{ form.errors.receives_newsletter }}

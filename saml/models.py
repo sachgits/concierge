@@ -10,8 +10,8 @@ class IdentityProvider(models.Model):
     displayname = models.CharField(max_length=100, null=False)
     entityId = models.URLField(max_length=256, null=False)
     ssoId = models.URLField(max_length=256, null=False)
-    sloId = models.URLField(max_length=256, null=False)
-    x509cert = models.CharField(max_length=8192, null=False)
+    sloId = models.URLField(max_length=256, blank=True)
+    x509cert = models.TextField(null=False)
 
     def __str__(self):
         return self.shortname

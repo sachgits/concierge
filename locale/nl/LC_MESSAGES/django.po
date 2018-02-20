@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-20 10:26+0100\n"
+"POT-Creation-Date: 2018-02-20 15:13+0100\n"
 "PO-Revision-Date: 2017-12-15 16:48+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -145,6 +145,10 @@ msgstr "Windows"
 msgid "%(browser)s on %(device)s"
 msgstr "%(browser)s op %(device)s"
 
+#: core/models.py:402
+msgid "<H1>Page under construction</H1>"
+msgstr ""
+
 #: core/templates/backup_tokens.html:5 core/templates/backup_tokens.html:9
 #: core/templates/security_pages/two_factor_authorization.html:10
 #: core/templates/security_pages/two_factor_authorization.html:64
@@ -184,7 +188,8 @@ msgstr "Je hebt nog geen backup tokens."
 msgid "Generate Tokens"
 msgstr "Genereer tokens"
 
-#: core/templates/base.html:35 core/templates/base_account.html:28
+#: core/templates/base.html:33 core/templates/base_account.html:28
+#: core/templates/base_register.html:33
 msgid "Back to the homepage"
 msgstr "Terug naar de homepagina"
 
@@ -242,7 +247,11 @@ msgstr ""
 msgid "Logout"
 msgstr "Uitloggen"
 
-#: core/templates/base_account.html:94 core/templates/delete_account.html:14
+#: core/templates/base_account.html:98 core/templates/base_register.html:47
+msgid "General terms"
+msgstr " Algemene voorwaarden"
+
+#: core/templates/base_account.html:110 core/templates/delete_account.html:14
 #: core/templates/delete_account.html:47
 #, fuzzy
 #| msgid "Register account"
@@ -251,7 +260,7 @@ msgstr "Account aanmaken"
 
 #: core/templates/delete_account.html:23 core/templates/profile.html:18
 #: core/templates/security_pages.html:27
-#: core/templates/show_connections.html:15 saml/views.py:241
+#: core/templates/show_connections.html:15 core/views.py:184 saml/views.py:236
 msgid "Password changed"
 msgstr "Wachtwoord gewijzigd"
 
@@ -575,7 +584,7 @@ msgid "Profile"
 msgstr "Profiel"
 
 #: core/templates/profile.html:21 core/templates/security_pages.html:30
-#: core/views.py:104
+#: core/views.py:112
 msgid "Email address changed"
 msgstr "E-mailadres gewijzigd"
 
@@ -584,9 +593,7 @@ msgid "You can now login using your new email adress"
 msgstr "Je kan nu inloggen met je nieuwe e-mailadres."
 
 #: core/templates/profile.html:24 core/templates/security_pages.html:33
-#: core/views.py:122
-#, fuzzy
-#| msgid "Password changed"
+#: core/views.py:130
 msgid "Profile changed"
 msgstr "Wachtwoord gewijzigd"
 
@@ -655,12 +662,8 @@ msgid "Password (again)"
 msgstr "Wachtwoord (nogmaals)"
 
 #: core/templates/register.html:65
-msgid "I agree with the "
-msgstr "Ik ga akkoord met de "
-
-#: core/templates/register.html:65
-msgid " general terms"
-msgstr " algemene voorwaarden"
+msgid "I agree with the general terms"
+msgstr "Ik ga akkoord met de algemene voorwaarden"
 
 #: core/templates/register_activate.html:9
 msgid "We could not activate your account"
@@ -917,11 +920,7 @@ msgstr "Terug naar profiel"
 
 #: core/templates/show_connections.html:46
 msgid "Disconnect"
-msgstr ""
-
-#: core/templates/terms_of_use.html:6
-msgid "terms of use"
-msgstr "algemene voorwaarden"
+msgstr "Verbreek"
 
 #: core/templates/tf_disable.html:11
 msgid ""
@@ -973,19 +972,28 @@ msgstr ""
 "Twee-factor-authenticatie is niet geactiveerd voor je account. Activeer twee-"
 "factor-authenticatie voor een betere beveiliging."
 
-#: core/views.py:127
+#: core/views.py:135
 msgid "There is a pending change of your email to "
 msgstr "Na bevestiging word je e-mailadres veranderd in "
 
-#: core/views.py:173
-#, fuzzy
-#| msgid "The Password has been changed successfully."
-msgid "Password has been changed successfully."
-msgstr "Je wachtwoord is succesvol veranderd."
-
-#: core/views.py:248
+#: core/views.py:259
 msgid "Account deleted"
-msgstr ""
+msgstr "Account verwijderd"
+
+#: pleio_account/settings.py:134
+msgid "English"
+msgstr "Engels"
+
+#: pleio_account/settings.py:135
+msgid "Dutch"
+msgstr "Nederlands"
+
+#: pleio_account/settings.py:136
+msgid "French"
+msgstr "Frans"
+
+#~ msgid "terms of use"
+#~ msgstr "algemene voorwaarden"
 
 #~ msgid "The email adress has been changed successfully."
 #~ msgstr "Je e-mailadres is succesvol veranderd."

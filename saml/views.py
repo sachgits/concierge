@@ -56,8 +56,7 @@ def prepare_django_request(request):
 @csrf_exempt
 def saml(request):
     req = prepare_django_request(request)
-    if request.session.get('slo'):
-        request.session.pop('slo')
+    if request.session.pop('slo', None):
         req['get_data']['slo'] = 'slo'
         
     if 'idp' in req['get_data']:
@@ -228,15 +227,11 @@ def connect(request, user_email=None):
 def set_new_password(request, activation_token=None):
     if request.method == 'POST':
         user = request.user
-        print('user.email1: ', user.email)
-        print('user.password1: ', user.password)
         form = SetPasswordForm(request.POST, user=user)
         if form.is_valid():
             data = form.cleaned_data
             user.set_password(data['new_password2'])
             user.save()
-            print('user.email2: ', user.email)
-            print('user.password2: ', user.password)
             update_session_auth_hash(request, user)
             messages.success(request, _('Password changed'), extra_tags='password')
             return redirect('profile')
@@ -247,7 +242,7 @@ def set_new_password(request, activation_token=None):
         if not user:
             return redirect(settings.LOGIN_URL)
         auth_login(request, user)
-        form = SetPasswordForm(request.GET, user=user)
+        form = SetPasswordForm()
         return render(request, 'set_new_password.html', { 'form': form })
 
     return redirect(settings.LOGIN_URL)

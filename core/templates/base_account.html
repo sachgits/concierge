@@ -88,14 +88,14 @@
                         </a>
                     </li>
                     <li>
-                        {% if request.path == '/htmlsnippet/terms/' %}
-                            <a href="{% url 'html_snippet' page_name='terms' %}" class="account-menu__list current">
+                        {% if request.path == '/legal-pages/terms/' %}
+                            <a href="{% url 'legal_pages' page_name='terms' %}" class="account-menu__list current">
                         {% else %}
-                            <a href="{% url 'html_snippet' page_name='terms' %}">
+                            <a href="{% url 'legal_pages' page_name='terms' %}">
                         {% endif %}
                             {% include_asset "icons/email.svg" %}
                             <div>
-                                <span class="title">{% trans "Terms of use" %}</span><br />
+                                <span class="title">{% trans "General terms" %}</span><br />
                             </div>
                         </a>
                     </li>

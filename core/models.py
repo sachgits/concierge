@@ -372,15 +372,15 @@ class EventLog(models.Model):
         return (events.count() > settings.RECAPTCHA_NUMBER_INVALID_LOGINS)
 
 
-class PleioHTMLSnippets(models.Model):
+class PleioLegalText(models.Model):
     page_name = models.CharField(null=False, max_length=50, db_index=True)
     language_code = models.CharField(null=False, max_length=10)
-    html_snippet = models.TextField(null=False)
+    legal_text = models.TextField(null=False)
 
     def __str__(self):
-        return self.page_name
+        return self.page_name + " " + self.language_code
 
-    def get_html_snippet(request, page_name, language_code=None):
+    def get_legal_text(request, page_name, language_code=None):
         page_found = True
         if not page_name:
             page_found = False
@@ -389,15 +389,15 @@ class PleioHTMLSnippets(models.Model):
             language_code = get_language()
 
         try:
-            row = PleioHTMLSnippets.objects.get(page_name=page_name, language_code=language_code)
-        except:
+            row = PleioLegalText.objects.get(page_name=page_name, language_code=language_code)
+        except PleioLegalText.DoesNotExist:
             try: 
-                row = PleioHTMLSnippets.objects.filter(page_name=page_name)[0]
-            except:
+                row = PleioLegalText.objects.filter(page_name=page_name)[0]
+            except IndexError:
                 page_found = False
 
         if page_found:
-            result = mark_safe(row.html_snippet)
+            result = mark_safe(row.legal_text)
         else:
             result = _("<H1>Page under construction</H1>")
 
@@ -406,4 +406,4 @@ class PleioHTMLSnippets(models.Model):
 
 admin.site.register(User)
 admin.site.register(PleioPartnerSite)
-admin.site.register(PleioHTMLSnippets)
+admin.site.register(PleioLegalText)

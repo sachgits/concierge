@@ -8,7 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
+<<<<<<< d111cedf5fce731419ae23b240f73fb6a72cec50
 "POT-Creation-Date: 2018-03-20 10:26+0100\n"
+=======
+"POT-Creation-Date: 2018-02-20 15:13+0100\n"
+>>>>>>> - on registration the General terms are always shown in right panel, no user action is required
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -143,6 +147,10 @@ msgstr ""
 msgid "%(browser)s on %(device)s"
 msgstr ""
 
+#: core/models.py:402
+msgid "<H1>Page under construction</H1>"
+msgstr ""
+
 #: core/templates/backup_tokens.html:5 core/templates/backup_tokens.html:9
 #: core/templates/security_pages/two_factor_authorization.html:10
 #: core/templates/security_pages/two_factor_authorization.html:64
@@ -177,7 +185,12 @@ msgstr ""
 msgid "Generate Tokens"
 msgstr ""
 
+<<<<<<< d111cedf5fce731419ae23b240f73fb6a72cec50
 #: core/templates/base.html:35 core/templates/base_account.html:28
+=======
+#: core/templates/base.html:33 core/templates/base_account.html:28
+#: core/templates/base_register.html:33
+>>>>>>> - on registration the General terms are always shown in right panel, no user action is required
 msgid "Back to the homepage"
 msgstr ""
 
@@ -233,14 +246,22 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
-#: core/templates/base_account.html:94 core/templates/delete_account.html:14
+#: core/templates/base_account.html:98 core/templates/base_register.html:47
+msgid "General terms"
+msgstr ""
+
+#: core/templates/base_account.html:110 core/templates/delete_account.html:14
 #: core/templates/delete_account.html:47
 msgid "Delete my account"
 msgstr ""
 
 #: core/templates/delete_account.html:23 core/templates/profile.html:18
 #: core/templates/security_pages.html:27
+<<<<<<< d111cedf5fce731419ae23b240f73fb6a72cec50
 #: core/templates/show_connections.html:15 saml/views.py:241
+=======
+#: core/templates/show_connections.html:15 core/views.py:184 saml/views.py:236
+>>>>>>> - on registration the General terms are always shown in right panel, no user action is required
 msgid "Password changed"
 msgstr ""
 
@@ -541,7 +562,11 @@ msgid "Profile"
 msgstr ""
 
 #: core/templates/profile.html:21 core/templates/security_pages.html:30
+<<<<<<< d111cedf5fce731419ae23b240f73fb6a72cec50
 #: core/views.py:104
+=======
+#: core/views.py:112
+>>>>>>> - on registration the General terms are always shown in right panel, no user action is required
 msgid "Email address changed"
 msgstr ""
 
@@ -550,7 +575,11 @@ msgid "You can now login using your new email adress"
 msgstr ""
 
 #: core/templates/profile.html:24 core/templates/security_pages.html:33
+<<<<<<< d111cedf5fce731419ae23b240f73fb6a72cec50
 #: core/views.py:122
+=======
+#: core/views.py:130
+>>>>>>> - on registration the General terms are always shown in right panel, no user action is required
 msgid "Profile changed"
 msgstr ""
 
@@ -619,11 +648,7 @@ msgid "Password (again)"
 msgstr ""
 
 #: core/templates/register.html:65
-msgid "I agree with the "
-msgstr ""
-
-#: core/templates/register.html:65
-msgid " general terms"
+msgid "I agree with the general terms"
 msgstr ""
 
 #: core/templates/register_activate.html:9
@@ -852,10 +877,6 @@ msgstr ""
 msgid "Disconnect"
 msgstr ""
 
-#: core/templates/terms_of_use.html:6
-msgid "terms of use"
-msgstr ""
-
 #: core/templates/tf_disable.html:11
 msgid ""
 "You are about to disable two-factor authentication. This\n"
@@ -896,12 +917,21 @@ msgid ""
 "                    security."
 msgstr ""
 
+<<<<<<< d111cedf5fce731419ae23b240f73fb6a72cec50
 #: core/views.py:127
 msgid "There is a pending change of your email to "
 msgstr ""
 
 #: core/views.py:173
 msgid "Password has been changed successfully."
+=======
+#: core/views.py:135
+msgid "There is a pending change of your email to "
+msgstr ""
+
+#: core/views.py:259
+msgid "Account deleted"
+>>>>>>> - on registration the General terms are always shown in right panel, no user action is required
 msgstr ""
 
 #: core/views.py:248
