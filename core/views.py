@@ -38,7 +38,7 @@ def logout(request):
         if idp:
             try:
                 slo = IdentityProvider.objects.get(shortname=idp).sloId
-            except:
+            except IdentityProvider.DoesNotExist:
                 slo = None
         if slo:
             request.session['slo'] = 'slo'
@@ -178,7 +178,6 @@ def change_password_form(request, page_action):
         form = ChangePasswordForm(request.POST, user=user)
         if form.is_valid():
             data = form.cleaned_data
-            new_password2 = data['new_password2']
             user.set_password(data['new_password2'])
             user.save()
             update_session_auth_hash(request, user)
