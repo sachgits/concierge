@@ -24,6 +24,10 @@ RUN apk --no-cache add \
     jpeg-dev \
     musl-dev \
     pcre-dev \
+    libxml2-dev \
+    xmlsec-dev \
+    libxslt-dev \
+    pkgconfig \
     linux-headers \
     postgresql-dev \
     python3 \
@@ -52,6 +56,9 @@ RUN apk --no-cache add \
       mailcap \
       jpeg \
       musl \
+      libxml2 \
+      libxslt \
+      xmlsec \
       pcre \
       postgresql \
       python3 \
