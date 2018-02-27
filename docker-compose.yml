@@ -1,6 +1,8 @@
 version: '3'
 
 services:
+  mq:
+    image: rabbitmq
   db:
     image: postgres
     volumes:
@@ -14,10 +16,14 @@ services:
       - DB_HOST=db
       - DB_USER=postgres
       - DB_PASSWORD=postgres
+      - MQ_DEFAULT_USER=rabbitmq
+      - MQ_DEFAULT_PASS=rabbitmq
+      - MQ_DEFAULT_VHOST=/
     ports:
       - "8000:8000"
     depends_on:
       - db
+      - mq
     volumes:
       - ./media:/app/media
 volumes:

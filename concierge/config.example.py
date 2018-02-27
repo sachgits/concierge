@@ -83,3 +83,9 @@ SAML2_SP = {
     "privateKey": ""
 }
 SAML_IDP_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+
+# Setting CELERY_ALWAYS_EAGER to "True"  will make task being executed locally in the client, not by a worker.
+# Always use "False" in production environment.
+CELERY_ALWAYS_EAGER = True | False
+
+BROKER_URL = "amqp://localhost"

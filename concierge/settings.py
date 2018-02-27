@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'user_sessions',
+    'django_celery_beat',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_otp',

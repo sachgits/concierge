@@ -10,6 +10,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.db import models
 from django.conf import settings
 from django.template.loader import render_to_string
+from .tasks import send_mail
 from .helpers import unique_filepath
 from .login_session_helpers import get_city, get_country, get_device, get_lat_lon
 from datetime import timedelta
