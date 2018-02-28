@@ -27,7 +27,7 @@
                     {% settings_value 'SITE_LOGO' as site_logo %}
                     <a class="navigation__logo" title="{% trans "Back to the homepage" %}" href="https://www.pleio.nl/">{% include_asset site_logo %}</a>
                 </div>
-                
+
                 <ul class="account-menu__list">
                     <li>
                         <a href="/profile/">
@@ -72,7 +72,7 @@
                         {% else %}
                             <a href="{% url 'saml_connections' %}">
                         {% endif %}
-                            {% include_asset "icons/os-android.svg" %}
+                            {% include_asset "icons/link.svg" %}
                             <div>
                                 <span class="title">{% trans "Connections" %}</span><br />
                                 {% trans "Existing connections between your organisation(s) and Pleio-accounts" %}
@@ -93,32 +93,17 @@
                         {% else %}
                             <a href="{% url 'legal_pages' page_name='terms' %}">
                         {% endif %}
-                            {% include_asset "icons/email.svg" %}
-                            <div>
-                                <span class="title">{% trans "General terms" %}</span><br />
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        {% if request.path == '/delete-account/' %}
-                            <a href="{% url 'delete_account' %}" class="account-menu__list current">
-                        {% else %}
-                            <a href="{% url 'delete_account' %}">
-                        {% endif %}
-                            {% include_asset "icons/close.svg" %}
-                            <div>
-                                <span class="title">{% trans "Delete my account" %}</span><br />
-                            </div>
+                            <div>{% trans "General terms" %}</div>
                         </a>
                     </li>
                 </ul>
             </div>
-            
+
             <div class="account-right">
                 {% if request.COOKIES.partner_site_url %}
                     <a href={{ request.COOKIES.partner_site_url }} class="button ___white ___outline account__close">{{ request.COOKIES.partner_site_name }}</a>
                 {% endif %}
-             
+
                 <div class="account-right__content">
                     {% block content %}{% endblock %}
                 </div>
