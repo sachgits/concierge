@@ -29,45 +29,6 @@
     {% endif %}
 {% endif %}
 
-{% if login_step == 'login' %}
-    {% if request.session.samlConnect %}
-    <form action="/saml/connect">
-        {% csrf_token %}
-        <input type="hidden" name="sso" value="sso" />
-        <div class="login__step-title">
-            <div>
-                <h2>{% trans "Auto-create new Pleio-account" %}</h2>
-                <p>{% trans "based on your Organisation-account" %}</p>
-            </div>
-            <img src="/static/images/logo-icon.svg" class="login__step-icon"/>
-        </div>
-        <div class="login__buttons">
-                <button name="login" class="button ___stretch ___active login__login" type="submit">{% trans "Connect" %}</button>
-        </div>
-    </form>
-    {% else %}
-        <form action="/saml/">
-            {% csrf_token %}
-            <input type="hidden" name="sso" value="sso" />
-            <div class="login__step-title">
-                <div>
-                    <h2>{% trans "Sign in" %}</h2>
-                    <p>{% trans "with your Organisation-account" %}</p>
-                </div>
-                <img src="/static/images/logo-icon.svg" class="login__step-icon"/>
-                <div>
-                    <select name="idp">
-                        <option value="Test1">SAML test IDP</option>
-                    </select>
-                </div>
-            </div>
-            <div class="login__buttons">
-                    <button name="login" class="button ___stretch ___active login__login" type="submit">{% trans "Login" %}</button>
-            </div>
-        </form>
-    {% endif %}
-{% endif %}
-
 <form method="post" action=".">
     {% csrf_token %}
     <input type="hidden" name="next" value="{{next}}" />
@@ -85,7 +46,7 @@
             </div>
             <img src="/static/images/logo-icon.svg" class="login__step-icon"/>
         </div>
-        
+
         <ul class="messages error">
                 {% for error in form.non_field_errors %}
                 <li>
@@ -127,22 +88,13 @@
                 <div class="g-recaptcha" data-sitekey="{{ recaptcha_site_key }}"></div>
             {% endif %}
 
-            <div class="login__buttons">
-                <button name="login" class="button ___stretch ___active login__login" type="submit">{% trans "Login" %}</button>
-                <a href="{% url 'register' %}" class="button ___stretch ___white ___outline">{% trans "Register account" %}</a>
+            <div class="login__buttons ___flexbuttons">
+                <a href="{% url 'register' %}" class="button ___white ___outline">{% trans "Register account" %}</a>
+                <button name="login" class="button ___active login__login" type="submit">{% trans "Login" %}</button>
             </div>
         </fieldset>
         <p></p>
-        
-        <ul class="messages info">
-            <li class="messages__link">
-                <a href="{% url 'security_pages' page_action='2fa-setup' %}">
-                    {% include_asset "icons/lock-plus.svg" %}
-                    <div class="textcolor_primary">{% trans "Secure your account" %}</div>
-                    <div class="textcolor_secondary">{% trans "Enable two factor authentication" %}</div>
-                </a>
-            </li>
-        </ul>
+
     {% elif login_step == 'token' %}
 
     <script type="text/javascript">
@@ -153,7 +105,7 @@
       };
     </script>
 
-    
+
     <div class="login__step-title">
         <div>
             <h2>{% trans "Sign in" %}</h2>
@@ -179,7 +131,7 @@
             <div class="textcolor_secondary">{% trans "Fill in a code from your code generator." %}</div>
         </li>
     </ul>
-    
+
     <fieldset>
         <div class="input-field">
             {{ form.errors.otp_token }}
@@ -230,6 +182,56 @@
         </div>
 
     {% endif %}
-    
+
 </form>
+
+{% if login_step == 'login' %}
+    {% if request.session.samlConnect %}
+    <form action="/saml/connect">
+        {% csrf_token %}
+        <input type="hidden" name="sso" value="sso" />
+        <div class="login__step-title">
+            <div>
+                <h2>{% trans "Auto-create new Pleio-account" %}</h2>
+                <p>{% trans "based on your Organisation-account" %}</p>
+            </div>
+            <img src="/static/images/logo-icon.svg" class="login__step-icon"/>
+        </div>
+        <div class="login__buttons">
+            <button name="login" class="button ___stretch ___active login__login" type="submit">{% trans "Connect" %}</button>
+        </div>
+    </form>
+    {% else %}
+        <form action="/saml/">
+            {% csrf_token %}
+            <input type="hidden" name="sso" value="sso" />
+            <div class="login__step-title">
+                <div>
+                    <p>{% trans "of" %} {% trans "with your Organisation-account" %}</p>
+                </div>
+            </div>
+            <fieldset>
+              <div class="input-field">
+                  <label for="idp">{% trans "Your organisation" %}</label>
+                  <select name="idp" class="browser-default" onchange="this.form.submit()">
+                      <option value="" selected disabled> </option>
+                      <option value="Test1">SAML test IDP</option>
+                  </select>
+              </div>
+            </fieldset>
+        </form>
+    {% endif %}
+
+    <ul class="messages info hide">
+        <li class="messages__link">
+            <a href="{% url 'security_pages' page_action='2fa-setup' %}">
+                {% include_asset "icons/lock-plus.svg" %}
+                <div class="textcolor_primary">{% trans "Secure your account" %}</div>
+                <div class="textcolor_secondary">{% trans "Enable two factor authentication" %}</div>
+            </a>
+        </li>
+    </ul>
+{% endif %}
+
+
 {% endblock %}
