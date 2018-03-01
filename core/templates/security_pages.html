@@ -4,17 +4,7 @@
 {% load Pleio_templatetags %}
 
 {% block content %}
-<script type="text/javascript">
-    window.onload = function() {
-       {
-        document.getElementById("id_old_password").focus();
-        var state = "{{2FA.state}}";
-        if ( state == "setup"  ) {        
-            document.getElementById("id_token").focus();
-            }
-      }
-    };
-  </script>
+
 <h2>{% trans "Security" %}</h2>
 
 {% if messages %}

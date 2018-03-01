@@ -1,6 +1,7 @@
 from django.urls import reverse_lazy
 from .forms import PleioAuthenticationTokenForm, PleioAuthenticationForm, PleioBackupTokenForm
 from .models import User, PleioPartnerSite, EventLog
+from saml.models import IdentityProvider
 from two_factor.forms import TOTPDeviceForm, BackupTokenForm
 from two_factor.views.core import LoginView, SetupView, BackupTokensView
 from two_factor.views.profile import ProfileView
@@ -51,7 +52,9 @@ class PleioLoginView(TemplateView):
             login_step = 'login'
             request.session['login_step'] = login_step
 
+        idps = {}
         if login_step == 'login':
+            idps = IdentityProvider.objects.order_by('shortname')
             form = PleioAuthenticationForm(request=request)
         elif login_step == 'token':
             user = User.objects.get(email=request.session.get('username'))
@@ -64,6 +67,7 @@ class PleioLoginView(TemplateView):
                     'form' : form, 
                     'login_step' : login_step,
                     'reCAPTCHA' : EventLog.reCAPTCHA_needed(request),
+                    'idps' : idps,
                     'next' : next 
                     })
 

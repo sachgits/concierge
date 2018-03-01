@@ -185,7 +185,7 @@ class PleioAuthenticationForm(AuthenticationForm):
             return False
 
 class PleioAuthenticationTokenForm(OTPTokenForm):
-    otp_token = forms.IntegerField(label=_("Token"), widget=forms.TextInput)
+    otp_token = forms.IntegerField(label=_("Token"), widget=forms.TextInput(attrs={'autofocus': True}))
     otp_device = forms.ChoiceField(choices=[], required=False)
 
     def clean(self):
@@ -214,12 +214,12 @@ class PleioAuthenticationTokenForm(OTPTokenForm):
 
 
 class PleioBackupTokenForm(OTPTokenForm):
-    otp_token = forms.CharField(label=_("Token"))
+    otp_token = forms.CharField(label=_("Token"), widget=forms.TextInput(attrs={'autofocus': True}))
     otp_device = forms.ChoiceField(choices=[], required=False)
 
 
 class PleioTOTPDeviceForm(TOTPDeviceForm):
-    token = forms.IntegerField(label=_("Token"), widget=forms.TextInput)
+    token = forms.IntegerField(label=_("Token"), widget=forms.TextInput(attrs={'autofocus': True}))
 
 
 class ChangePasswordForm(forms.Form):
@@ -232,7 +232,7 @@ class ChangePasswordForm(forms.Form):
         'password_mismatch': _("The two password fields didn't match."),
     }
 
-    old_password = forms.CharField(strip=False, widget=forms.PasswordInput)
+    old_password = forms.CharField(strip=False, widget=forms.PasswordInput(attrs={'autofocus': True}))
     new_password1 = forms.CharField(strip=False, widget=forms.PasswordInput)
     new_password2 = forms.CharField(strip=False, widget=forms.PasswordInput)
 
@@ -271,7 +271,7 @@ class DeleteAccountForm(forms.Form):
         'invalid_password': _("The password is invalid."),
     }
 
-    old_password = forms.CharField(strip=False, widget=forms.PasswordInput)
+    old_password = forms.CharField(strip=False, widget=forms.PasswordInput(attrs={'autofocus': True}))
 
     def clean_old_password(self):
         old_password = self.cleaned_data.get("old_password")

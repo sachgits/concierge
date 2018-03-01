@@ -21,7 +21,7 @@ class SetPasswordForm(forms.Form):
         'password_mismatch': _("The two password fields didn't match."),
     }
 
-    new_password1 = forms.CharField(strip=False, widget=forms.PasswordInput)
+    new_password1 = forms.CharField(strip=False, widget=forms.PasswordInput(attrs={'autofocus': True}))
     new_password2 = forms.CharField(strip=False, widget=forms.PasswordInput)
 
     def clean_new_password2(self):
