@@ -19,6 +19,7 @@ services:
       - MQ_DEFAULT_USER=rabbitmq
       - MQ_DEFAULT_PASS=rabbitmq
       - MQ_DEFAULT_VHOST=/
+      - MESSAGE_QUEUE=amqp://guest:guest@mq/
     ports:
       - "8000:8000"
     depends_on:

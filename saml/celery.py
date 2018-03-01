@@ -6,7 +6,7 @@ from celery import Celery
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pleio_account.settings')
 
-app = Celery('saml', broker=settings.BROKER_URL)
+app = Celery('saml', broker=settings.CELERY_BROKER_URL)
 
 if __name__ == '__main__':
     app.start()

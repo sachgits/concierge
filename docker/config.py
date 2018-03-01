@@ -52,3 +52,22 @@ CORS_ORIGIN_WHITELIST = os.getenv('CORS_ORIGIN_WHITELIST', '').split(',')
 
 GOOGLE_RECAPTCHA_SITE_KEY = os.getenv('GOOGLE_RECAPTCHA_SITE_KEY')
 GOOGLE_RECAPTCHA_SECRET_KEY = os.getenv('GOOGLE_RECAPTCHA_SECRET_KEY')
+
+SAML2_SP = {
+    "entityId": "http://127.0.0.1:8000/saml/metadata",
+    "assertionConsumerService": {
+        "url": "http://127.0.0.1:8000/saml/?acs",
+        "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+    },
+    "singleLogoutService": {
+        "url": "http://127.0.0.1:8000/saml/?sls",
+        "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+    },
+    "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress",
+    "x509cert": "",
+    "privateKey": ""
+}
+SAML_IDP_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+
+CELERY_ALWAYS_EAGER = True
+CELERY_BROKER_URL = os.getenv('MESSAGE_QUEUE')
