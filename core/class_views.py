@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from .forms import PleioAuthenticationTokenForm, PleioAuthenticationForm, PleioBackupTokenForm
+from .forms import PleioAuthenticationTokenForm, PleioAuthenticationForm, PleioBackupTokenForm, LabelledLoginForm
 from .models import User, PleioPartnerSite, EventLog
 from two_factor.forms import TOTPDeviceForm, BackupTokenForm
 from two_factor.views.core import LoginView, SetupView, BackupTokensView
@@ -22,15 +22,30 @@ from two_factor.utils import default_device
 import django_otp
 from urllib.parse import urlparse
 
-class PleioLoginView(TemplateView):
+class PleioLoginView(LoginView):
+
+    template_name = 'login.html'
+
+    form_list = (
+        #('auth', PleioAuthenticationForm),
+        #('auth', AuthenticationForm),
+        ('auth', LabelledLoginForm),
+        ('token', PleioAuthenticationTokenForm),
+        ('backup', BackupTokenForm),
+    )
 
     def get_context_data(self, **kwargs):
+        if "lang" in self.request.COOKIES.keys():
+            pass
+        else:
+             self.request.COOKIES['lang'] = 'en'
+
         context = super(PleioLoginView, self).get_context_data(**kwargs)
         next = self.request.GET.get('next')
         if next:
             context['next'] = next
             self.request.session['next'] = next
-        
+
         self.set_partner_site_info()
 
         return context
@@ -145,7 +160,7 @@ class PleioLoginView(TemplateView):
             EventLog.add_event(request, 'invalid login')
 
         return render(request, 'login.html', {'form' : form, 'login_step' : request.session.get('login_step') })
-    
+
     def set_partner_site_info(self):
         try:
             http_referer = urlparse(self.request.META['HTTP_REFERER'])
@@ -155,13 +170,13 @@ class PleioLoginView(TemplateView):
             self.request.COOKIES['partner_site_name'] = None
             self.request.COOKIES['partner_site_logo_url'] = None
             return False
-        
+
         try:
             clean_url = http_referer.scheme+"://"+http_referer.netloc+"/"
             if http_referer.netloc == self.request.META['HTTP_HOST']:
                 #referer is this site: no action to be taken
                 return False
-            
+
             try:
                 #search for matching partnersite data
                 partnersite = PleioPartnerSite.objects.get(partner_site_url=clean_url)
@@ -268,7 +283,7 @@ class PleioBackupTokensView(BackupTokensView):
         device.token_set.all().delete()
         for n in range(self.number_of_tokens):
             device.token_set.create(token=StaticToken.random_token())
-   
+
         return TemplateResponse(self.request, 'security_pages.html', {
                 'form': form,
                 'tokens': device.token_set.all()

@@ -100,14 +100,18 @@ class User(AbstractBaseUser):
             email = self.email
             
         send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email], **kwargs)
-        
 
-    def send_activation_token(self):
+
+    def send_activation_token(self, request):
+        current_site = get_current_site(request)
+
         template_context = {
             'user': self,
             'activation_token': signing.dumps(obj=self.email),
+            'protocol': 'https' if request.is_secure() else 'http',
+            'domain': current_site.domain
         }
- 
+
         self.email_user(
             render_to_string('emails/register_subject.txt', template_context),
             render_to_string('emails/register.txt', template_context),
@@ -240,7 +244,7 @@ class User(AbstractBaseUser):
             html_message=(render_to_string('emails/suspicious_login.html', template_context)),
             fail_silently=True
         )
-        # After sending the email confirm the previous login to prevend sending the email again
+        # After sending the email confirm the previous login to prevent sending the email again
         PreviousLogins.confirm_login(self, device_id)
 
 
@@ -336,13 +340,28 @@ class EventLog(models.Model):
         time_threshold = timezone.now() - timedelta(minutes=settings.RECAPTCHA_MINUTES_THRESHOLD)
         session = request.session
         events = EventLog.objects.filter(
-	        ip = session.ip,
-        	event_time__gt=time_threshold, 
-	        event_type = 'invalid login'
+            ip = session.ip,
+            event_time__gt=time_threshold,
+            event_type = 'invalid login'
         )
 
         return (events.count() > settings.RECAPTCHA_NUMBER_INVALID_LOGINS)
-        
+
+class AppCustomization(models.Model):
+    BG_IMAGE_OPTIONS = (
+        ('C', 'Cover'),
+        ('T', 'Tiled'),
+    )
+
+    product_title = models.CharField(max_length=50)
+    color_hex = models.CharField("your product's main brand color (Hex)", max_length=6)
+    logo_image = models.ImageField(null=True, blank=True)
+    app_favicon = models.ImageField(null=True, blank=True)
+    app_background_photo = models.ImageField(null=True, blank=True)
+    app_background_options = models.CharField(max_length=1, choices=BG_IMAGE_OPTIONS)
+    display_language_toggle = models.BooleanField(default=True)
+    display_logo_title = models.BooleanField("Display Logo and Title together", default=True)    
 
 admin.site.register(User)
 admin.site.register(PleioPartnerSite)
+admin.site.register(AppCustomization)

@@ -200,8 +200,4 @@ TIME_ZONE = 'Europe/Amsterdam'
 RECAPTCHA_MINUTES_THRESHOLD = 30
 RECAPTCHA_NUMBER_INVALID_LOGINS = 10
 
-SITE_TITLE = 'Pleio_account'
-SITE_LOGO = 'images/logo.svg'
-SITE_FAVICON = 'images/favicon.png'
-
 from .config import *

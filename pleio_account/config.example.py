@@ -43,13 +43,6 @@ EMAIL_PORT = 25
 
 TIME_ZONE = 'Europe/Amsterdam'
 
-EXTERNAL_HOST = 'https://www.pleio_account.nl/'
-EMAIL_LOGO = '/images/email-logo.png'
-
-SITE_TITLE = 'Pleio_account'
-SITE_LOGO = 'images/logo.svg'
-SITE_FAVICON = 'images/favicon.png'
-
 #This setting controls whether an image should be displayed when a user is also a member of other group(s) than "Any"
 SHOW_GOVERNMENT_BADGE = True
 
