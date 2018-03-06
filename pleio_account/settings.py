@@ -81,6 +81,11 @@ MIDDLEWARE = [
     'core.middleware.DeviceIdMiddleware'
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'core.backends.ElggBackend'
+]
+
 ROOT_URLCONF = 'pleio_account.urls'
 
 TEMPLATES = [
@@ -168,6 +173,9 @@ LOGOUT_REDIRECT_URL = '/logout/'
 
 OIDC_USERINFO = 'pleio_account.oidc_provider_settings.userinfo'
 
+# For use with mod_pleio Elgg plugin
+ELGG_URL = ''
+
 PASSWORD_RESET_TIMEOUT_DAYS = 1
 ACCOUNT_ACTIVATION_DAYS = 7
 
@@ -190,7 +198,7 @@ LOGGING = {
 TIME_ZONE = 'Europe/Amsterdam'
 
 RECAPTCHA_MINUTES_THRESHOLD = 30
-RECAPTCHA_NUMBER_INVALID_LOGINS = 10 
+RECAPTCHA_NUMBER_INVALID_LOGINS = 10
 
 SITE_TITLE = 'Pleio_account'
 SITE_LOGO = 'images/logo.svg'

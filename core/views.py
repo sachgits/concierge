@@ -53,7 +53,8 @@ def register(request):
             except:
                 user = User.objects.get(email=data['email'])
 
-            user.send_activation_token()
+            if not user.is_active:
+                user.send_activation_token(request)
 
             return redirect('register_complete')
     else:
@@ -73,7 +74,7 @@ def register_activate(request, activation_token=None):
     user = User.activate_user(None, activation_token)
 
     if user:
-        auth.login(request, user)
+        auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect('profile')
 
     return render(request, 'register_activate.html')
@@ -167,7 +168,7 @@ def change_password_form(request, page_action):
             user.set_password(data['new_password2'])
             user.save()
             update_session_auth_hash(request, user)
-            messages.success(request, _('Password changed'), extra_tags='password')
+            messages.success(request, _('Password has been changed successfully.'), extra_tags='password')
     else:
         form = ChangePasswordForm()
 
