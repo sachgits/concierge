@@ -41,14 +41,16 @@ def init_saml_auth(req, idp_shortname=None):
 
 def prepare_django_request(request):
     # If server is behind proxys or balancers use the HTTP_X_FORWARDED fields
+    http_host = settings.EXTERNAL_HOST
+    if '://' in http_host:
+        http_host = http_host.split('://')[1]
     result = {
         'https': 'on' if request.is_secure() else 'off',
-        'http_host': request.META['HTTP_HOST'],
+        #'http_host': request.META['HTTP_HOST'],
+        'http_host': http_host,
         'script_name': request.META['PATH_INFO'],
         'server_port': request.META['SERVER_PORT'],
         'get_data': request.GET.copy(),
-        # Uncomment if using ADFS as IdP, https://github.com/onelogin/python-saml/pull/144
-        # 'lowercase_urlencoding': True,
         'post_data': request.POST.copy()
     }
     return result
@@ -62,7 +64,7 @@ def saml(request):
     if 'idp' in req['get_data']:
         request.session['idp'] = req['get_data']['idp']
     idp_shortname = request.session.get('idp') or None
-
+    
     if not idp_shortname:
         return redirect(settings.LOGIN_REDIRECT_URL)        
 
@@ -73,7 +75,8 @@ def saml(request):
     session_index = None
 
     if 'sso' in req['get_data']:
-        return HttpResponseRedirect(auth.login())
+        result = HttpResponseRedirect(auth.login()) 
+        return result
 
     elif 'acs' in req['get_data']:
         auth.process_response()
@@ -87,16 +90,25 @@ def saml(request):
             request.session['samlUserdata'] = attributes
             request.session['samlNameId'] = name_id
             request.session['samlSessionIndex'] = session_index
+            next = request.session.get('next', None)
+            print('next: ', next)
 
             email = attributes.get('email')[0]
             extid = check_externalid(request, shortname=idp_shortname, externalid=email)
+            print('extid: ', extid)
             if not extid:
-                return redirect(settings.LOGIN_URL)
+                if next:
+                    goto = settings.LOGIN_URL + '?next=' + next
+                else:
+                    goto = settings.LOGIN_URL
+                return redirect(goto)
 
             user = User.objects.get(pk=extid.userid.pk)
 
             pl = PleioLoginView()
-            pl.post_login_process(request, user, next=None)
+            pl.post_login_process(request, user, next=next)
+            if next:
+                return redirect(next)
 
         return redirect(settings.LOGIN_REDIRECT_URL)
 

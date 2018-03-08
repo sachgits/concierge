@@ -42,6 +42,22 @@ class PleioLoginView(TemplateView):
         next = request.session.get('next')
         if not is_safe_url(next):
             next = ''
+        #is it an OAuth2/SAML login?    
+        if next.split('?')[0] == '/oauth/v2/authorize':
+            next_parms = next.split('?')[1]
+            if len(next_parms.split('&idp=')) > 1:
+                next1 = next_parms.split('&idp=')[0] 
+                idp = next_parms.split('&idp=')[1]
+                if len(idp.split('&')) > 1:
+                    idp = idp.split('&')[0]
+                    next2 = '&' + idp.split('&')[1]
+                else:
+                    next2 = ''
+                next = '/oauth/v2/authorize?' + next1 + next2
+                self.request.session['next'] = next
+                goto = '/saml/?sso&idp=' + idp
+                return redirect(goto)           
+
         login_step = kwargs.get('login_step')
         if login_step:
             request.session['login_step'] = login_step
@@ -196,7 +212,7 @@ class PleioLoginView(TemplateView):
             except:
                 try:
                     #no matching partnersite data found: default background image will be used
-                    partnersite = PleioPartnerSite.objects.get(partner_site_url='http://localhost')
+                    partnersite = PleioPartnerSite.objects.get(partner_site_url=settings.EXTERNAL_HOST)
                     self.request.COOKIES['partner_site_url'] = clean_url
                     self.request.COOKIES['partner_site_name'] = http_referer.netloc
                     self.request.COOKIES['partner_site_logo_url'] = partnersite.partner_site_logo_url
