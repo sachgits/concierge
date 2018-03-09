@@ -44,20 +44,22 @@ class PleioLoginView(TemplateView):
             next = ''
         #is it an OAuth2/SAML login?    
         if next.split('?')[0] == '/oauth/v2/authorize':
-            next_parms = next.split('?')[1]
-            if len(next_parms.split('&idp=')) > 1:
-                next1 = next_parms.split('&idp=')[0] 
-                idp = next_parms.split('&idp=')[1]
+            #prevent capping next string at '&'
+            next_saml = next.replace("&", "%26")
+            request.session['next_saml'] = next_saml
+            
+            next_parms = next_saml.split('?')[1]
+            if len(next_parms.split('%26idp=')) > 1:
+                next1 = next_parms.split('%26idp=')[0] 
+                idp = next_parms.split('%26idp=')[1]
                 if len(idp.split('&')) > 1:
                     idp = idp.split('&')[0]
                     next2 = '&' + idp.split('&')[1]
                 else:
                     next2 = ''
-                next = '/oauth/v2/authorize?' + next1 + next2
-                #prevent capping next string at '&'
-                next = next.replace("&", "%26")
+                next_saml = '/oauth/v2/authorize?' + next1 + next2
 
-                request.session['next'] = next
+                request.session['next_saml'] = next_saml
                 goto = '/saml/?sso&idp=' + idp
                 return redirect(goto)           
 

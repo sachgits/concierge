@@ -81,7 +81,7 @@ def saml(request):
     elif 'acs' in req['get_data']:
         auth.process_response()
         errors = auth.get_errors()
-        next = request.session.get('next', None)
+        next = request.session.get('next_saml', None)
 
         if not errors:
             attributes = auth.get_attributes()
@@ -191,7 +191,7 @@ def check_externalid(request, **kwargs):
 
 
 def connect_and_login(request):
-    next = request.session.get('next', None)
+    next = request.session.get('next_saml', None)
     #now is time to convert next string to original value
     try:
         next = next.replace("%26", "&")
