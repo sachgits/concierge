@@ -173,7 +173,7 @@
 
 {% if login_step == 'login' %}
     {% if request.session.samlConnect %}
-    <form action="/saml/connect">
+    <form action="/saml/connect/?next={{next}}">
         {% csrf_token %}
         <input type="hidden" name="sso" value="sso" />
         <div class="login__step-title">

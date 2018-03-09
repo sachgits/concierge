@@ -353,7 +353,7 @@ msgstr "Vraag een nieuw wachtwoord aan"
 #, fuzzy
 #| msgid "Please verify your new email address by following this link"
 msgid "Please set your new password by following this link"
-msgstr "Bevestig je nieuwe e-mailadres door de volgende link te volgen"
+msgstr "Bevestig je nieuwe wachtwoord door de volgende link te volgen"
 
 #: core/templates/emails/set_new_password_subject.txt:1
 #, fuzzy

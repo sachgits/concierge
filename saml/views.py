@@ -81,6 +81,7 @@ def saml(request):
     elif 'acs' in req['get_data']:
         auth.process_response()
         errors = auth.get_errors()
+        next = request.session.get('next', None)
 
         if not errors:
             attributes = auth.get_attributes()
@@ -90,18 +91,23 @@ def saml(request):
             request.session['samlUserdata'] = attributes
             request.session['samlNameId'] = name_id
             request.session['samlSessionIndex'] = session_index
-            next = request.session.get('next', None)
-            print('next: ', next)
 
             email = attributes.get('email')[0]
             extid = check_externalid(request, shortname=idp_shortname, externalid=email)
-            print('extid: ', extid)
             if not extid:
                 if next:
+                    #connect SAML user with User
+                    #don't convert next string yet
                     goto = settings.LOGIN_URL + '?next=' + next
                 else:
                     goto = settings.LOGIN_URL
                 return redirect(goto)
+
+            #now is time to convert next string to original value
+            try:
+                next = next.replace("%26", "&")
+            except AttributeError:
+                pass
 
             user = User.objects.get(pk=extid.userid.pk)
 
@@ -110,7 +116,12 @@ def saml(request):
             if next:
                 return redirect(next)
 
-        return redirect(settings.LOGIN_REDIRECT_URL)
+        if next:
+            goto = settings.LOGIN_REDIRECT_URL + '?next=' + next
+        else:
+            goto = settings.LOGIN_REDIRECT_URL
+
+        return redirect(goto)
 
     elif 'slo' in req['get_data']:
         return HttpResponseRedirect(auth.logout(
@@ -180,16 +191,30 @@ def check_externalid(request, **kwargs):
 
 
 def connect_and_login(request):
+    next = request.session.get('next', None)
+    #now is time to convert next string to original value
+    try:
+        next = next.replace("%26", "&")
+    except AttributeError:
+        pass
+
     extid = connect(request)
     if not extid:
-        return redirect(settings.LOGIN_URL) 
+        if next:
+            goto = settings.LOGIN_URL + '?next=' + next
+        else:
+            goto = settings.LOGIN_URL
+        return redirect(goto)
 
     user = User.objects.get(pk=extid.userid.pk)
 
     pl = PleioLoginView()
-    pl.post_login_process(request, user, next=None)
+    pl.post_login_process(request, user, next=next)
 
-    return redirect(settings.LOGIN_REDIRECT_URL) 
+    if next:
+        return redirect(next)
+    else:
+        return redirect(settings.LOGIN_REDIRECT_URL) 
 
 
 def connect(request, user_email=None):

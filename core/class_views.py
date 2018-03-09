@@ -54,7 +54,10 @@ class PleioLoginView(TemplateView):
                 else:
                     next2 = ''
                 next = '/oauth/v2/authorize?' + next1 + next2
-                self.request.session['next'] = next
+                #prevent capping next string at '&'
+                next = next.replace("&", "%26")
+
+                request.session['next'] = next
                 goto = '/saml/?sso&idp=' + idp
                 return redirect(goto)           
 
