@@ -73,15 +73,15 @@ class PleioLoginView(TemplateView):
         else:
             login_step = request.session.get('login_step')
 
-        if login_step == 'login':
-            response = self.post_login(request, *args, **kwargs)
-        elif login_step == 'token':
+        if login_step == 'token':
             response = self.post_token(request, *args, **kwargs)
         elif login_step == 'backup':
             response = self.post_backuptoken(request, *args, **kwargs)
+        else:
+            response = self.post_login(request, *args, **kwargs)
 
         return response
-            
+
     def post_login(self, request, *args, **kwargs):
         next = request.POST.get('next')
         if not is_safe_url(next):
@@ -93,7 +93,7 @@ class PleioLoginView(TemplateView):
             request.session['username'] = username
             device = default_device(user)
             if not device:
-                auth_login(request, user)
+                auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 return redirect(next)
             else:
                 request.session['login_step'] = 'token'
@@ -125,7 +125,7 @@ class PleioLoginView(TemplateView):
         user = User.objects.get(email=request.session.get('username'))
         form = PleioAuthenticationTokenForm(user, request, data=request.POST)
         if form.is_valid():
-            auth_login(request, user)
+            auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return redirect(next)
         else:
             EventLog.add_event(request, 'invalid login')
@@ -139,7 +139,7 @@ class PleioLoginView(TemplateView):
         user = User.objects.get(email=request.session.get('username'))
         form = PleioBackupTokenForm(user, request, data=request.POST)
         if form.is_valid():
-            auth_login(request, user)
+            auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return redirect(next)
         else:
             EventLog.add_event(request, 'invalid login')
