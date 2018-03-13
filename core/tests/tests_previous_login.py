@@ -34,34 +34,7 @@ class PreviousLoginTestCase(TestCase):
         self.assertIs(result, False)#no confirmed previous login found, so an email has been sent
 
         acceptation_token = signing.dumps(obj=(device_id,self.user.email))
-        PreviousLogins.accept_previous_logins(request, acceptation_token)
+        PreviousLogins.add_known_login(request, self.user)
 
         result = self.user.check_users_previous_logins(request)
         self.assertIs(result, True)#confirmed previous login found, no email has been sent
-
-    def test_accept_previous_login(self):
-        """ Test accepting a previous login"""
-        request = self.factory.get("/")
-        request.user = self.user
-
-        middleware = SessionMiddleware()
-        middleware.process_request(request)
-
-        request.session.ip = "8.247.18.183" #www.ziggo.nl an existing ip address
-        request.session.user_agent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/62.0.3202.75 Chrome/62.0.3202.75 Safari/537.36"
-
-        device_id = "v76iswyyp0ejhfdai654kzcrh32owo9y"
-        request.COOKIES['device_id'] = device_id
-
-        self.previouslogin = PreviousLogins.add_known_login(request, self.user)
-
-        acceptation_token = signing.dumps(obj=(device_id,self.user.email))
-        PreviousLogins.accept_previous_logins(request, acceptation_token)
-
-        previouslogin = PreviousLogins.objects.get(device_id=device_id)
-        result = previouslogin.confirmed_login
-        self.assertIs(result, True)
-
-
-
-
