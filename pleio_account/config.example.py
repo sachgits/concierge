@@ -46,7 +46,7 @@ TIME_ZONE = 'Europe/Amsterdam'
 EXTERNAL_HOST = 'https://www.pleio_account.nl/'
 EMAIL_LOGO = '/images/email-logo.png'
 
-SITE_TITLE = 'Pleio_account'
+SITE_TITLE = 'Pleio account'
 SITE_LOGO = 'images/logo.svg'
 SITE_FAVICON = 'images/favicon.png'
 
