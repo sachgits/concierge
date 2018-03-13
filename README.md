@@ -1,7 +1,7 @@
 # Concierge
 [![Build Status](https://jenkins.pleio.nl/buildStatus/icon?job=concierge)](https://jenkins.pleio.nl/job/concierge/)
 
-This is the microservice used for handling user registration, login and SAML2 SSO. It is based on [Django project](https://www.djangoproject.com/) and handles login througout the Pleio ecosystem using OAuth2.
+This is the microservice used for handling user registration, login and SAML2 SSO. It is based on [Django project](https://www.djangoproject.com/).
 
 ## Setup development (through Docker)
 Make sure [Docker](https://www.docker.com/) and [yarn](https://yarnpkg.com/lang/en/) is installed. Then run the following commands within the repository:
@@ -61,8 +61,8 @@ Now login with your new (superuser) account on http://localhost:8000
 
 ## Deploy to Kubernetes
 
-  kubectl create namespace concierge
-  kubectl create -f ./kubernetes/deployment.yaml
+    kubectl create namespace concierge
+    kubectl create -f ./kubernetes/deployment.yaml
 
 ## Generate new translations
 We use the standard [i18n toolset of Django](https://docs.djangoproject.com/en/1.10/topics/i18n/). To add new translations to the source files use:
