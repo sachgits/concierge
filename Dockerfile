@@ -47,7 +47,6 @@ RUN chmod +x /stage/start.sh
 
 # Stage 4 - Build docker image suitable for execution and deployment
 FROM alpine:3.7
-LABEL maintainer Bart Jeukendrup <bart@jeukendrup.nl>
 RUN apk --no-cache add \
       ca-certificates \
       mailcap \
