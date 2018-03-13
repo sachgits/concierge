@@ -2,18 +2,18 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: pleio-account
-  namespace: pleio
+  name: concierge
+  namespace: concierge
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        name: pleio-account
+        name: concierge
     spec:
       containers:
-      - name: pleio-account
-        image: Pleio/pleio_account:1.0.0
+      - name: concierge
+        image: concierge:latest
         ports:
         - containerPort: 8000
         env:
@@ -29,7 +29,7 @@ spec:
           value: "postgres"
         - name: "DB_PASSWORD"
           value: "postgres"
-      - name: pleio-account-database
+      - name: concierge-database
         image: postgres
         ports:
         - containerPort: 5432
@@ -37,10 +37,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: pleio-account
-  namespace: pleio
+  name: concierge
+  namespace: concierge
   labels:
-    name: pleio-account
+    name: concierge
   annotations:
     VIRTUAL_HOST: "gcidentity.lpss.me"
     VIRTUAL_PORT: "8000"
@@ -49,4 +49,4 @@ spec:
   - port: 8000
     targetPort: 8000
   selector:
-    name: pleio-account
+    name: concierge

@@ -9,5 +9,5 @@ webpack-stats.json
 webpack-stats-prod.json
 media/
 .idea/
-pleio_account/config.py
+concierge/config.py
 .vscode/

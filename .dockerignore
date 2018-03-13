@@ -4,6 +4,6 @@ db.sqlite3
 Dockerfile
 docker-compose.yml
 kubernetes
-pleio_account/config.py
+concierge/config.py
 .git
 
