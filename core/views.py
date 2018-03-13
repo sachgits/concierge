@@ -54,7 +54,7 @@ def register(request):
                 user = User.objects.get(email=data['email'])
 
             if not user.is_active:
-                user.send_activation_token(request)
+                user.send_activation_token()
 
             return redirect('register_complete')
     else:
