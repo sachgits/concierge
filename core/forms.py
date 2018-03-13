@@ -34,7 +34,7 @@ class RegisterForm(forms.Form):
         'captcha_mismatch': 'captcha_mismatch',
     }
 
-    name = forms.CharField(required=True, max_length=100)
+    name = forms.CharField(required=True, max_length=100, widget=forms.TextInput(attrs={'autofocus': 'autofocus'}))
     email = EmailField(required=True)
     password1 = forms.CharField(strip=False, widget=forms.PasswordInput)
     password2 = forms.CharField(strip=False, widget=forms.PasswordInput)
@@ -109,7 +109,6 @@ class UserProfileForm(forms.ModelForm):
 
     def clean_new_email(self):
         new_email = self.current_user.new_email
-        
         return new_email
 
     def clean(self):
@@ -240,7 +239,7 @@ class ChangePasswordForm(forms.Form):
     def clean_old_password(self):
         old_password = self.cleaned_data.get("old_password")
         user = authenticate(username=self.user.email, password=old_password)
-        
+
         if user is None:
             raise forms.ValidationError(
                 self.error_messages['invalid_password'],
