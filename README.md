@@ -61,8 +61,8 @@ Now login with your new (superuser) account on http://localhost:8000
 
 ## Deploy to Kubernetes
 
-  kubectl create namespace concierge
-  kubectl create -f ./kubernetes/deployment.yaml
+    kubectl create namespace concierge
+    kubectl create -f ./kubernetes/deployment.yaml
 
 ## Generate new translations
 We use the standard [i18n toolset of Django](https://docs.djangoproject.com/en/1.10/topics/i18n/). To add new translations to the source files use:
