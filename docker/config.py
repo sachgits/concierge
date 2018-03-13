@@ -28,11 +28,11 @@ TIME_ZONE = 'Europe/Amsterdam'
 STATIC_ROOT = '/app/static'
 
 EXTERNAL_HOST = os.getenv('EXTERNAL_HOST')
-EMAIL_LOGO = os.getenv('EMAIL_LOGO')
+EMAIL_LOGO = os.getenv('EMAIL_LOGO', 'images/email-logo.png')
 
-SITE_TITLE = os.getenv('SITE_TITLE')
-SITE_LOGO = os.getenv('SITE_LOGO')
-SITE_FAVICON = os.getenv('SITE_FAVICON')
+SITE_TITLE = os.getenv('SITE_TITLE', 'Pleio account')
+SITE_LOGO = os.getenv('SITE_LOGO', 'images/logo.svg')
+SITE_FAVICON = os.getenv('SITE_FAVICON', 'images/favicon.svg')
 
 SEND_SUSPICIOUS_BEHAVIOR_WARNINGS = os.getenv('SEND_SUSPICIOUS_BEHAVIOR_WARNINGS')
 
