@@ -20,6 +20,28 @@ To setup the development environment, make sure Python3 and yarn is installed on
     pip install -r requirements.txt
     yarn install
 
+Set up and configure a mail server (ex: sendmail)
+
+Make sure postgres is installed and configured and a database is created for your app.
+
+Create your configuration file
+
+    sudo cp pleio_account/config.example.py pleio_account/config.py
+
+In your new config file set secret key, allowed hosts, and debug variables. 
+Set your database config like:
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'your_database_name',
+            'USER': 'Your_database_user',
+            'PASSWORD': 'Your_database_password',
+            'HOST': '127.0.0.1',
+            'PORT': '',
+        }
+    }
+
 Create a database using
 
     python manage.py migrate
@@ -34,6 +56,11 @@ Start a yarn and Django server using:
     yarn run watch
 
 Now login with your new (superuser) account on http://localhost:8000
+
+## Deploy to Kubernetes
+
+  kubectl create namespace pleio
+  kubectl create -f https://raw.githubusercontent.com/Pleio/pleio_account/master/kubernetes/deployment.yaml
 
 ## Generate new translations
 We use the standard [i18n toolset of Django](https://docs.djangoproject.com/en/1.10/topics/i18n/). To add new translations to the source files use:
