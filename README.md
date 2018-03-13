@@ -1,4 +1,4 @@
-# Pleio account
+# Concierge
 This is the Pleio microservice used for handling user registration, login and SAML2 SSO. It is based on [Django project](https://www.djangoproject.com/) and handles login througout the Pleio ecosystem using OAuth2.
 
 ## Setup development (through Docker)
