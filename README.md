@@ -1,5 +1,5 @@
 # Concierge
-[![Build Status](https://jenkins.pleio.nl/buildStatus/icon?job=concierge)](https://jenkins.pleio.nl/job/concierge/)
+[![Build Status](https://jenkins.pleio.nl/buildStatus/icon?job=concierge-docker)](https://jenkins.pleio.nl/job/concierge-docker/)
 
 This is the microservice used for handling user registration, login and SAML2 SSO. It is based on the [Django project](https://www.djangoproject.com/).
 
