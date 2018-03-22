@@ -38,14 +38,21 @@ class IdentityProvider(models.Model):
     def get_idp_x509certs(self):
         idp_metadata = etree.fromstring(urlopen(self.entityId).read())
         namespace = idp_metadata.nsmap
+        if namespace.get('ds'):
+            ds = 'ds:'
+        else:
+             ds = ''
+        if namespace.get('md'):
+            md = 'md:'
+        else:
+             md = ''
+
+
         x509certs = []
-        signing_x509certs = idp_metadata.findall("./md:IDPSSODescriptor/md:KeyDescriptor[@use='signing']/ds:KeyInfo/ds:X509Data", namespace)
-        if not signing_x509certs:
-            #when default namespace is used for root elements
-            signing_x509certs = idp_metadata.findall("./IDPSSODescriptor/KeyDescriptor[@use='signing']/ds:KeyInfo/ds:X509Data", namespace)
+        signing_x509certs = idp_metadata.findall("./"+md+"IDPSSODescriptor/"+md+"KeyDescriptor[@use='signing']/"+ds+"KeyInfo/ds:X509Data", namespace)
             
         for x509cert in signing_x509certs:
-            x509certs.append(x509cert.findtext("ds:X509Certificate", namespaces=namespace))
+            x509certs.append(x509cert.findtext(ds+"X509Certificate", namespaces=namespace))
         need_save = False
         try:
             self.x509cert1 = x509certs[0]
