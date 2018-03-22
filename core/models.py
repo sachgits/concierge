@@ -79,7 +79,7 @@ class User(AbstractBaseUser):
         i = 1
 
         while User.objects.filter(username=unique_username).exists():
-            unique_username = '{}-{}'.format(username[:max_length - len(str(i)) - 1], i)
+            unique_username = '{}{}'.format(username[:max_length - len(str(i)) - 1], i)
             i += 1
 
         return unique_username

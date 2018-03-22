@@ -161,7 +161,7 @@ def metadata(request):
     # req = prepare_django_request(request)
     # auth = init_saml_auth(req)
     # saml_settings = auth.get_settings()
-    saml_settings = OneLogin_Saml2_Settings(settings=None, custom_base_path=settings.SAML_FOLDER, sp_validation_only=True)
+    saml_settings = OneLogin_Saml2_Settings(settings=None, custom_base_path=None, sp_validation_only=True)
     metadata = saml_settings.get_sp_metadata()
     errors = saml_settings.validate_metadata(metadata)
 

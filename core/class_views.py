@@ -182,7 +182,7 @@ class PleioLoginView(TemplateView):
         if not is_safe_url(next):
             next = settings.LOGIN_REDIRECT_URL
 
-        auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend'))
+        auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         user.check_users_previous_logins(request)
 
         if request.session.get('samlConnect'):

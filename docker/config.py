@@ -54,18 +54,18 @@ GOOGLE_RECAPTCHA_SITE_KEY = os.getenv('GOOGLE_RECAPTCHA_SITE_KEY')
 GOOGLE_RECAPTCHA_SECRET_KEY = os.getenv('GOOGLE_RECAPTCHA_SECRET_KEY')
 
 SAML2_SP = {
-    "entityId": "http://127.0.0.1:8000/saml/metadata",
+    "entityId": os.getenv("EXTERNAL_HOST") + "/saml/metadata",
     "assertionConsumerService": {
-        "url": "http://127.0.0.1:8000/saml/?acs",
+        "url": os.getenv("EXTERNAL_HOST") + "/saml/?acs",
         "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
     },
     "singleLogoutService": {
-        "url": "http://127.0.0.1:8000/saml/?sls",
+        "url": os.getenv("EXTERNAL_HOST") + "/saml/?sls",
         "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
     },
     "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress",
-    "x509cert": "",
-    "privateKey": ""
+    "x509cert": os.getenv("SAML_SP_X509CERT"),
+    "privateKey": os.getenv("SAML_SP_PRIVATEKEY")
 }
 SAML_IDP_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
 
