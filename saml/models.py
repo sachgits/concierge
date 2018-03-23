@@ -53,11 +53,9 @@ class IdentityProvider(models.Model):
 
         sso = idp_metadata.findall("./"+md+"IDPSSODescriptor/"+md+"SingleSignOnService[@Binding='"+settings.SAML_IDP_BINDING+"']", namespace)
         self.ssoId = sso[0].attrib.get('Location', None)
-        print('ssoid: ', self.ssoId)
 
         slo = idp_metadata.findall("./"+md+"IDPSSODescriptor/"+md+"SingleLogoutService[@Binding='"+settings.SAML_IDP_BINDING+"']", namespace)
         self.sloId = slo[0].attrib.get('Location', None)
-        print('sloid: ', self.sloId)
 
         x509certs = []
         signing_x509certs = idp_metadata.findall("./"+md+"IDPSSODescriptor/"+md+"KeyDescriptor[@use='signing']/"+ds+"KeyInfo/ds:X509Data", namespace)
