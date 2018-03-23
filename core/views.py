@@ -36,9 +36,13 @@ def logout(request):
     if request.session.pop('samlLogin', None):
         idp = request.session.get('idp', None)
         if idp:
-            try:
-                slo = IdentityProvider.objects.get(shortname=idp).sloId
-            except IdentityProvider.DoesNotExist:
+            idp_row = IdentityProvider.objects.get(shortname=idp)
+            if idp_row.perform_slo:
+                try:
+                    slo = idp_row.sloId
+                except IdentityProvider.DoesNotExist:
+                    slo = None
+            else:
                 slo = None
         if slo:
             request.session['slo'] = 'slo'

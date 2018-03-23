@@ -18,6 +18,8 @@ from onelogin.saml2.utils import OneLogin_Saml2_Utils
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login as auth_login
 import requests
+import os
+import json
 from core.forms import UserProfileForm
 
 def init_saml_auth(req, idp_shortname=None):
@@ -161,7 +163,19 @@ def metadata(request):
     # req = prepare_django_request(request)
     # auth = init_saml_auth(req)
     # saml_settings = auth.get_settings()
-    saml_settings = OneLogin_Saml2_Settings(settings=None, custom_base_path=None, sp_validation_only=True)
+    # OneLogin is expecting the sp settings in settings.json in settings.SAML_FOLDER
+    if not os.path.exists(settings.SAML_FOLDER):
+        os.makedirs(settings.SAML_FOLDER)
+    sp_metadata_file = open(settings.SAML_FOLDER+'/settings.json', 'w')
+    sp_metadata = json.dumps({
+        "strict": True,
+        "debug": settings.DEBUG,
+        "sp": settings.SAML2_SP,
+    })
+    sp_metadata_file.write(sp_metadata)
+    sp_metadata_file.close()
+
+    saml_settings = OneLogin_Saml2_Settings(settings=None, custom_base_path=settings.SAML_FOLDER, sp_validation_only=True)
     metadata = saml_settings.get_sp_metadata()
     errors = saml_settings.validate_metadata(metadata)
 

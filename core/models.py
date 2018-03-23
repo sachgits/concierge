@@ -403,8 +403,3 @@ class PleioLegalText(models.Model):
             result = _("<H1>Page under construction</H1>")
 
         return mark_safe(result)
-        
-
-admin.site.register(User)
-admin.site.register(PleioPartnerSite)
-admin.site.register(PleioLegalText)
