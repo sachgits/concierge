@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.utils.text import slugify
 from django.contrib import admin
 from django.conf import settings
@@ -18,6 +19,7 @@ class IdentityProvider(models.Model):
     signing_x509cert2 = models.TextField(blank=True)
     encryption_x509cert1 = models.TextField(blank=True)
     encryption_x509cert2 = models.TextField(blank=True)
+    last_modified = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.shortname
@@ -86,6 +88,8 @@ class IdentityProvider(models.Model):
                 pass
         except IndexError:
             pass    
+    
+        self.last_modified = timezone.now()
         
         self.save()
                 
