@@ -3,7 +3,6 @@ from saml.models import IdentityProvider, IdpEmailDomains
 
 # Register your models here.
 
-admin.site.register(IdpEmailDomains)
 
 class IdentityProviderAdmin(admin.ModelAdmin):
     fields = ['shortname' ,
@@ -13,6 +12,12 @@ class IdentityProviderAdmin(admin.ModelAdmin):
             ]
 
 admin.site.register(IdentityProvider, IdentityProviderAdmin)
+
+
+class IdpEmailDomainsAdmin(admin.ModelAdmin):
+    list_display = ('email_domain', 'identityprovider')
+
+admin.site.register(IdpEmailDomains, IdpEmailDomainsAdmin)
 
 
 

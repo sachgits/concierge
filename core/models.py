@@ -101,7 +101,6 @@ class User(AbstractBaseUser):
             
         send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email], **kwargs)
         
-
     def send_activation_token(self):
         template_context = {
             'user': self,

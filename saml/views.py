@@ -299,12 +299,10 @@ def set_new_password(request, activation_token=None):
     return redirect(settings.LOGIN_URL)
 
 
-
 def show_connections(request):
     connections = ExternalIds.objects.filter(userid=request.user)    
 
     return render(request, 'show_connections.html', {'connections': connections})
-
 
 
 def delete_connection(request, pk=None):
