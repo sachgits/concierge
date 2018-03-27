@@ -292,7 +292,7 @@ def set_new_password(request, activation_token=None):
         user = User.set_new_password(None, activation_token)
         if not user:
             return redirect(settings.LOGIN_URL)
-        auth_login(request, user)
+        auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         form = SetPasswordForm()
         return render(request, 'set_new_password.html', { 'form': form })
 

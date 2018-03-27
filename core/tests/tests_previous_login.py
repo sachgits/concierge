@@ -42,8 +42,3 @@ class PreviousLoginTestCase(TestCase):
         self.assertIs(result, True)#confirmed previous login found, 
         self.assertEqual(len(mail.outbox), 0)#no email has been sent
         mail.outbox = []# Empty the test outbox
-
-
-
-
-
