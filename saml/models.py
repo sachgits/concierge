@@ -90,9 +90,17 @@ class IdentityProvider(models.Model):
             pass    
     
         self.last_modified = timezone.now()
-        
+
         self.save()
                 
+
+class IdpEmailDomains(models.Model):
+    email_domain = models.CharField(max_length=100, db_index=True, unique=True)
+    identityprovider = models.ForeignKey('IdentityProvider', db_column="IdentityProvider.shortname", on_delete=models.CASCADE, db_index=True)
+     
+    def __str__(self):
+        return self.email_domain
+           
 
 class ExternalIds(models.Model):
     identityproviderid = models.ForeignKey('IdentityProvider', on_delete=models.CASCADE, db_index=True)

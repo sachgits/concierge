@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load Pleio_templatetags %}
 {% load settings_value %}
+{% load get_user_and_idp %}
 
 {% block content %}
 
@@ -39,7 +40,7 @@
                 {% if request.session.samlConnect %}
                     <h2>{% trans "Connect your existing Pleio-account" %}</h2>
                     <p>{% trans "with your Organisation-account" %}</p>
-            {% else %}
+                {% else %}
                     <h2>{% trans "Sign in" %}</h2>
                     <p>{% trans "with your Pleio-account" %}</p>
                 {% endif %}
