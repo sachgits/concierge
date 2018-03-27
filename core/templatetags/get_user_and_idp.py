@@ -18,8 +18,7 @@ def get_user_and_idp(email):
         email_domain = email.split('@')[1]
         try:
             idp_shortname = IdpEmailDomains.objects.get(email_domain=email_domain).identityprovider
-        except:
-            IdpEmailDomains.DoesNotExist:
+        except IdpEmailDomains.DoesNotExist:
             pass
     except IndexError:
         pass
