@@ -42,7 +42,11 @@ class IdentityProvider(models.Model):
         }
 
     def get_idp_metadata(self):
-        idp_metadata = etree.fromstring(urlopen(self.entityId).read())
+        try:
+            idp_metadata = etree.fromstring(urlopen(self.entityId).read())
+        except:
+            return False
+
         namespace = idp_metadata.nsmap
         if namespace.get('ds'):
             ds = 'ds:'
@@ -102,6 +106,7 @@ class IdentityProvider(models.Model):
                 'last_modified'
                 ])
                 
+        return True
 
 class IdpEmailDomains(models.Model):
     email_domain = models.CharField(max_length=100, db_index=True, unique=True)
