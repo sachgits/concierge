@@ -53,6 +53,11 @@ class SamlTestCase(TestCase):
         self.assertEqual(extid.externalid, "johnsaml@user.com")#externalid exists atm
         self.assertEqual(extid.userid, User.objects.get(email="johnsaml@user.com"))#externalid exists with new user
 
+        self.assertEqual(len(mail.outbox), 1)#an email to request a new password has been sent
+        self.assertEqual(mail.outbox[0].subject, "Please set your new password")
+        mail.outbox = []# Empty the test outbox
+
+
     def test_connect_new_samluser_with_existing_user(self):
         '''
         Saml user who is logging in first time does not have a connected concierge user
@@ -69,4 +74,7 @@ class SamlTestCase(TestCase):
         extid = connect(request, user_email="john@user.com")
         self.assertEqual(extid.externalid, "johnsaml@user.com")#externalid exists atm
         self.assertEqual(extid.userid, User.objects.get(email="john@user.com"))#externalid exists existing user
+
+        self.assertEqual(len(mail.outbox), 0)#no email to request a new password has been sent
+        mail.outbox = []# Empty the test outbox
         
