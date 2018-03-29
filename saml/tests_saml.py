@@ -14,7 +14,6 @@ from saml.views import check_externalid, connect
 class SamlTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(name="John", email="john@user.com", password="GkCyKt6iWJVi")
-        #self.samluser = User.objects.create_user(name="JohnSaml", email="johnsaml@user.com", password="GkCyKt6iWJVi")
         self.superuser = User.objects.create_superuser(name="John", email="john@superuser.com", password="LZwHZucJj9JD")
         self.idp = IdentityProvider.objects.create(
             shortname = "idp1",
@@ -33,8 +32,8 @@ class SamlTestCase(TestCase):
         request.session["idp"] = "idp1"
         request.session["samlUserdata"] =  {'uid': ["1"], 'email': ["johnsaml@user.com"]}
 
-        result = check_externalid(request, shortname=self.idp.shortname, externalid="johnsaml@user.com")
-        self.assertIs(result, None)#no externalid exists atm
+        extid = check_externalid(request, shortname=self.idp.shortname, externalid="johnsaml@user.com")
+        self.assertIs(extid, None)# No externalid exists atm
 
     def test_connect_new_samluser(self):
         '''
@@ -47,14 +46,14 @@ class SamlTestCase(TestCase):
         request.session["samlUserdata"] =  {'uid': ["1"], 'email': ["johnsaml@user.com"]}
 
         result = check_externalid(request, shortname=self.idp.shortname, externalid="johnsaml@user.com")
-        self.assertIs(result, None)#no externalid exists atm
+        self.assertIs(result, None)# No externalid exists atm
 
-        extid = connect(request, user_email=None)
-        self.assertEqual(extid.externalid, "johnsaml@user.com")#externalid exists atm
-        self.assertEqual(extid.userid, User.objects.get(email="johnsaml@user.com"))#externalid exists with new user
+        extid = connect(request, user_email=None)# Do not connect with existing user
+        self.assertEqual(extid.externalid, "johnsaml@user.com")# An externalid exists atm
+        self.assertEqual(extid.userid, User.objects.get(email="johnsaml@user.com"))# Externalid exists with new user
 
-        self.assertEqual(len(mail.outbox), 1)#an email to request a new password has been sent
-        self.assertEqual(mail.outbox[0].subject, "Please set your new password")
+        self.assertEqual(len(mail.outbox), 1)# An email to request a new password has been sent
+        self.assertEqual(mail.outbox[0].subject, "Please set your new password")# Verifying email subject
         mail.outbox = []# Empty the test outbox
 
 
@@ -69,12 +68,12 @@ class SamlTestCase(TestCase):
         request.session["samlUserdata"] =  {'uid': ["1"], 'email': ["johnsaml@user.com"]}
 
         result = check_externalid(request, shortname=self.idp.shortname, externalid="johnsaml@user.com")
-        self.assertIs(result, None)#no externalid exists atm
+        self.assertIs(result, None)# No externalid exists atm
 
-        extid = connect(request, user_email="john@user.com")
-        self.assertEqual(extid.externalid, "johnsaml@user.com")#externalid exists atm
-        self.assertEqual(extid.userid, User.objects.get(email="john@user.com"))#externalid exists existing user
+        extid = connect(request, user_email="john@user.com")# Connect with existing user
+        self.assertEqual(extid.externalid, "johnsaml@user.com")# An externalid exists atm
+        self.assertEqual(extid.userid, User.objects.get(email="john@user.com"))# Externalid exists existing user
 
-        self.assertEqual(len(mail.outbox), 0)#no email to request a new password has been sent
+        self.assertEqual(len(mail.outbox), 0)# No email to request a new password has been sent
         mail.outbox = []# Empty the test outbox
         

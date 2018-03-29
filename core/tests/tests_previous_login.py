@@ -31,14 +31,14 @@ class PreviousLoginTestCase(TestCase):
         request.COOKIES['device_id'] = device_id
 
         result = self.user.check_users_previous_logins(request)
-        self.assertIs(result, False)#no confirmed previous login found, 
-        self.assertEqual(len(mail.outbox), 1)#so an email has been sent
+        self.assertIs(result, False)# No confirmed previous login found 
+        self.assertEqual(len(mail.outbox), 1)# An email has been sent
         mail.outbox = []# Empty the test outbox
 
         acceptation_token = signing.dumps(obj=(device_id,self.user.email))
         PreviousLogins.confirm_login(request.user, device_id)
 
         result = self.user.check_users_previous_logins(request)
-        self.assertIs(result, True)#confirmed previous login found, 
-        self.assertEqual(len(mail.outbox), 0)#no email has been sent
+        self.assertIs(result, True)# Confirmed previous login found 
+        self.assertEqual(len(mail.outbox), 0)# No email has been sent
         mail.outbox = []# Empty the test outbox

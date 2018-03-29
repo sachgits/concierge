@@ -40,20 +40,20 @@ class UserTestCase(TestCase):
     def test_send_activation_token(self):
         """ Test sending an email after user has registered"""
         self.user.send_activation_token()
-        self.assertEqual(len(mail.outbox), 1)#an email has been sent
+        self.assertEqual(len(mail.outbox), 1)# An email has been sent
         mail.outbox = []# Empty the test outbox
 
     def test_send_change_email_activation_token(self):
         """ Test sending an email after user has changed his email address"""
         self.user.new_email="newjohn@user.com"
         self.user.send_change_email_activation_token()
-        self.assertEqual(len(mail.outbox), 1)#an email has been sent
+        self.assertEqual(len(mail.outbox), 1)# An email has been sent
         mail.outbox = []# Empty the test outbox
 
     def test_send_set_password_activation_token(self):
         """ Test sending an email after user has required a password"""
         self.user.send_set_password_activation_token()
-        self.assertEqual(len(mail.outbox), 1)#an email has been sent
+        self.assertEqual(len(mail.outbox), 1)# An email has been sent
         mail.outbox = []# Empty the test outbox
 
     def test_account_activation(self):
