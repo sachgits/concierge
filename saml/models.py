@@ -91,7 +91,16 @@ class IdentityProvider(models.Model):
     
         self.last_modified = timezone.now()
 
-        self.save()
+        #update_fields are provided to prevent this function being called again by the post_save signal
+        self.save(update_fields=[
+                'ssoId',
+                'sloId',
+                'signing_x509cert1',
+                'signing_x509cert2',
+                'encryption_x509cert1',
+                'encryption_x509cert2',
+                'last_modified'
+                ])
                 
 
 class IdpEmailDomains(models.Model):
