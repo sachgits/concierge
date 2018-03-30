@@ -16,7 +16,8 @@
     cursor: pointer;
     user-select: none;
     -webkit-appearance: none;
-         -moz-appearance: none;
+    -moz-appearance: none;
+    text-align: center;
 
     &:hover {
         background-color: @color-tertiary;
@@ -60,9 +61,11 @@
 
     &.___active {
         box-shadow: inset 0 0 0 1px @color-primary;
+        color: @color-primary;
 
         &:hover {
             background-color: @color-primary;
+            color: @color-white;
             box-shadow: none;
         }
     }
