@@ -7,7 +7,8 @@ from saml.models import IdentityProvider, IdpEmailDomains
 class IdentityProviderAdmin(admin.ModelAdmin):
     fields = ['shortname' ,
               'displayname' ,
-              'entityId' ,
+              'metadata_url' ,
+              'metadata_filename' ,
               'perform_slo' 
             ]
 

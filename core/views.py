@@ -3,6 +3,7 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm, UserProfileForm, PleioTOTPDeviceForm, ChangePasswordForm, DeleteAccountForm, LegalTextForm
 from .models import User, PreviousLogins, PleioLegalText
+from django.http import JsonResponse
 from django.urls import reverse
 from base64 import b32encode
 from binascii import unhexlify
@@ -267,3 +268,26 @@ def delete_account(request):
         
 
     return render(request, 'delete_account.html', { 'form': form })
+
+def get_user_and_idp(email):
+    idp_shortname = None
+    user = None
+
+    try:
+        user = User.objects.get(email=email)
+    except User.DoesNotExist:
+        pass
+
+    try:
+        email_domain = email.split('@')[1]
+        try:
+            idp_shortname = IdpEmailDomains.objects.get(email_domain=email_domain).identityprovider
+        except IdpEmailDomains.DoesNotExist:
+            pass
+    except IndexError:
+        pass
+
+    return JsonResponse({
+        "user": user,
+        "idp": idp_shortname 
+    })

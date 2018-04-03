@@ -11,6 +11,8 @@ from lxml import etree
 class IdentityProvider(models.Model):
     shortname = models.SlugField(unique=True)
     displayname = models.CharField(max_length=100, null=False)
+    metadata_url = models.URLField(max_length=256, blank=True)
+    metadata_filename = models.CharField(max_length=256, blank=True)
     entityId = models.URLField(max_length=256, null=False)
     perform_slo = models.BooleanField(default=True)
     ssoId = models.URLField(max_length=256, blank=True)
@@ -43,9 +45,15 @@ class IdentityProvider(models.Model):
 
     def get_idp_metadata(self):
         try:
-            idp_metadata = etree.fromstring(urlopen(self.entityId).read())
+            idp_metadata = etree.fromstring(urlopen(self.metadata_url).read())
         except:
-            return False
+            try:
+                f = open(self.metadata_filename)
+                xml = f.read()
+                f.close()
+                idp_metadata = etree.fromstring(xml)
+            except:
+                return False
 
         namespace = idp_metadata.nsmap
         if namespace.get('ds'):
@@ -56,6 +64,9 @@ class IdentityProvider(models.Model):
             md = 'md:'
         else:
              md = ''
+
+        entity = idp_metadata.findall(".")
+        self.entityId = entity[0].attrib.get('entityID', None)
 
         sso = idp_metadata.findall("./"+md+"IDPSSODescriptor/"+md+"SingleSignOnService[@Binding='"+settings.SAML_IDP_BINDING+"']", namespace)
         self.ssoId = sso[0].attrib.get('Location', None)
@@ -97,6 +108,7 @@ class IdentityProvider(models.Model):
 
         #update_fields are provided to prevent this function being called again by the post_save signal
         self.save(update_fields=[
+                'entityId',
                 'ssoId',
                 'sloId',
                 'signing_x509cert1',
