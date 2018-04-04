@@ -83,6 +83,11 @@ SAML2_SP = {
     "privateKey": ""
 }
 SAML_IDP_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+SAML_IDP_NAMESPACE = {
+    'md': 'urn:oasis:names:tc:SAML:2.0:metadata', 
+    'ds': 'http://www.w3.org/2000/09/xmldsig#'
+}
+
 
 # Setting CELERY_ALWAYS_EAGER to "True"  will make task being executed locally in the client, not by a worker.
 # Always use "False" in production environment.

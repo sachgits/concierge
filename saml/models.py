@@ -1,3 +1,4 @@
+import os
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
@@ -5,6 +6,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.core import signing
 from core.models import User
+from core.helpers import unique_idp_metadata_filepath
 from urllib.request import urlopen
 from lxml import etree
 
@@ -12,7 +14,7 @@ class IdentityProvider(models.Model):
     shortname = models.SlugField(unique=True)
     displayname = models.CharField(max_length=100, null=False)
     metadata_url = models.URLField(max_length=256, blank=True)
-    metadata_filename = models.CharField(max_length=256, blank=True)
+    metadata_filename = models.FileField(upload_to=unique_idp_metadata_filepath, blank=True)
     entityId = models.URLField(max_length=256, null=False)
     perform_slo = models.BooleanField(default=True)
     ssoId = models.URLField(max_length=256, blank=True)
@@ -44,41 +46,34 @@ class IdentityProvider(models.Model):
         }
 
     def get_idp_metadata(self):
+        print(settings.MEDIA_ROOT + self.metadata_filename.__str__())
         try:
             idp_metadata = etree.fromstring(urlopen(self.metadata_url).read())
         except:
             try:
-                f = open(self.metadata_filename)
+                f = open(os.path.join(settings.MEDIA_ROOT, self.metadata_filename.__str__()))
                 xml = f.read()
                 f.close()
                 idp_metadata = etree.fromstring(xml)
             except:
                 return False
 
-        namespace = idp_metadata.nsmap
-        if namespace.get('ds'):
-            ds = 'ds:'
-        else:
-             ds = ''
-        if namespace.get('md'):
-            md = 'md:'
-        else:
-             md = ''
+        namespace = settings.SAML_IDP_NAMESPACE
 
         entity = idp_metadata.findall(".")
         self.entityId = entity[0].attrib.get('entityID', None)
 
-        sso = idp_metadata.findall("./"+md+"IDPSSODescriptor/"+md+"SingleSignOnService[@Binding='"+settings.SAML_IDP_BINDING+"']", namespace)
+        sso = idp_metadata.findall("./md:IDPSSODescriptor/md:SingleSignOnService[@Binding='"+settings.SAML_IDP_BINDING+"']", namespace)
         self.ssoId = sso[0].attrib.get('Location', None)
 
-        slo = idp_metadata.findall("./"+md+"IDPSSODescriptor/"+md+"SingleLogoutService[@Binding='"+settings.SAML_IDP_BINDING+"']", namespace)
+        slo = idp_metadata.findall("./md:IDPSSODescriptor/md:SingleLogoutService[@Binding='"+settings.SAML_IDP_BINDING+"']", namespace)
         self.sloId = slo[0].attrib.get('Location', None)
 
         x509certs = []
-        signing_x509certs = idp_metadata.findall("./"+md+"IDPSSODescriptor/"+md+"KeyDescriptor[@use='signing']/"+ds+"KeyInfo/ds:X509Data", namespace)
+        signing_x509certs = idp_metadata.findall("./md:IDPSSODescriptor/md:KeyDescriptor[@use='signing']/ds:KeyInfo/ds:X509Data", namespace)
             
         for x509cert in signing_x509certs:
-            x509certs.append(x509cert.findtext(ds+"X509Certificate", namespaces=namespace))
+            x509certs.append(x509cert.findtext("ds:X509Certificate", namespaces=namespace))
         
         try:
             self.signing_x509cert1 = x509certs[0]
@@ -90,10 +85,10 @@ class IdentityProvider(models.Model):
             pass    
 
         x509certs = []
-        encryption_x509certs = idp_metadata.findall("./"+md+"IDPSSODescriptor/"+md+"KeyDescriptor[@use='encryption']/"+ds+"KeyInfo/ds:X509Data", namespace)
+        encryption_x509certs = idp_metadata.findall("./md:IDPSSODescriptor/md:KeyDescriptor[@use='encryption']/ds:KeyInfo/ds:X509Data", namespace)
             
         for x509cert in encryption_x509certs:
-            x509certs.append(x509cert.findtext(ds+"X509Certificate", namespaces=namespace))
+            x509certs.append(x509cert.findtext("ds:X509Certificate", namespaces=namespace))
         
         try:
             self.encryption_x509cert1 = x509certs[0]

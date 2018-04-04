@@ -11,7 +11,7 @@ from django.db import models
 from django.conf import settings
 from django.template.loader import render_to_string
 from .tasks import send_mail
-from .helpers import unique_filepath
+from .helpers import unique_avatar_filepath
 from .login_session_helpers import get_city, get_country, get_device, get_lat_lon
 from datetime import timedelta
 
@@ -54,7 +54,7 @@ class User(AbstractBaseUser):
     email = models.EmailField(max_length=255, unique=True)
     accepted_terms = models.BooleanField(default=False)
     receives_newsletter = models.BooleanField(default=False)
-    avatar = models.ImageField(upload_to=unique_filepath, null=True, blank=True)
+    avatar = models.ImageField(upload_to=unique_avatar_filepath, null=True, blank=True)
     new_email = models.CharField(max_length=255, null=True, default=None)
 
     is_active = models.BooleanField(default=False)
