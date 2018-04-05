@@ -10,7 +10,7 @@ from binascii import unhexlify
 from django_otp.util import random_hex
 import django_otp
 from django.conf import settings
-from saml.models import IdentityProvider
+from saml.models import IdentityProvider, IdpEmailDomains
 
 from django.contrib.auth import views as auth_views
 from django.contrib.auth import authenticate, update_session_auth_hash
@@ -271,23 +271,23 @@ def delete_account(request):
 
 def get_user_and_idp(email):
     idp_shortname = None
-    user = None
+    user_email = None
 
     try:
-        user = User.objects.get(email=email)
+        user_email = User.objects.get(email=email).email
     except User.DoesNotExist:
         pass
 
     try:
         email_domain = email.split('@')[1]
         try:
-            idp_shortname = IdpEmailDomains.objects.get(email_domain=email_domain).identityprovider
+            idp_shortname = IdpEmailDomains.objects.get(email_domain=email_domain).identityprovider.shortname
         except IdpEmailDomains.DoesNotExist:
             pass
     except IndexError:
         pass
 
     return JsonResponse({
-        "user": user,
+        "user": user_email,
         "idp": idp_shortname 
     })
