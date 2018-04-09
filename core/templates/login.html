@@ -68,12 +68,19 @@
             {% endfor %}
         </ul>
 
-        <fieldset>
-            <div class="input-field">
-                <label for="id_auth-username">{% trans "Email address" %}</label>
-                {{ form.errors.username }}
-                {{ form.username }}
-            </div>
+        <fieldset class="loginview__email">
+          <div class="input-field">
+              <label for="id_auth-username">{% trans "Email address" %}</label>
+              {{ form.errors.username }}
+              {{ form.username }}
+          </div>
+
+          <div class="login__buttons loginview loginview__emailsubmit ___active">
+            <button name="next" class="button ___active login__check_account_type ___stretch" type="button">{% trans "Next" %}</button>
+          </div>
+        </fieldset>
+
+        <fieldset class="loginview loginview__login">
             <div class="input-field">
                 <label for="id_auth-password">{% trans "Password" %}</label>
                 {{ form.errors.password }}
@@ -89,9 +96,19 @@
             {% endif %}
 
             <div class="login__buttons ___flexbuttons">
-                <a href="{% url 'register' %}" class="button ___white ___outline">{% trans "Register account" %}</a>
+                <!--<a href="{% url 'register' %}" class="button ___white ___outline">{% trans "Register account" %}</a>-->
                 <button name="login" class="button ___active login__login" type="submit">{% trans "Login" %}</button>
             </div>
+        </fieldset>
+
+        <fieldset class="loginview loginview__saml">
+          <div class="login__buttons --small-margin">
+            <a class="button ___stretch ___active button__saml_login">{% trans "Sign in with your <span></span> account" %}</a>
+          </div>
+          <center>{% trans "or" %}</center>
+          <div class="login__buttons">
+            <button type="button" class="button ___active ___outline ___stretch loginview__saml-regularlogin">{% trans "Sign in with your Pleio account" %}</button>
+          </div>
         </fieldset>
         <p></p>
 
