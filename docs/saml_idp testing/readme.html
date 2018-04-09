@@ -1,0 +1,166 @@
+<html>
+<title>Docker Test SAML 2.0 Identity Provider (IdP)</title>
+<head>
+  <base target="_blank">
+  <style>
+    table {
+        border: none;
+        padding: 5px;
+        border-spacing: 15px;
+        width: 65%;
+    }
+    th {
+        text-align: left;
+    }
+  </style>
+</head>
+<body>
+<h1>Testing Concierge using SAML2</h1>
+<p>Testing the SAML connection makes use of <a href="https://hub.docker.com/r/kristophjunge/test-saml-idp/"><b>Docker Test SAML 2.0 Identity Provider (IdP)</b></a> by Kristoph Junge.</p>
+<p>To accommodate for testing the SAML2 connection, four imaginary organisations have been set up, each being executed in their own docker container.</p>
+<p>There are three scripts available for starting and stopping the containers:
+<table>
+  <tr><td><b>start.sh</b></td><td>Starts all four containers</td></tr>
+  <tr><td><b>stop.sh</b></td><td>Stops all four containers</td></tr>
+  <tr><td><b>restart.sh</b></td><td>Stops and starts all four containers</td></tr>
+</table>
+<hr>
+
+<table>
+  <tr>
+    <th>Organisation</th>
+    <th>Network</th>
+    <th>Users</th>
+  </tr>
+  <tr>
+    <td>
+      <table>
+        <tr>
+          <td><img src="gtk-dialog-authentication-blue.48x48.png" alt="Blue"></td>
+          <td><a href="http://localhost:8180/simplesaml/module.php/core/authenticate.php"><h2>Blue</h2></a></td>
+        </tr>
+      </table>
+    </td>
+    <td>
+      <table>
+	<tr><th>protocol</th><th>port number</th></tr>
+	<tr><td>http</td><td>8180</td></tr>
+	<tr><td>https</td><td>8543</td></tr>
+      </table>
+    </td>
+    <td>
+      <table>
+        <tr><th>user</th><th>password</th><th>email address</th></tr>
+        <tr><td>bibi</td><td>bibi1234</td><td>bibi@blue.org</td></tr>
+        <tr><td>bert</td><td>bert1234</td><td>bert@blue.org</td></tr>
+      </table>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <table>
+        <tr>
+          <td><img src="gtk-dialog-authentication-green.48x48.png" alt="Green"></td>
+          <td><a href="http://localhost:8280/simplesaml/module.php/core/authenticate.php"><h2>Green</h2></a></td>
+        </tr>
+      </table>
+    </td>
+    <td>    
+      <table>
+        <tr><th>protocol</th><th>port number</th></tr>
+        <tr><td>http</td><td>8280</td></tr>
+        <tr><td>https</td><td>8643</td></tr>
+      </table>
+    </td>
+    <td>
+      <table>
+        <tr><th>user</th><th>password</th><th>email address</th></tr>
+        <tr><td>gina</td><td>gina1234</td><td>gina@green.org</td></tr>
+        <tr><td>greg</td><td>greg1234</td><td>greg@green.org</td></tr>
+      </table>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <table>
+        <tr>
+          <td><img src="gtk-dialog-authentication-red.48x48.png" alt="Red"></td>
+          <td><a href="http://localhost:8380/simplesaml/module.php/core/authenticate.php"><h2>Red</h2></a></td>
+        </tr>
+      </table> 
+    <td>
+      <table>
+        <tr><th>protocol</th><th>port number</th></tr>
+        <tr><td>http</td><td>8380</td></tr>
+        <tr><td>https</td><td>8743</td></tr>
+      </table>
+    </td>
+    <td>
+      <table>
+        <tr><th>user</th><th>password</th><th>email address</th></tr>
+        <tr><td>rose</td><td>rose1234</td><td>rose@red.org</td></tr>
+        <tr><td>ralf</td><td>ralf1234</td><td>ralf@red.org</td></tr>
+      </table>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <table>
+        <tr>
+          <td><img src="gtk-dialog-authentication-yellow.48x48.png" alt="Yellow"></td>
+          <td><a href="http://localhost:8480/simplesaml/module.php/core/authenticate.php"><h2>Yellow</h2></a></td>
+        </tr>
+      </table>
+    </td>
+    <td>
+      <table>
+        <tr><th>protocol</th><th>port number</th></tr>
+        <tr><td>http</td><td>8480</td></tr>
+        <tr><td>https</td><td>8843</td></tr>
+      </table>
+    </td>
+    <td>
+      <table>
+        <tr><th>user</th><th>password</th><th>email address</th></tr>
+        <tr><td>yvet</td><td>yvet1234</td><td>yvet@yellow.org</td></tr>
+        <tr><td>yves</td><td>yves1234</td><td>yves@yellow.org</td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<hr>
+<h2>Configuration</h2>
+<p>The Service Provider configuration (Concierge that is) is defined in <b>config.py</b>. For testing purposes the configuration provided in <b>config.example.py</b> may be used.</p>
+<p>The Identity Providers configurations are done at the admin panel. Add four IdentityProviders and assign the following values to each of them:
+<table>
+  <tr>
+    <th>Field</th>
+    <th>Value (#### = http port)</th>
+  </th>
+  <tr>
+    <td>Shortname</td>
+    <td>Unique Identity Provider name e.g. <i>Yellow</i><td>
+  </tr>
+  <tr>
+    <td>Displayname</td>
+    <td>Identity Provider name as shown to the users e.g. <i>The Yellow organisation</i><td>
+  </tr>
+  <tr>
+    <td>Metadata url </td>
+    <td>http://localhost:####/simplesaml/saml2/idp/metadata.php<td>
+  </tr>
+  <tr>
+    <td>Metadata filename </td>
+    <td><i>( Leave empty )</i><td>
+  </tr>
+  <tr>
+    <td>Perform slo</td>
+    <td>Controles whether the SingleLogout service is to be performed<td>
+  </tr>
+</table>
+</p>
+</body>
+</html>
