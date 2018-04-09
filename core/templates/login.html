@@ -205,7 +205,7 @@
         </div>
     </form>
     {% else %}
-        <form action="/saml/">
+        <!-- <form action="/saml/">
             {% csrf_token %}
             <input type="hidden" name="sso" value="sso" />
             <div class="login__step-title">
@@ -224,7 +224,7 @@
                   </select>
               </div>
             </fieldset>
-        </form>
+        </form> -->
     {% endif %}
 
     <ul class="messages info hide">
