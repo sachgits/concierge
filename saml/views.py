@@ -41,12 +41,12 @@ def init_saml_auth(req, idp_shortname=None):
 
     return None
 
-def prepare_django_request(request):
+def prepare_django_request(request, idp_shortname=None):
     # If server is behind proxys or balancers use the HTTP_X_FORWARDED fields
     http_host = settings.EXTERNAL_HOST
     if '://' in http_host:
         http_host = http_host.split('://')[1]
-    result = {
+    req = {
         'https': 'on' if request.is_secure() else 'off',
         #'http_host': request.META['HTTP_HOST'],
         'http_host': http_host,
@@ -55,16 +55,24 @@ def prepare_django_request(request):
         'get_data': request.GET.copy(),
         'post_data': request.POST.copy()
     }
-    return result
+    if idp_shortname:    
+        request.session['idp'] = idp_shortname
+    elif 'idp' in req['get_data']:
+        request.session['idp'] = req['get_data']['idp']
+    
+    return req
+
+
+def sso(request, idp_shortname):
+    req = prepare_django_request(request, idp_shortname=idp_shortname)
+    auth = init_saml_auth(req, idp_shortname=idp_shortname)
+
+    return HttpResponseRedirect(auth.login())
+
 
 @csrf_exempt
-def saml(request):
+def acs(request):
     req = prepare_django_request(request)
-    if request.session.pop('slo', None):
-        req['get_data']['slo'] = 'slo'
-        
-    if 'idp' in req['get_data']:
-        request.session['idp'] = req['get_data']['idp']
     idp_shortname = request.session.get('idp') or None
     
     if not idp_shortname:
@@ -72,76 +80,77 @@ def saml(request):
 
     auth = init_saml_auth(req, idp_shortname=idp_shortname)
 
-    attributes = []
-    name_id = None
-    session_index = None
+    auth.process_response()
+    errors = auth.get_errors()
+    next = request.session.get('next_saml', None)
 
-    if 'sso' in req['get_data']:
-        result = HttpResponseRedirect(auth.login()) 
-        return result
+    if not errors:
+        attributes = auth.get_attributes()
+        name_id = auth.get_nameid()
+        session_index = auth.get_session_index()
+        
+        request.session['samlUserdata'] = attributes
+        request.session['samlNameId'] = name_id
+        request.session['samlSessionIndex'] = session_index
 
-    elif 'acs' in req['get_data']:
-        auth.process_response()
-        errors = auth.get_errors()
-        next = request.session.get('next_saml', None)
-
-        if not errors:
-            attributes = auth.get_attributes()
-            name_id = auth.get_nameid()
-            session_index = auth.get_session_index()
-            
-            request.session['samlUserdata'] = attributes
-            request.session['samlNameId'] = name_id
-            request.session['samlSessionIndex'] = session_index
-
-            email = attributes.get('email')[0]
-            extid = check_externalid(request, shortname=idp_shortname, externalid=email)
-            if not extid:
-                if next:
-                    #connect SAML user with User
-                    #don't convert next string yet
-                    goto = settings.LOGIN_URL + '?next=' + next
-                else:
-                    goto = settings.LOGIN_URL
-                return redirect(goto)
-
-            #now is time to convert next string to original value
-            try:
-                next = next.replace("%26", "&")
-            except AttributeError:
-                pass
-
-            user = User.objects.get(pk=extid.userid.pk)
-
-            pl = PleioLoginView()
-            pl.post_login_process(request, user, next=next)
+        email = attributes.get('email')[0]
+        extid = check_externalid(request, shortname=idp_shortname, externalid=email)
+        if not extid:
             if next:
-                return redirect(next)
+                #connect SAML user with User
+                #don't convert next string yet
+                goto = settings.LOGIN_URL + '?next=' + next
+            else:
+                goto = settings.LOGIN_URL
+            return redirect(goto)
 
+        #now is time to convert next string to original value
+        try:
+            next = next.replace("%26", "&")
+        except AttributeError:
+            pass
+
+        user = User.objects.get(pk=extid.userid.pk)
+
+        pl = PleioLoginView()
+        pl.post_login_process(request, user, next=next)
         if next:
-            goto = settings.LOGIN_REDIRECT_URL + '?next=' + next
-        else:
-            goto = settings.LOGIN_REDIRECT_URL
+            return redirect(next)
 
-        return redirect(goto)
+    if next:
+        goto = settings.LOGIN_REDIRECT_URL + '?next=' + next
+    else:
+        goto = settings.LOGIN_REDIRECT_URL
 
-    elif 'slo' in req['get_data']:
+    return redirect(goto)
+
+@csrf_exempt
+def slo(request):
+    req = prepare_django_request(request)
+    if request.session.pop('slo', None):
+        req['get_data']['slo'] = 'slo'
+
+    idp_shortname = request.session.get('idp') or None
+    
+    if not idp_shortname:
+        return redirect(settings.LOGIN_REDIRECT_URL)        
+
+    auth = init_saml_auth(req, idp_shortname=idp_shortname)
+
+    if 'slo' in req['get_data']:
         return HttpResponseRedirect(auth.logout(
             return_to=settings.LOGOUT_REDIRECT_URL,
             name_id=request.session.get('samlNameId'),
             session_index=request.session.get('samlSessionIndex')
         ))
 
-    elif 'sls' in req['get_data']:
-        # do nothing, because a user never logges in at our place
-        return redirect(settings.LOGOUT_REDIRECT_URL)
+    else:
+         return redirect(settings.LOGOUT_REDIRECT_URL)
 
-    return render(request, 'saml.html', {
-        'is_authenticated': auth.is_authenticated(),
-        'name_id': name_id,
-        'attributes': attributes,
-        'session_index': session_index
-    })
+@csrf_exempt
+def saml(request):
+    # do nothing, because a user never logges in at our place
+    return redirect(settings.LOGOUT_REDIRECT_URL)
 
 def attrs(request):
     paint_logout = False

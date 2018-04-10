@@ -34,7 +34,7 @@ $(document).ready(function() {
     });
 
     var theme_bg = $('.account-theme').data('bg');
-    console.log(theme_bg);
+
     if(theme_bg){
         $('.account-theme').css('background-image','url(' + theme_bg + ')');
     }
@@ -61,12 +61,12 @@ var accounttype = (function(){
       if(!email_val){ return false; }
 
       // TODO: de volgende regel weer inschakelen als juiste response van server komt. Regel daarna kan weg dan.
-      // accounttype.check(email_val);
-      accounttype.process({user:'duncan@projectfive.nl',idp:'Bedrijfsnaam',idp_url:'http://pleio.nl'});
+      accounttype.check(email_val);
+      //accounttype.process({user:'duncan@projectfive.nl',idp:'Bedrijfsnaam',idp_url:'http://pleio.nl'});
     },
 
     check: function(email){
-      $.post(url_accounttype,{email:email},function(r){
+      $.post(url_accounttype,{ email:email, csrfmiddlewaretoken: document.getElementsByName("csrfmiddlewaretoken")[0].value },function(r){
         if(r){
           accounttype.process(r);
         } else {
@@ -76,20 +76,25 @@ var accounttype = (function(){
     },
 
     process: function(r){
-      if(!r || !r.user && !r.idp){
+      if(!r || !r.user_exists && !r.idp){
         window.location.href = url_register;
         return false;
       }
 
       if(r.idp){
-        if(!r.user){
-          window.location.href = r.idp_url;
+        //if(!r.user_exists){
+          //window.location.href = r.idp_url;
+          //return false;
+        //}
+        if(!r.user_exists){
+          window.location.href = '/saml/sso/' + r.idp + '/';
           return false;
         }
-        $('.button__saml_login').attr('href',r.idp_url)
+        $('.button__saml_login')
+          .attr('href', '/saml/sso/' + r.idp + '/')
           .find('span').text(r.idp);
         accounttype.show('saml');
-      } else if(r.user){
+      } else if(r.user_exists){
         accounttype.show('login');
       }
     },

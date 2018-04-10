@@ -60,7 +60,7 @@ class PleioLoginView(TemplateView):
                 next_saml = '/oauth/v2/authorize?' + next1 + next2
 
                 request.session['next_saml'] = next_saml
-                goto = '/saml/?sso&idp=' + idp
+                goto = '/saml/sso/' + idp
                 return redirect(goto)           
 
         login_step = kwargs.get('login_step')

@@ -47,7 +47,7 @@ def logout(request):
                 slo = None
         if slo:
             request.session['slo'] = 'slo'
-            return redirect('saml')
+            return redirect('saml_slo')
 
     #If needed the account can be deleted now that user has been logged out at SAML IDP
     if request.session.pop('DeleteAccountPending', None):
@@ -269,25 +269,26 @@ def delete_account(request):
 
     return render(request, 'delete_account.html', { 'form': form })
 
-def get_user_and_idp(email):
-    idp_shortname = None
-    user_email = None
+def get_user_and_idp(request):
+    email = request.POST.get('email')
 
     try:
-        user_email = User.objects.get(email=email).email
+        user = User.objects.get(email=email)
     except User.DoesNotExist:
-        pass
+        user = None
+
+    idp = None
 
     try:
         email_domain = email.split('@')[1]
         try:
-            idp_shortname = IdpEmailDomains.objects.get(email_domain=email_domain).identityprovider.shortname
+            idp = IdpEmailDomains.objects.get(email_domain=email_domain).identityprovider.shortname
         except IdpEmailDomains.DoesNotExist:
             pass
     except IndexError:
         pass
 
     return JsonResponse({
-        "user": user_email,
-        "idp": idp_shortname 
+        "user_exists": user != None,
+        "idp": idp
     })

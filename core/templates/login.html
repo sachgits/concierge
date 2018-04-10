@@ -190,41 +190,20 @@
 
 {% if login_step == 'login' %}
     {% if request.session.samlConnect %}
-    <form action="/saml/connect/">
-        {% csrf_token %}
-        <input type="hidden" name="sso" value="sso" />
-        <div class="login__step-title">
-            <div>
-                <h2>{% trans "Auto-create new Pleio-account" %}</h2>
-                <p>{% trans "based on your Organisation-account" %}</p>
-            </div>
-            <img src="/static/images/logo-icon.svg" class="login__step-icon"/>
-        </div>
-        <div class="login__buttons">
-            <button name="login" class="button ___stretch ___active login__login" type="submit">{% trans "Connect" %}</button>
-        </div>
-    </form>
-    {% else %}
-        <!-- <form action="/saml/">
+        <form action="/saml/connect/">
             {% csrf_token %}
             <input type="hidden" name="sso" value="sso" />
             <div class="login__step-title">
                 <div>
-                    <p>{% trans "of" %} {% trans "with your Organisation-account" %}</p>
+                    <h2>{% trans "Auto-create new Pleio-account" %}</h2>
+                    <p>{% trans "based on your Organisation-account" %}</p>
                 </div>
+                <img src="/static/images/logo-icon.svg" class="login__step-icon"/>
             </div>
-            <fieldset>
-              <div class="input-field">
-                  <label for="idp">{% trans "Your organisation" %}</label>
-                  <select name="idp" class="browser-default" onchange="this.form.submit()">
-                  <option value="" selected disabled> </option>
-                  {% for i in idps %}
-                    <option value={{ i.shortname }}>{{ i.displayname }}</option>
-                  {% endfor %}
-                  </select>
-              </div>
-            </fieldset>
-        </form> -->
+            <div class="login__buttons">
+                <button name="login" class="button ___stretch ___active login__login" type="submit">{% trans "Connect" %}</button>
+            </div>
+        </form>
     {% endif %}
 
     <ul class="messages info hide">

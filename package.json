@@ -38,6 +38,7 @@
     "webpack-dev-server": "^2.4.2"
   },
   "dependencies": {
+    "eslint": "^4.19.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
   }
