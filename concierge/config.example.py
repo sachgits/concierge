@@ -69,17 +69,17 @@ GOOGLE_RECAPTCHA_SITE_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
 GOOGLE_RECAPTCHA_SECRET_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
 
 SAML2_SP = {
-    "entityId": "http://127.0.0.1:8000/saml/metadata",
+    "entityId": "http://172.17.0.1:8000/saml/metadata/",
     "assertionConsumerService": {
-        "url": "http://127.0.0.1:8000/saml/?acs",
+        "url": "http://172.17.0.1:8000/saml/acs/",
         "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
     },
     "singleLogoutService": {
-        "url": "http://127.0.0.1:8000/saml/?sls",
+        "url": "http://172.17.0.1:8000/saml/sls/",
         "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
     },
     "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress",
-    "x509cert": "",
+    "x509cert": "MIICUjCCAbugAwIBAgIBADANBgkqhkiG9w0BAQ0FADBGMQswCQYDVQQGEwJubDEQMA4GA1UECAwHVXRyZWNodDEOMAwGA1UECgwFUGxlaW8xFTATBgNVBAMMDHd3dy5wbGVpby5ubDAeFw0xODAxMzAxMzU0MzdaFw0xOTAxMzAxMzU0MzdaMEYxCzAJBgNVBAYTAm5sMRAwDgYDVQQIDAdVdHJlY2h0MQ4wDAYDVQQKDAVQbGVpbzEVMBMGA1UEAwwMd3d3LnBsZWlvLm5sMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCy2HWJ7r9rED7Femo32cgmcV1vSzkJarE5oS1HKkTwPRoXJK3TFU9CeF45GOOvpEcxcCZkz+e0JeU3+8lir+fhu2aZsNSqdPc56qrHsQk0/EkzPLIfUe0pVI0OSnAm82X43RWw0Jl/46U8ZUcpzuM2ltswkRBIr1o3eRyuyR83HwIDAQABo1AwTjAdBgNVHQ4EFgQUYOL49JvyZjjaomA4RnsVjKGAKOEwHwYDVR0jBBgwFoAUYOL49JvyZjjaomA4RnsVjKGAKOEwDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQ0FAAOBgQAfn+7GQQ1Lq2ZhGMc219U1/kbOIZuaTwCw0IVluoxLy5kzqY2huV/gl8UUFr3Inp/VoX1eUmOK5WFtbHRj79AP6NX7A1B9OBcQDMFI2kJDhZQc1+5JFuwLPElrdZYyuSoB5Ey/CMbAkicZjxPWwutn34on3erPDYkmAvn74kl9og==",
     "privateKey": ""
 }
 SAML_IDP_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
