@@ -460,9 +460,11 @@ There are three scripts available for starting and stopping the containers:
 
 ## Configuration
 
+### Service Provider configuration
 The Service Provider configuration (Concierge that is) is defined in **config.py**. For testing purposes the configuration provided in **config.example.py** may be used.
 
-The Identity Providers configurations are done at the admin panel. Add four IdentityProviders and assign the following values to each of them:
+### Identity Provider configuration
+The Identity Provider configurations are done at the admin panel. Add four IdentityProviders and assign the following values to each of them:
 
 <table>
 
@@ -480,7 +482,7 @@ The Identity Providers configurations are done at the admin panel. Add four Iden
 
 <td>Shortname</td>
 
-<td>Unique Identity Provider name e.g. _Yellow_</td>
+<td>Unique Identity Provider name e.g. _yellow_</td>
 
 <td></td>
 
@@ -529,3 +531,6 @@ The Identity Providers configurations are done at the admin panel. Add four Iden
 </tbody>
 
 </table>
+
+### Idp Email Domain configuration
+The Idp Email Domain configurations are also done at the admin panel. Connect each valid email domain with it's accompanying Identity Provider. E.g. **yellow.org** with **yellow**
