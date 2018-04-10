@@ -75,7 +75,7 @@ SAML2_SP = {
         "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
     },
     "singleLogoutService": {
-        "url": "http://172.17.0.1:8000/saml/sls/",
+        "url": "http://172.17.0.1:8000/saml/slo/",
         "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
     },
     "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress",

@@ -28,6 +28,11 @@ class IdentityProvider(models.Model):
     def __str__(self):
         return self.shortname
 
+    def save(self, *args, **kwargs):
+        self.shortname = slugify(self.shortname)
+
+        super(IdentityProvider, self).save(*args, **kwargs)
+
     def get_saml_configuration(self):
         return {
             "entityId": self.entityId,
