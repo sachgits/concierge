@@ -2,8 +2,8 @@
 {% load i18n %}
 {% load Pleio_templatetags %}
 {% load settings_value %}
-
 {% block content %}
+
 
 {% if messages %}
     {% if 'success' in message.tags %}
@@ -29,7 +29,7 @@
     {% endif %}
 {% endif %}
 
-<form method="post" action=".">
+<form method="post" action="." data-step="{{login_step}}" data-samlconnect="{{ request.session.samlConnect }}">
     {% csrf_token %}
     <input type="hidden" name="next" value="{{next}}" />
     {% if login_step == 'login' %}
@@ -43,6 +43,7 @@
                     <h2>{% trans "Sign in" %}</h2>
                     <p>{% trans "with your Pleio-account" %}</p>
                 {% endif %}
+                {{ has_errors }}
             </div>
             <img src="/static/images/logo-icon.svg" class="login__step-icon"/>
         </div>
@@ -82,7 +83,7 @@
 
         <fieldset class="loginview loginview__login">
             <div class="input-field">
-                <label for="id_auth-password">{% trans "Password" %}</label>
+                <label for="id_password">{% trans "Password" %}</label>
                 {{ form.errors.password }}
                 {{ form.password }}
                 <span class="password__toggle">{% include_asset "icons/eye.svg" %}</span>
@@ -195,13 +196,18 @@
             <input type="hidden" name="sso" value="sso" />
             <div class="login__step-title">
                 <div>
-                    <h2>{% trans "Auto-create new Pleio-account" %}</h2>
-                    <p>{% trans "based on your Organisation-account" %}</p>
+                    <h2>{% trans "Link to a Pleio-account" %}</h2>
+                    <p>{% trans "You've successfully logged in with your organisation account for the first time." %}</p>
                 </div>
                 <img src="/static/images/logo-icon.svg" class="login__step-icon"/>
             </div>
-            <div class="login__buttons">
-                <button name="login" class="button ___stretch ___active login__login" type="submit">{% trans "Connect" %}</button>
+
+            <div class="login__buttons --small-margin loginview__connect">
+              <a href="{% url 'register' %}" class="button ___stretch ___active">{% trans "Create a new Pleio-account" %}</a>
+            </div>
+            <center>{% trans "or" %}</center>
+            <div class="login__buttons loginview__connect">
+              <button name="login" class="button ___stretch ___active ___outline" type="submit">{% trans "Connect to an existing Pleio-account" %}</button>
             </div>
         </form>
     {% endif %}
