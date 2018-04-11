@@ -264,7 +264,7 @@ input[type=text] + .password__toggle svg {
     box-shadow: 0 0 24rem rgba(0,0,0,0.15);
 
     @media @screen-lg-max {
-        flex: 1 0 auto;
+        flex: 0 0 auto;
         max-width: none;
         min-height: 0;
         order: 2;
@@ -304,6 +304,10 @@ input[type=text] + .password__toggle svg {
     .account-right__content {
         max-width: 100rem;
         padding-top: 6rem;
+
+        @media @screen-lg-max {
+          padding-top: 0;
+        }
     }
 
     @media @screen-sm-max {
@@ -388,8 +392,12 @@ input[type=text] + .password__toggle svg {
     margin-bottom: 1.2rem;
 
     .input-field {
-        flex: 0 0 10rem;
+        flex: 0 0 8rem;
         margin: 0;
+
+        @media @screen-md-max {
+          flex-basis: 6rem;
+        }
     }
     .button {
         flex: 0 1 auto;
@@ -409,12 +417,16 @@ input[type=text] + .password__toggle svg {
     border: 0.1rem solid @color-primary;
 }
 .account-user__avatar {
-    width: 10rem;
-    height: 10rem;
+    width: 8rem;
+    height: 8rem;
     border-width: 0.2rem;
     display: block;
     margin-left: 0;
     background-color: @color-grey__20;
+
+    @media @screen-md-max {
+      width: 6rem; height: 6rem;
+    }
 }
 
 
@@ -426,13 +438,22 @@ input[type=text] + .password__toggle svg {
     @media @screen-sm-max {
         margin: 2rem 0;
     }
-    .account__cards { margin: 0; }
-}
-    .account__cards .card {
+    .account__cards {
+      margin: 0;
+    }
+
+    .card {
         border-bottom: 0.2rem solid @color-primary;
         margin-bottom: 2rem;
         max-height: none;
+        flex: 0 1 40rem;
+
+        &.___stretch { flex: 0 0 100%; }
     }
+
+    .___fullspan { flex: 0 0 100%; }
+}
+
 
 .table {
 
