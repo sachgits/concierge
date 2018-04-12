@@ -39,7 +39,7 @@ $(document).ready(function() {
         $('.account-theme').css('background-image','url(' + theme_bg + ')');
     }
 
-    if($('form').data('step') == 'login' && !$('form').data('samlconnect')){
+    if($('form').data('step') == 'login'){
       if($('.messages.error').children().length){ accounttype.show('login'); }
       $('.login__check_account_type').on('click',function(){
         accounttype.validate();
@@ -47,6 +47,9 @@ $(document).ready(function() {
       $('.loginview__saml-regularlogin').on('click',function(){
         accounttype.show('login');
       });
+    }
+    if($('form').data('step') == 'login' && $('form').data('samlconnect') == 'True'){
+      accounttype.show('connect');
     }
 });
 
@@ -82,14 +85,14 @@ var accounttype = (function(){
       }
 
       if(r.idp){
-        if(!r.user_exists){
-          window.location.href = '/saml/sso/' + r.idp + '/';
-          return false;
-        }
         $('.button__saml_login')
           .attr('href', '/saml/sso/' + r.idp + '/')
           .find('span').text(r.idp);
-        accounttype.show('saml');
+        if(!r.user_exists){
+          accounttype.show('saml');
+        } else {
+          accounttype.show('samlanduser');
+        }  
       } else if(r.user_exists){
         accounttype.show('login');
         $('#id_password').focus();

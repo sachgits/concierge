@@ -97,7 +97,6 @@
             {% endif %}
 
             <div class="login__buttons ___flexbuttons">
-                <!--<a href="{% url 'register' %}" class="button ___white ___outline">{% trans "Register account" %}</a>-->
                 <button name="login" class="button ___active login__login" type="submit">{% trans "Login" %}</button>
             </div>
         </fieldset>
@@ -106,11 +105,33 @@
           <div class="login__buttons --small-margin">
             <a class="button ___stretch ___active button__saml_login">{% trans "Sign in with your <span></span> account" %}</a>
           </div>
+        </fieldset>
+
+
+        <fieldset class="loginview loginview__samlanduser">
+          <div class="login__buttons --small-margin">
+            <a class="button ___stretch ___active button__saml_login">{% trans "Sign in with your <span></span> account" %}</a>
+          </div>
           <center>{% trans "or" %}</center>
           <div class="login__buttons">
             <button type="button" class="button ___active ___outline ___stretch loginview__saml-regularlogin">{% trans "Sign in with your Pleio account" %}</button>
           </div>
         </fieldset>
+      
+        <fieldset class="loginview loginview__connect">
+          <div>
+            <h2>{% trans "Link to a Pleio-account" %}</h2>
+            <p>{% trans "You've successfully logged in with your organisation account for the first time." %}</p>
+          </div>
+          <div class="login__buttons --small-margin loginview__connect">
+            <a href="{% url 'saml-connect' %}" class="button ___stretch ___active">{% trans "Create a new Pleio-account" %}</a>
+          </div>
+          <center>{% trans "or" %}</center>
+          <div class="login__buttons">
+            <button type="button" class="button ___active ___outline ___stretch loginview__saml-regularlogin">{% trans "Sign in with your Pleio account" %}</button>
+          </div>
+        </fieldset>
+        
         <p></p>
 
     {% elif login_step == 'token' %}
@@ -188,40 +209,5 @@
     {% endif %}
 
 </form>
-
-{% if login_step == 'login' %}
-    {% if request.session.samlConnect %}
-        <form action="/saml/connect/">
-            {% csrf_token %}
-            <input type="hidden" name="sso" value="sso" />
-            <div class="login__step-title">
-                <div>
-                    <h2>{% trans "Link to a Pleio-account" %}</h2>
-                    <p>{% trans "You've successfully logged in with your organisation account for the first time." %}</p>
-                </div>
-                <img src="/static/images/logo-icon.svg" class="login__step-icon"/>
-            </div>
-
-            <div class="login__buttons --small-margin loginview__connect">
-              <a href="{% url 'register' %}" class="button ___stretch ___active">{% trans "Create a new Pleio-account" %}</a>
-            </div>
-            <center>{% trans "or" %}</center>
-            <div class="login__buttons loginview__connect">
-              <button name="login" class="button ___stretch ___active ___outline" type="submit">{% trans "Connect to an existing Pleio-account" %}</button>
-            </div>
-        </form>
-    {% endif %}
-
-    <ul class="messages info hide">
-        <li class="messages__link">
-            <a href="{% url 'security_pages' page_action='2fa-setup' %}">
-                {% include_asset "icons/lock-plus.svg" %}
-                <div class="textcolor_primary">{% trans "Secure your account" %}</div>
-                <div class="textcolor_secondary">{% trans "Enable two factor authentication" %}</div>
-            </a>
-        </li>
-    </ul>
-{% endif %}
-
 
 {% endblock %}
