@@ -1,6 +1,6 @@
 import os
 import sys
-from urllab.parse import urljoin
+from urllib.parse import urljoin
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG')
