@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-13 10:56+0200\n"
+"POT-Creation-Date: 2018-04-13 11:10+0200\n"
 "PO-Revision-Date: 2017-12-15 16:48+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -47,10 +47,8 @@ msgid "Token"
 msgstr "Token"
 
 #: core/forms.py:210
-#, fuzzy
-#| msgid "Please activate your account"
 msgid "Please enter your OTP token."
-msgstr "Activeer je account"
+msgstr "Voer je OTP-token in."
 
 #: core/forms.py:231 core/forms.py:271 saml/forms.py:20
 msgid "The password is invalid."
@@ -198,10 +196,8 @@ msgid "Welcome"
 msgstr "Welkom"
 
 #: core/templates/base_account.html:36
-#, fuzzy
-#| msgid "with your Pleio-account"
-msgid "in your"
-msgstr "met je Pleio-account"
+msgid "in your "
+msgstr "met je "
 
 #: core/templates/base_account.html:36 core/templates/login.html:41
 #: core/templates/login.html:45 core/templates/login.html:118
@@ -213,10 +209,8 @@ msgstr "met je Pleio-account"
 #: core/templates/security_pages/show_connections.html:4
 #: core/templates/set_new_password.html:16
 #: core/templates/show_connections.html:28
-#, fuzzy
-#| msgid "Register account"
 msgid " account"
-msgstr "Account aanmaken"
+msgstr " account"
 
 #: core/templates/base_account.html:51
 msgid "Profiel"
@@ -248,14 +242,12 @@ msgid "Two-factor authentication"
 msgstr "Twee-factor authenticatie"
 
 #: core/templates/base_account.html:77 core/templates/show_connections.html:8
-#, fuzzy
-#| msgid "Location"
 msgid "Connections"
-msgstr "Locatie"
+msgstr "Verbindingen"
 
 #: core/templates/base_account.html:78
-msgid "Existing connections between your organisation(s) and"
-msgstr "Bestaande verbindingen tussen je organisatie(s) en"
+msgid "Existing connections between your organisation(s) and "
+msgstr "Bestaande verbindingen tussen je organisatie(s) en "
 
 #: core/templates/base_account.html:78
 msgid " accounts"
@@ -274,10 +266,8 @@ msgstr " Algemene voorwaarden"
 
 #: core/templates/delete_account.html:8 core/templates/delete_account.html:41
 #: core/templates/profile.html:119
-#, fuzzy
-#| msgid "Register account"
 msgid "Delete my account"
-msgstr "Account aanmaken"
+msgstr "Account verwijderen"
 
 #: core/templates/delete_account.html:17 core/templates/profile.html:19
 #: core/templates/security_pages.html:17
@@ -289,7 +279,7 @@ msgstr "Wachtwoord gewijzigd"
 #: core/templates/security_pages.html:18
 #: core/templates/show_connections.html:17
 msgid "You can now login using your new password"
-msgstr "Je kan nu inloggen met je nieuwe wachtwoord."
+msgstr "Je kan nu inloggen met je nieuwe wachtwoord"
 
 #: core/templates/delete_account.html:20 core/templates/login.html:14
 #: core/templates/profile.html:28 core/templates/security_pages.html:26
@@ -352,20 +342,13 @@ msgstr "Activeer je account"
 
 #: core/templates/emails/reset_password.html:8
 #: core/templates/emails/reset_password.txt:5
-#, fuzzy
-#| msgid "Request for a new password"
 msgid "You requested a new password for "
-msgstr "Vraag een nieuw wachtwoord aan"
+msgstr "Je hebt een nieuw wachtwoord aangevraagd voor "
 
 #: core/templates/emails/reset_password.html:8
-#, fuzzy
-#| msgid ""
-#| "You requested a new password for Pleio. Please follow this link to "
-#| "configure a new password."
 msgid "Please follow this link to configure a new password."
-msgstr ""
-"Je hebt een nieuw wachtwoord aangevraagd. Volg de link om een nieuw "
-"wachtwoord in te stellen."
+msgstr "Volg de link om een nieuw wachtwoord in te stellen."
+
 
 #: core/templates/emails/reset_password.html:12
 #: core/templates/emails/reset_password.txt:9
@@ -374,14 +357,8 @@ msgstr ""
 "Je kan deze e-mail negeren indien je geen nieuw wachtwoord hebt aangevraagd."
 
 #: core/templates/emails/reset_password.txt:5
-#, fuzzy
-#| msgid ""
-#| "You requested a new password for Pleio. Please follow this link to "
-#| "configure a new password."
 msgid ". Please follow this link to configure a new password."
-msgstr ""
-"Je hebt een nieuw wachtwoord aangevraagd. Volg de link om een nieuw "
-"wachtwoord in te stellen."
+msgstr "Volg de link om een nieuw wachtwoord in te stellen."
 
 #: core/templates/emails/reset_password_subject.txt:1
 msgid "Request for a new password"
@@ -389,16 +366,12 @@ msgstr "Vraag een nieuw wachtwoord aan"
 
 #: core/templates/emails/set_new_password.html:9
 #: core/templates/emails/set_new_password.txt:5
-#, fuzzy
-#| msgid "Please verify your new email address by following this link"
 msgid "Please set your new password by following this link"
-msgstr "Bevestig je nieuwe wachtwoord door de volgende link te volgen"
+msgstr "Stel je nieuwe wachtwoord in door de volgende link te volgen"
 
 #: core/templates/emails/set_new_password_subject.txt:1
-#, fuzzy
-#| msgid "Request for a new password"
 msgid "Please set your new password"
-msgstr "Vraag een nieuw wachtwoord aan"
+msgstr "Stel je nieuwe wachtwoord in"
 
 #: core/templates/emails/suspicious_login.html:2
 #: core/templates/emails/suspicious_login.txt:1
@@ -432,36 +405,28 @@ msgid "Logged in from a new location"
 msgstr "Ingelogd vanaf een nieuwe locatie"
 
 #: core/templates/login.html:41
-#, fuzzy
-#| msgid "of your Pleio-account"
 msgid "Connect your existing "
-msgstr "van je Pleio-account"
+msgstr "Verbind je bestaande "
 
 #: core/templates/login.html:42
-#, fuzzy
-#| msgid "with your Pleio-account"
 msgid "with your Organisation-account"
-msgstr "met je Pleio-account"
+msgstr "met je organisatie-account"
 
 #: core/templates/login.html:44 core/templates/login.html:142
 msgid "Sign in"
 msgstr "Inloggen"
 
 #: core/templates/login.html:45 core/templates/login.html:143
-#, fuzzy
-#| msgid "with your Pleio-account"
 msgid "with your "
-msgstr "met je Pleio-account"
+msgstr "met je "
 
 #: core/templates/login.html:57 core/templates/register.html:25
 msgid "Login failed."
 msgstr "Login mislukt."
 
 #: core/templates/login.html:58 core/templates/register.html:26
-#, fuzzy
-#| msgid "Login failed. Please check Google captcha."
 msgid "Please check Google captcha."
-msgstr "Login mislukt. Ongeldige Google captcha waarde."
+msgstr "Ongeldige Google captcha waarde."
 
 #: core/templates/login.html:60
 msgid "Please enter a correct email and password."
@@ -509,10 +474,8 @@ msgid "Login"
 msgstr "Login"
 
 #: core/templates/login.html:107 core/templates/login.html:114
-#, fuzzy
-#| msgid "with your Pleio-account"
 msgid "Sign in with your <span></span> account"
-msgstr "met je Pleio-account"
+msgstr "Log in met je <span></span> account"
 
 #: core/templates/login.html:116 core/templates/login.html:130
 msgid "or"
@@ -593,10 +556,10 @@ msgid "Email"
 msgstr "E-mail"
 
 #: core/templates/password_reset_complete.html:10
-#, fuzzy
-#| msgid "with your Pleio-account"
+#: core/templates/password_reset_confirm.html:13
+#: core/templates/password_reset_done.html:10
 msgid "of your "
-msgstr "met je Pleio-account"
+msgstr "met je "
 
 #: core/templates/password_reset_complete.html:18
 msgid "Password resetted"
@@ -605,11 +568,6 @@ msgstr "Wachtwoord gewijzigd"
 #: core/templates/password_reset_complete.html:19
 msgid "You can now login with your new password."
 msgstr "Je kan nu inloggen met je nieuwe wachtwoord."
-
-#: core/templates/password_reset_confirm.html:13
-#: core/templates/password_reset_done.html:10
-msgid "of your"
-msgstr "of je"
 
 #: core/templates/password_reset_confirm.html:26
 #: core/templates/security_pages/change_password.html:31
@@ -684,10 +642,8 @@ msgid "to resend the confirmation e-mail."
 msgstr "om de bevestigingsmail nogmaals te ontvangen."
 
 #: core/templates/profile.html:89 core/templates/register.html:69
-#, fuzzy
-#| msgid "Please subscribe me to the Pleio newsletter"
-msgid "Please subscribe me to the"
-msgstr "Schrijf me in voor de Pleio nieuwsbrief"
+msgid "Please subscribe me to the "
+msgstr "Schrijf me in voor de "
 
 #: core/templates/profile.html:89
 msgid " newsletter."
@@ -710,10 +666,8 @@ msgid "Register"
 msgstr "Registeren"
 
 #: core/templates/register.html:15
-#, fuzzy
-#| msgid "Create a new "
 msgid "create a "
-msgstr "Maak een nieuw "
+msgstr "Maak een "
 
 #: core/templates/register.html:36
 msgid "First- and lastname"
@@ -744,19 +698,13 @@ msgid "Verify your email address"
 msgstr "Verifieer je e-mailadres"
 
 #: core/templates/register_complete.html:10
-#, fuzzy
-#| msgid ""
-#| "Open the link in the Pleio verification email to complete your "
-#| "registration."
 msgid "Open the link in the verification email to complete your registration."
-msgstr ""
-"Klik op de link in de verificatie e-mail om je registratie te "
-"voltooien."
+msgstr "Klik op de link in de verificatie e-mail om je registratie te voltooien."
 
 #: core/templates/security_pages/show_connections.html:4
 #: core/templates/show_connections.html:28
-msgid "Connections between your organisation(s) and"
-msgstr "Verbindingen tussen je organisatie(s) end"
+msgid "Connections between your organisation(s) and "
+msgstr "Verbindingen tussen je organisatie(s) en "
 
 #: core/templates/security_pages/show_connections.html:8
 #: core/templates/security_pages/user_sessions.html:8
@@ -955,22 +903,16 @@ msgid "Location"
 msgstr "Locatie"
 
 #: core/templates/set_new_password.html:16
-#, fuzzy
-#| msgid "of your Pleio-account"
-msgid "Set the passsword for your new"
-msgstr "van je Pleio-account"
+msgid "Set the passsword for your new "
+msgstr "Kies het wachtwoord van je nieuwe "
 
 #: core/templates/set_new_password.html:25
-#, fuzzy
-#| msgid "The password is invalid."
 msgid "Set password failed."
-msgstr "Het wachtwoord is ongeldig."
+msgstr "Het istellen van het  wachtwoord is mislukt."
 
 #: core/templates/set_new_password.html:48
-#, fuzzy
-#| msgid "Reset password"
 msgid "Set password"
-msgstr "Herstel wachtwoord"
+msgstr "Stel wachtwoord in"
 
 #: core/templates/setup_complete.html:8
 msgid ""
@@ -1041,14 +983,15 @@ msgid "There is a pending change of your email to "
 msgstr "Na bevestiging word je e-mailadres veranderd in "
 
 #: core/views.py:189
-#, fuzzy
-#| msgid "The email adress has been changed successfully."
 msgid "Password has been changed successfully."
-msgstr "Je e-mailadres is succesvol veranderd."
+msgstr "Je wachtwoord is succesvol veranderd."
 
 #: core/views.py:264
 msgid "Account deleted"
 msgstr "Account verwijderd"
+
+#~ msgid "of your"
+#~ msgstr "of je"
 
 #~ msgid "in your Pleio account"
 #~ msgstr "in je Pleio-account"
