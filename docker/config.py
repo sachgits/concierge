@@ -4,6 +4,12 @@ import sys
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG')
 
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.getenv('BASE_DIR')
+
+#directory containing settings and Server Provider certificate for SAML
+SAML_FOLDER = os.getenv('SAML_FOLDER')
+
 ALLOWED_HOSTS = [os.getenv('ALLOWED_HOST')]
 
 DATABASES = {
