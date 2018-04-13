@@ -92,7 +92,7 @@ def acs(request):
         attributes = auth.get_attributes()
         name_id = auth.get_nameid()
         session_index = auth.get_session_index()
-        
+
         request.session['samlUserdata'] = attributes
         request.session['samlNameId'] = name_id
         request.session['samlSessionIndex'] = session_index
@@ -121,7 +121,7 @@ def acs(request):
         if next:
             return redirect(next)
     else:
-        logger.error("saml.views.acs, errors found: " + errors)
+        logger.error("saml.views.acs, errors found: " + str(errors))
 
     if next:
         goto = settings.LOGIN_REDIRECT_URL + '?next=' + next
