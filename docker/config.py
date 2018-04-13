@@ -1,5 +1,6 @@
 import os
 import sys
+from urllab.parse import urljoin
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG')
@@ -62,13 +63,13 @@ GOOGLE_RECAPTCHA_SITE_KEY = os.getenv('GOOGLE_RECAPTCHA_SITE_KEY')
 GOOGLE_RECAPTCHA_SECRET_KEY = os.getenv('GOOGLE_RECAPTCHA_SECRET_KEY')
 
 SAML2_SP = {
-    "entityId": os.getenv("EXTERNAL_HOST") + "/saml/metadata",
+    "entityId": urljoin(os.getenv('EXTERNAL_HOST'), 'saml/metadata/'),
     "assertionConsumerService": {
-        "url": os.getenv("EXTERNAL_HOST") + "/saml/?acs",
+        "url": urljoin(os.getenv('EXTERNAL_HOST'), 'saml/acs/'),
         "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
     },
     "singleLogoutService": {
-        "url": os.getenv("EXTERNAL_HOST") + "/saml/?sls",
+        "url": urljoin(os.getenv('EXTERNAL_HOST'), 'saml/slo/'),
         "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
     },
     "NameIDFormat": "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress",
