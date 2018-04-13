@@ -43,6 +43,8 @@ SITE_FAVICON = os.getenv('SITE_FAVICON', 'images/favicon.svg')
 SEND_SUSPICIOUS_BEHAVIOR_WARNINGS = os.getenv('SEND_SUSPICIOUS_BEHAVIOR_WARNINGS')
 
 DEFAULT_FROM_EMAIL = os.getenv('FROM_EMAIL')
+SUPPORT_EMAIL = os.getenv('SUPPORT_EMAIL')
+
 
 # Used for testing without SMTP
 # EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
