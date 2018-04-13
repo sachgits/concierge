@@ -9,6 +9,9 @@ from core.models import User
 from core.helpers import unique_idp_metadata_filepath
 from urllib.request import urlopen
 from lxml import etree
+import logging
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 class IdentityProvider(models.Model):
     shortname = models.SlugField(unique=True)
@@ -51,7 +54,7 @@ class IdentityProvider(models.Model):
         }
 
     def get_idp_metadata(self):
-        print(settings.MEDIA_ROOT + self.metadata_filename.__str__())
+        #print(settings.MEDIA_ROOT + self.metadata_filename.__str__())
         try:
             idp_metadata = etree.fromstring(urlopen(self.metadata_url).read())
         except:
@@ -61,6 +64,7 @@ class IdentityProvider(models.Model):
                 f.close()
                 idp_metadata = etree.fromstring(xml)
             except:
+                logger.exception("saml.models.get_idp_metadata,  no metadata provided")
                 return False
 
         namespace = settings.SAML_IDP_NAMESPACE
@@ -72,12 +76,14 @@ class IdentityProvider(models.Model):
         try:
             self.ssoId = sso[0].attrib.get('Location', "")
         except IndexError:
+            logger.exception("saml.models.get_idp_metadata,  no SingleSignOnService in metadata found")
             self.ssoId = ""
 
         slo = idp_metadata.findall("./md:IDPSSODescriptor/md:SingleLogoutService[@Binding='"+settings.SAML_IDP_BINDING+"']", namespace)
         try:
             self.sloId = slo[0].attrib.get('Location', "")
         except IndexError:
+            logger.exception("saml.models.get_idp_metadata,  no SingleLogoutService in metadata found")
             self.sloId = ""
 
         x509certs = []
@@ -93,7 +99,7 @@ class IdentityProvider(models.Model):
             except IndexError: 
                 pass
         except IndexError:
-            pass    
+            logger.exception("saml.models.get_idp_metadata,  no signing X509Certificate in metadata found")
 
         x509certs = []
         encryption_x509certs = idp_metadata.findall("./md:IDPSSODescriptor/md:KeyDescriptor[@use='encryption']/ds:KeyInfo/ds:X509Data", namespace)

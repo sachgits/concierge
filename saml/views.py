@@ -21,11 +21,15 @@ import requests
 import os
 import json
 from core.forms import UserProfileForm
+import logging
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 def init_saml_auth(req, idp_shortname=None):
     try:
         idp = IdentityProvider.objects.get(shortname=idp_shortname)
     except IdentityProvider.DoesNotExist:
+        logger.exception("saml.views.init_saml_auth,  no IdentityProvider found")
         idp = None
     
     if idp:
@@ -116,6 +120,8 @@ def acs(request):
         pl.post_login_process(request, user, next=next)
         if next:
             return redirect(next)
+    else:
+        logger.error("saml.views.acs, errors found: " + errors)
 
     if next:
         goto = settings.LOGIN_REDIRECT_URL + '?next=' + next
@@ -133,6 +139,7 @@ def slo(request):
     idp_shortname = request.session.get('idp') or None
     
     if not idp_shortname:
+        logger.error("saml.views.slo,  no IdentityProvider found")
         return redirect(settings.LOGIN_REDIRECT_URL)        
 
     auth = init_saml_auth(req, idp_shortname=idp_shortname)
@@ -201,6 +208,7 @@ def check_externalid(request, **kwargs):
     try:
         idp = IdentityProvider.objects.get(shortname=shortname)
     except IdentityProvider.DoesNotExist:
+        logger.exception("saml.views.check_externalid,  no IdentityProvider found")
         return None
 
     request.session['samlConnect'] = True
@@ -208,6 +216,7 @@ def check_externalid(request, **kwargs):
     try:
         extid = ExternalIds.objects.get(identityproviderid=idp, externalid=externalid)
     except ExternalIds.DoesNotExist:
+        logger.exception("saml.views.check_externalid,  no ExternalIds found")
         extid = None
 
     return extid
@@ -249,6 +258,7 @@ def connect(request, user_email=None):
     if samlUserdata:       
         email = samlUserdata.get('email')[0] or None
     if not email:
+        logger.error("saml.views.connect,  no email in samlUserdata found")
         return redirect(settings.LOGIN_REDIRECT_URL)        
     if not user_email:
         user_email = email
@@ -256,6 +266,7 @@ def connect(request, user_email=None):
     try:
         idp = IdentityProvider.objects.get(shortname=idp_shortname)
     except IdentityProvider.DoesNotExist:
+        logger.exception("saml.views.connect,  no IdentityProvider found")
         return None 
 
     try:
