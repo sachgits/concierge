@@ -73,7 +73,6 @@ SAML2_SP = {
     "x509cert": os.getenv("SAML_SP_X509CERT"),
     "privateKey": os.getenv("SAML_SP_PRIVATEKEY")
 }
-SAML_IDP_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
 
 CELERY_ALWAYS_EAGER = True
 CELERY_BROKER_URL = os.getenv('MESSAGE_QUEUE')
