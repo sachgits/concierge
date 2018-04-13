@@ -2,6 +2,7 @@
 {% load user_sessions %}
 {% load i18n %}
 {% load Pleio_templatetags %}
+{% load settings_value %}
 
 {% block content %}
 <h2>{% trans "Connections" %}</h2>
@@ -24,7 +25,7 @@
    
     <div class="account__cards">
         <div class="card ___stretch ___nopadding">
-            <h2 class="card__title ___addpadding-side">{% trans "Connections between your organisation(s) and Pleio_account" %}</h2>
+            <h2 class="card__title ___addpadding-side">{% trans "Connections between your organisation(s) and" %}{% settings_value 'SITE_TITLE' %}{% trans " account" %}</h2>
             <fieldset class="___addpadding-side">
 
                 <table class="table ___stretch">

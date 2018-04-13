@@ -32,16 +32,17 @@
 <form method="post" action="." data-step="{{login_step}}" data-samlconnect="{{ request.session.samlConnect }}">
     {% csrf_token %}
     <input type="hidden" name="next" value="{{next}}" />
+    
     {% if login_step == 'login' %}
         <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
         <div class="login__step-title">
             <div>
                 {% if request.session.samlConnect %}
-                    <h2>{% trans "Connect your existing Pleio-account" %}</h2>
+                    <h2>{% trans "Connect your existing " %}{% settings_value 'SITE_TITLE' %}{% trans " account" %}</h2>
                     <p>{% trans "with your Organisation-account" %}</p>
                 {% else %}
                     <h2>{% trans "Sign in" %}</h2>
-                    <p>{% trans "with your Pleio-account" %}</p>
+                    <p>{% trans "with your " %}{% settings_value 'SITE_TITLE' %}{% trans " account" %}</p>
                 {% endif %}
                 {{ has_errors }}
             </div>
@@ -114,21 +115,21 @@
           </div>
           <center>{% trans "or" %}</center>
           <div class="login__buttons">
-            <button type="button" class="button ___active ___outline ___stretch loginview__saml-regularlogin">{% trans "Sign in with your Pleio account" %}</button>
+            <button type="button" class="button ___active ___outline ___stretch loginview__saml-regularlogin">{% trans "Sign in with your " %}{% settings_value 'SITE_TITLE' %}{% trans " account" %}</button>
           </div>
         </fieldset>
       
         <fieldset class="loginview loginview__connect">
           <div>
-            <h2>{% trans "Link to a Pleio-account" %}</h2>
+            <h2>{% trans "Link to a " %}{% settings_value 'SITE_TITLE' %}{% trans " account" %}</h2>
             <p>{% trans "You've successfully logged in with your organisation account for the first time." %}</p>
           </div>
           <div class="login__buttons --small-margin loginview__connect">
-            <a href="{% url 'saml-connect' %}" class="button ___stretch ___active">{% trans "Create a new Pleio-account" %}</a>
+            <a href="{% url 'saml-connect' %}" class="button ___stretch ___active">{% trans "Create a new " %}{% settings_value 'SITE_TITLE' %}{% trans " account" %}</a>
           </div>
           <center>{% trans "or" %}</center>
           <div class="login__buttons">
-            <button type="button" class="button ___active ___outline ___stretch loginview__saml-regularlogin">{% trans "Sign in with your Pleio account" %}</button>
+            <button type="button" class="button ___active ___outline ___stretch loginview__saml-regularlogin">{% trans "Sign in with your " %} {% settings_value 'SITE_TITLE' %}{% trans " account" %}</button>
           </div>
         </fieldset>
         
@@ -139,7 +140,7 @@
     <div class="login__step-title">
         <div>
             <h2>{% trans "Sign in" %}</h2>
-            <p>{% trans "with your Pleio-account" %}</p>
+            <p>{% trans "with your " %}{% settings_value 'SITE_TITLE' %}{% trans " account" %}</p>
         </div>
         <img src="/static/images/logo-icon.svg" class="login__step-icon"/>
     </div>

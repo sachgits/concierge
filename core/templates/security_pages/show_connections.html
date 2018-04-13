@@ -1,6 +1,7 @@
 {% load i18n %}
+{% load settings_value %}
 
-    <h2>{% trans "Connections between your organisation(s) and Pleio_account" %}</h2>
+    <h2>{% trans "Connections between your organisation(s) and" %}{% settings_value 'SITE_TITLE' %}{% trans " account" %}</h2>
 
     <div class="account__cards">
         <div class="card ___stretch ___nopadding">

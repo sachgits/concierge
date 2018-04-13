@@ -25,7 +25,7 @@
                 <div class="account__top-bar">
                     <label for="show_menu" class="account-menu__hamburger">{% include_asset "icons/hamburger.svg" %}</label>
                     {% settings_value 'SITE_LOGO' as site_logo %}
-                    <a class="navigation__logo" title="{% trans "Back to the homepage" %}" href="https://www.pleio.nl/">{% include_asset site_logo %}</a>
+                    <a class="navigation__logo" title="{% trans "Back to the homepage" %}" href="{% settings_value 'EXTERNAL_HOST' %}">{% include_asset site_logo %}</a>
                 </div>
 
                 <ul class="account-menu__list">
@@ -33,7 +33,7 @@
                         <a href="/profile/">
                             <div>
                                 <h2 class="textcolor_primary">{% trans "Welcome" %}, {{request.user.name}}</h2>
-                                {% trans "in your Pleio account" %}
+                                {% trans "in your" %}{% settings_value 'SITE_TITLE' %}{% trans " account" %}
                             </div>
                             {% if request.user.avatar %}
                             <img src="/media/{{ request.user.avatar }}" class="account-menu__avatar" />
@@ -75,7 +75,7 @@
                             {% include_asset "icons/link.svg" %}
                             <div>
                                 <span class="title">{% trans "Connections" %}</span><br />
-                                {% trans "Existing connections between your organisation(s) and Pleio-accounts" %}
+                                {% trans "Existing connections between your organisation(s) and" %}{% settings_value 'SITE_TITLE' %}{% trans " accounts" %}
                             </div>
                         </a>
                     </li>

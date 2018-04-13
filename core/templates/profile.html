@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load Pleio_templatetags %}
 {% load show_government_badge %}
+{% load settings_value %}
 
 {% block title %}Login{% endblock %}
 
@@ -85,7 +86,7 @@
                     <div class="register__check">
                         {{ form.errors.receives_newsletter }}
                         {{ form.receives_newsletter }}
-                        <label for="id_receives_newsletter">{% trans "Please subscribe me to the Pleio newsletter" %}</label>
+                        <label for="id_receives_newsletter">{% trans "Please subscribe me to the" %}{% settings_value 'SITE_TITLE' %}{% trans " newsletter." %}</label>
                     </div>
 
             </fieldset>

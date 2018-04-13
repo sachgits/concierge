@@ -40,6 +40,7 @@ DATABASES = {
 }
 
 FROM_EMAIL = 'noreply@pleio.nl'
+SUPPORT_EMAIL = 'support@pleio.org'
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
 
@@ -48,7 +49,7 @@ TIME_ZONE = 'Europe/Amsterdam'
 EXTERNAL_HOST = 'https://www.concierge.nl/'
 EMAIL_LOGO = '/images/email-logo.png'
 
-SITE_TITLE = 'Pleio account'
+SITE_TITLE = 'Pleio'
 SITE_LOGO = 'images/logo.svg'
 SITE_FAVICON = 'images/favicon.png'
 

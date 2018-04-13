@@ -55,7 +55,7 @@ class User(AbstractBaseUser):
     accepted_terms = models.BooleanField(default=False)
     receives_newsletter = models.BooleanField(default=False)
     avatar = models.ImageField(upload_to=unique_avatar_filepath, null=True, blank=True)
-    new_email = models.CharField(max_length=255, null=True, default=None)
+    new_email = models.CharField(max_length=255, null=True, blank=True, default=None)
 
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)

@@ -30,7 +30,7 @@ STATIC_ROOT = '/app/static'
 EXTERNAL_HOST = os.getenv('EXTERNAL_HOST')
 EMAIL_LOGO = os.getenv('EMAIL_LOGO', 'images/email-logo.png')
 
-SITE_TITLE = os.getenv('SITE_TITLE', 'Pleio account')
+SITE_TITLE = os.getenv('SITE_TITLE', 'Pleio')
 SITE_LOGO = os.getenv('SITE_LOGO', 'images/logo.svg')
 SITE_FAVICON = os.getenv('SITE_FAVICON', 'images/favicon.svg')
 
