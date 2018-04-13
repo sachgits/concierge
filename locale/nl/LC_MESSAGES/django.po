@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-13 11:10+0200\n"
+"POT-Creation-Date: 2018-04-13 14:13+0200\n"
 "PO-Revision-Date: 2017-12-15 16:48+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -251,7 +251,7 @@ msgstr "Bestaande verbindingen tussen je organisatie(s) en "
 
 #: core/templates/base_account.html:78
 msgid " accounts"
-msgstr "accounts"
+msgstr " accounts"
 
 #: core/templates/base_account.html:86
 #: core/templates/security_pages/show_connections.html:37
@@ -348,7 +348,6 @@ msgstr "Je hebt een nieuw wachtwoord aangevraagd voor "
 #: core/templates/emails/reset_password.html:8
 msgid "Please follow this link to configure a new password."
 msgstr "Volg de link om een nieuw wachtwoord in te stellen."
-
 
 #: core/templates/emails/reset_password.html:12
 #: core/templates/emails/reset_password.txt:9
@@ -699,7 +698,8 @@ msgstr "Verifieer je e-mailadres"
 
 #: core/templates/register_complete.html:10
 msgid "Open the link in the verification email to complete your registration."
-msgstr "Klik op de link in de verificatie e-mail om je registratie te voltooien."
+msgstr ""
+"Klik op de link in de verificatie e-mail om je registratie te voltooien."
 
 #: core/templates/security_pages/show_connections.html:4
 #: core/templates/show_connections.html:28
