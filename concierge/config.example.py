@@ -39,7 +39,7 @@ DATABASES = {
     }
 }
 
-FROM_EMAIL = 'noreply@pleio.nl'
+DEFAULT_FROM_EMAIL = 'noreply@pleio.nl'
 SUPPORT_EMAIL = 'support@pleio.org'
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
