@@ -3,6 +3,7 @@ from django.conf import settings
 from django.core import signing
 from django.contrib.auth import authenticate, update_session_auth_hash
 from django.contrib import messages
+from django.db import IntegrityError
 from django.http import (HttpResponse, HttpResponseRedirect,
                          HttpResponseServerError, HttpRequest)
 from django.template import RequestContext
@@ -179,10 +180,12 @@ def attrs(request):
 
 
 def metadata(request):
-    # req = prepare_django_request(request)
-    # auth = init_saml_auth(req)
-    # saml_settings = auth.get_settings()
-    # OneLogin is expecting the sp settings in settings.json in settings.SAML_FOLDER
+    ''' 
+    req = prepare_django_request(request)
+    auth = init_saml_auth(req)
+    saml_settings = auth.get_settings()
+    OneLogin is expecting the sp settings in settings.json in settings.SAML_FOLDER
+    '''
     if not os.path.exists(settings.SAML_FOLDER):
         os.makedirs(settings.SAML_FOLDER)
     sp_metadata_file = open(settings.SAML_FOLDER+'/settings.json', 'w')
@@ -253,6 +256,12 @@ def connect_and_login(request):
 
 
 def connect(request, user_email=None):
+    ''' 
+    if user_email = None 
+        a new  concierge account for this user has to be created
+        saml account connects with this new concierge account 
+    else saml account connects to existing concierge account    
+    ''' 
     idp_shortname = request.session.get('idp') or None
     if not idp_shortname:
         return None        
@@ -263,28 +272,37 @@ def connect(request, user_email=None):
     if not email:
         logger.error("saml.views.connect,  no email in samlUserdata found")
         return redirect(settings.LOGIN_REDIRECT_URL)        
-    if not user_email:
-        user_email = email
 
     try:
         idp = IdentityProvider.objects.get(shortname=idp_shortname)
     except IdentityProvider.DoesNotExist:
-        logger.exception("saml.views.connect,  no IdentityProvider found")
+        logger.error("saml.views.connect,  no IdentityProvider found")
         return None 
 
-    try:
-        user = User.objects.get(email=user_email)
-    except User.DoesNotExist:      
-        user = User.objects.create_user(
-            email=email,
-            name=email,
-            password=signing.dumps(obj=email),
-            accepted_terms=True,
-            receives_newsletter=False
-            )
-        user.is_active=True
-        user.save()
-        user.send_set_password_activation_token()
+    if user_email:
+        # connect to existing concierge account
+        try:
+            user = User.objects.get(email=user_email)
+        except User.DoesNotExist:  
+            logger.error("saml.views.connect,  can't connect, no existing user found")
+            messages.error(request, _("Can't connect account for it doesn't seem to exists" ), extra_tags="user_doesn't_exists")
+            return None
+    else:
+        try:
+            user = User.objects.create_user(
+                email=email,
+                name=email,
+                password=signing.dumps(obj=email),
+                accepted_terms=True,
+                receives_newsletter=False
+                )
+            user.is_active=True
+            user.save()
+            user.send_set_password_activation_token()
+        except IntegrityError:  
+            logger.error("saml.views.connect,  can't create, user already exists")
+            messages.error(request, _("An account for this email address already exists" ), extra_tags='user_exists')
+            return None
 
     try:
         extid = ExternalIds.objects.get(identityproviderid=idp, externalid=email)

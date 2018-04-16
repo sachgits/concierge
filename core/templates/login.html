@@ -5,29 +5,27 @@
 {% block content %}
 
 
-{% if messages %}
-    {% if 'success' in message.tags %}
-        <ul class="messages correct">
-            {% for message in messages %}
-            <li>
-                {% include_asset "icons/check.svg" %}
-                <div class="textcolor_primary">{% trans 'Success' %}</div>
-                <div class="textcolor_secondary">{{ message }}</div>
-            </li>
-            {% endfor %}
-        </ul>
-    {% elif 'error' in message.tags %}
-        <ul class="messages error">
-            {% for message in messages %}
-            <li>
-                {% include_asset "icons/account-alert.svg" %}
-                <div class="textcolor_primary">{% trans 'Error' %}</div>
-                <div class="textcolor_secondary">{{ message }}</div>
-            </li>
-            {% endfor %}
-        </ul>
+    {% if messages %}
+      {% for message in messages %}
+        {% if 'success' in message.tags %}
+            <ul class="messages correct">
+                <li>
+                    {% include_asset "icons/check.svg" %}
+                    <div class="textcolor_primary">{% trans 'Success' %}</div>
+                    <div class="textcolor_secondary">{{ message }}</div>
+                </li>
+            </ul>
+        {% elif 'error' in message.tags %}
+            <ul class="messages error">
+                <li>
+                    {% include_asset "icons/account-alert.svg" %}
+                    <div class="textcolor_primary">{% trans 'Error' %}</div>
+                    <div class="textcolor_secondary">{{ message }}</div>
+                </li>
+            </ul>
+        {% endif %}
+      {% endfor %}
     {% endif %}
-{% endif %}
 
 <form method="post" action="." data-step="{{login_step}}" data-samlconnect="{{ request.session.samlConnect }}">
     {% csrf_token %}

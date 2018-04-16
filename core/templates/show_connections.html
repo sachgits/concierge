@@ -8,20 +8,27 @@
 <h2>{% trans "Connections" %}</h2>
 
 {% if messages %}
-<ul class="messages correct">
     {% for message in messages %}
-    <li>
-        {% include_asset "icons/check.svg" %}
-        {% if 'password' in message.tags %}
-            <div class="textcolor_primary">{% trans "Password changed" %}</div>
-            <div class="textcolor_secondary">{% trans "You can now login using your new password" %}</div>
-        {% else %}
-            <div class="textcolor_secondary">{{ message }}</div>
+        {% if 'success' in message.tags %}
+            <ul class="messages correct">
+                <li>
+                    {% include_asset "icons/check.svg" %}
+                    <div class="textcolor_primary">{% trans 'Success' %}</div>
+                    <div class="textcolor_secondary">{{ message }}</div>
+                </li>
+            </ul>
+        {% elif 'error' in message.tags %}
+            <ul class="messages error">
+                <li>
+                    {% include_asset "icons/account-alert.svg" %}
+                    <div class="textcolor_primary">{% trans 'Error' %}</div>
+                    <div class="textcolor_secondary">{{ message }}</div>
+                </li>
+            </ul>
         {% endif %}
-    </li>
     {% endfor %}
-</ul>
 {% endif %}
+
    
     <div class="account__cards">
         <div class="card ___stretch ___nopadding">

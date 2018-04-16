@@ -10,9 +10,9 @@
     <h2>{% trans "Profile" %}</h2>
 
     {% if messages %}
+      {% for message in messages %}
         {% if 'success' in message.tags %}
             <ul class="messages correct">
-                {% for message in messages %}
                 <li>
                     {% include_asset "icons/check.svg" %}
                     {% if 'password' in message.tags %}
@@ -29,19 +29,18 @@
                         <div class="textcolor_secondary">{{ message }}</div>
                     {% endif %}
                 </li>
-                {% endfor %}
             </ul>
         {% elif 'error' in message.tags %}
             <ul class="messages error">
-                {% for message in messages %}
                 <li>
                     {% include_asset "icons/account-alert.svg" %}
                     <div class="textcolor_primary">{% trans 'Error' %}</div>
                     <div class="textcolor_secondary">{{ message }}</div>
                 </li>
-                {% endfor %}
             </ul>
         {% endif %}
+      {% endfor %}
+      <p></p>
     {% endif %}
 
         <form enctype="multipart/form-data" method="post" action=".">

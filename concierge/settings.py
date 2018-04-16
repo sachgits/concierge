@@ -208,8 +208,6 @@ SITE_TITLE = 'Concierge'
 SITE_LOGO = 'images/logo.svg'
 SITE_FAVICON = 'images/favicon.png'
 
-USE_X_FORWARDED_PORT = True
-
 SAML_IDP_BINDING = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
 SAML_IDP_NAMESPACE = {
     'md': 'urn:oasis:names:tc:SAML:2.0:metadata', 

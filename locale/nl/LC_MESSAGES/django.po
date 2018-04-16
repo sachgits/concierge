@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-13 14:13+0200\n"
+"POT-Creation-Date: 2018-04-16 16:34+0200\n"
 "PO-Revision-Date: 2017-12-15 16:48+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -199,16 +199,16 @@ msgstr "Welkom"
 msgid "in your "
 msgstr "met je "
 
-#: core/templates/base_account.html:36 core/templates/login.html:41
-#: core/templates/login.html:45 core/templates/login.html:118
-#: core/templates/login.html:124 core/templates/login.html:128
-#: core/templates/login.html:132 core/templates/login.html:143
+#: core/templates/base_account.html:36 core/templates/login.html:39
+#: core/templates/login.html:43 core/templates/login.html:116
+#: core/templates/login.html:122 core/templates/login.html:126
+#: core/templates/login.html:130 core/templates/login.html:141
 #: core/templates/password_reset_complete.html:10
 #: core/templates/password_reset_confirm.html:13
 #: core/templates/password_reset_done.html:10 core/templates/register.html:15
 #: core/templates/security_pages/show_connections.html:4
 #: core/templates/set_new_password.html:16
-#: core/templates/show_connections.html:28
+#: core/templates/show_connections.html:35
 msgid " account"
 msgstr " account"
 
@@ -216,11 +216,11 @@ msgstr " account"
 msgid "Profiel"
 msgstr "Profiel"
 
-#: core/templates/base_account.html:52 core/templates/profile.html:51
+#: core/templates/base_account.html:52 core/templates/profile.html:50
 msgid "Your details"
 msgstr "Je gegevens"
 
-#: core/templates/base_account.html:52 core/templates/profile.html:99
+#: core/templates/base_account.html:52 core/templates/profile.html:98
 msgid "Avatar"
 msgstr "Profielfoto"
 
@@ -228,7 +228,7 @@ msgstr "Profielfoto"
 msgid "Security"
 msgstr "Beveiliging"
 
-#: core/templates/base_account.html:65 core/templates/login.html:87
+#: core/templates/base_account.html:65 core/templates/login.html:85
 #: core/templates/register.html:46 core/templates/set_new_password.html:33
 msgid "Password"
 msgstr "Wachtwoord"
@@ -264,34 +264,24 @@ msgstr "Uitloggen"
 msgid "General terms"
 msgstr " Algemene voorwaarden"
 
-#: core/templates/delete_account.html:8 core/templates/delete_account.html:41
-#: core/templates/profile.html:119
+#: core/templates/delete_account.html:8 core/templates/delete_account.html:35
+#: core/templates/profile.html:118
 msgid "Delete my account"
 msgstr "Account verwijderen"
 
-#: core/templates/delete_account.html:17 core/templates/profile.html:19
-#: core/templates/security_pages.html:17
-#: core/templates/show_connections.html:16 saml/views.py:296
-msgid "Password changed"
-msgstr "Wachtwoord gewijzigd"
-
-#: core/templates/delete_account.html:18 core/templates/profile.html:20
-#: core/templates/security_pages.html:18
-#: core/templates/show_connections.html:17
-msgid "You can now login using your new password"
-msgstr "Je kan nu inloggen met je nieuwe wachtwoord"
-
-#: core/templates/delete_account.html:20 core/templates/login.html:14
-#: core/templates/profile.html:28 core/templates/security_pages.html:26
+#: core/templates/delete_account.html:17 core/templates/login.html:14
+#: core/templates/profile.html:28 core/templates/security_pages.html:16
+#: core/templates/show_connections.html:16
 msgid "Success"
 msgstr "Succes"
 
-#: core/templates/delete_account.html:31 core/templates/login.html:24
-#: core/templates/profile.html:39 core/templates/security_pages.html:37
+#: core/templates/delete_account.html:25 core/templates/login.html:22
+#: core/templates/profile.html:37 core/templates/security_pages.html:24
+#: core/templates/show_connections.html:24
 msgid "Error"
 msgstr "Fout"
 
-#: core/templates/delete_account.html:50
+#: core/templates/delete_account.html:44
 msgid ""
 "If you confirm your password, your account will be deleted. \n"
 "                            You have to register again if you would like to "
@@ -300,12 +290,12 @@ msgstr ""
 "Als je je wachtwoord bevestigt, wordt je account verwijderd. \n"
 "Je moet je opnieuw registreren wanneer je deze site weer wil gebruiken."
 
-#: core/templates/delete_account.html:61
+#: core/templates/delete_account.html:55
 #: core/templates/security_pages/change_password.html:23
 msgid "Current Password"
 msgstr "Huidig wachtwoord"
 
-#: core/templates/delete_account.html:72
+#: core/templates/delete_account.html:66
 #: core/templates/password_reset_confirm.html:40
 #: core/templates/security_pages/change_password.html:50
 msgid "Confirm"
@@ -403,68 +393,68 @@ msgstr "Je hebt ingelogd vanaf een nieuwe locatie"
 msgid "Logged in from a new location"
 msgstr "Ingelogd vanaf een nieuwe locatie"
 
-#: core/templates/login.html:41
+#: core/templates/login.html:39
 msgid "Connect your existing "
 msgstr "Verbind je bestaande "
 
-#: core/templates/login.html:42
+#: core/templates/login.html:40
 msgid "with your Organisation-account"
 msgstr "met je organisatie-account"
 
-#: core/templates/login.html:44 core/templates/login.html:142
+#: core/templates/login.html:42 core/templates/login.html:140
 msgid "Sign in"
 msgstr "Inloggen"
 
-#: core/templates/login.html:45 core/templates/login.html:143
+#: core/templates/login.html:43 core/templates/login.html:141
 msgid "with your "
 msgstr "met je "
 
-#: core/templates/login.html:57 core/templates/register.html:25
+#: core/templates/login.html:55 core/templates/register.html:25
 msgid "Login failed."
 msgstr "Login mislukt."
 
-#: core/templates/login.html:58 core/templates/register.html:26
+#: core/templates/login.html:56 core/templates/register.html:26
 msgid "Please check Google captcha."
 msgstr "Ongeldige Google captcha waarde."
 
-#: core/templates/login.html:60
+#: core/templates/login.html:58
 msgid "Please enter a correct email and password."
 msgstr "Voer een correct e-mailadres en wachtwoord in."
 
-#: core/templates/login.html:61
+#: core/templates/login.html:59
 msgid "Note that both fields may be case-sensitive."
 msgstr "Let op: beide velden kunnen hoofdlettergevoelig zijn."
 
-#: core/templates/login.html:63
+#: core/templates/login.html:61
 msgid "This account is inactive."
 msgstr "Dit account is niet actief"
 
-#: core/templates/login.html:64
+#: core/templates/login.html:62
 msgid "Please check your email to validate your account."
 msgstr "Controleer je e-mail om je account te valideren."
 
-#: core/templates/login.html:66
+#: core/templates/login.html:64
 msgid "Invalid login."
 msgstr "Ongeldige login."
 
-#: core/templates/login.html:75 core/templates/password_reset.html:26
+#: core/templates/login.html:73 core/templates/password_reset.html:26
 #: core/templates/security_pages/show_connections.html:15
-#: core/templates/show_connections.html:35
+#: core/templates/show_connections.html:42
 msgid "Email address"
 msgstr "E-mailadres"
 
-#: core/templates/login.html:81
+#: core/templates/login.html:79
 #: core/templates/security_pages/two_factor_authorization.html:53
 #: core/templates/tf_setup.html:30
 msgid "Next"
 msgstr "Volgende"
 
-#: core/templates/login.html:91 core/templates/password_reset.html:12
+#: core/templates/login.html:89 core/templates/password_reset.html:12
 #: core/templates/password_reset_done.html:9
 msgid "Forgot password"
 msgstr "Wachtwoord vergeten"
 
-#: core/templates/login.html:101 core/templates/login.html:173
+#: core/templates/login.html:99 core/templates/login.html:171
 #: core/templates/password_reset.html:33
 #: core/templates/password_reset_complete.html:24
 #: core/templates/password_reset_done.html:24 core/templates/register.html:81
@@ -472,57 +462,57 @@ msgstr "Wachtwoord vergeten"
 msgid "Login"
 msgstr "Login"
 
-#: core/templates/login.html:107 core/templates/login.html:114
+#: core/templates/login.html:105 core/templates/login.html:112
 msgid "Sign in with your <span></span> account"
 msgstr "Log in met je <span></span> account"
 
-#: core/templates/login.html:116 core/templates/login.html:130
+#: core/templates/login.html:114 core/templates/login.html:128
 msgid "or"
 msgstr "of"
 
-#: core/templates/login.html:118 core/templates/login.html:132
+#: core/templates/login.html:116 core/templates/login.html:130
 msgid "Sign in with your "
 msgstr "Log in met je "
 
-#: core/templates/login.html:124
+#: core/templates/login.html:122
 msgid "Link to a "
 msgstr "Verbind met een "
 
-#: core/templates/login.html:125
+#: core/templates/login.html:123
 msgid ""
 "You've successfully logged in with your organisation account for the first "
 "time."
 msgstr "Je bent voor de eerste keer ingelogd met je organisatie-account."
 
-#: core/templates/login.html:128
+#: core/templates/login.html:126
 msgid "Create a new "
 msgstr "Maak een nieuw "
 
-#: core/templates/login.html:152 core/templates/login.html:193
+#: core/templates/login.html:150 core/templates/login.html:191
 msgid "Invalid token."
 msgstr "Ongeldig token."
 
-#: core/templates/login.html:153 core/templates/login.html:194
+#: core/templates/login.html:151 core/templates/login.html:192
 msgid "Please make sure you have entered it correctly."
 msgstr "Voer een geldig token in."
 
-#: core/templates/login.html:161
+#: core/templates/login.html:159
 msgid "Two factor authentication"
 msgstr "Twee-factor-authenticatie"
 
-#: core/templates/login.html:162
+#: core/templates/login.html:160
 msgid "Fill in a code from your code generator."
 msgstr "Voer de verificatiecode uit je codegenerator in."
 
-#: core/templates/login.html:174
+#: core/templates/login.html:172
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: core/templates/login.html:179 core/templates/login.html:206
+#: core/templates/login.html:177 core/templates/login.html:204
 msgid "Use backuptoken"
 msgstr "Gebruik backupcode"
 
-#: core/templates/login.html:184
+#: core/templates/login.html:182
 msgid ""
 "Use this form for entering backup tokens for logging in.\n"
 "         These tokens have been generated for you to print and keep safe. "
@@ -530,7 +520,7 @@ msgid ""
 "             enter one of these backup tokens to login to your account."
 msgstr "Geef een backuptoken in om toegang te krijgen tot je account."
 
-#: core/templates/login.html:207
+#: core/templates/login.html:205
 msgid "Back"
 msgstr "Terug"
 
@@ -549,7 +539,7 @@ msgstr "Herstel wachtwoord"
 msgid "Need help?"
 msgstr "Hulp nodig?"
 
-#: core/templates/password_reset.html:43 core/templates/profile.html:71
+#: core/templates/password_reset.html:43 core/templates/profile.html:70
 #: core/templates/register.html:41
 msgid "Email"
 msgstr "E-mail"
@@ -594,69 +584,75 @@ msgstr ""
 msgid "Profile"
 msgstr "Profiel"
 
-#: core/templates/profile.html:22 core/templates/security_pages.html:20
-#: core/views.py:118
+#: core/templates/profile.html:19 saml/views.py:328
+msgid "Password changed"
+msgstr "Wachtwoord gewijzigd"
+
+#: core/templates/profile.html:20
+msgid "You can now login using your new password"
+msgstr "Je kan nu inloggen met je nieuwe wachtwoord"
+
+#: core/templates/profile.html:22 core/views.py:118
 msgid "Email address changed"
 msgstr "E-mailadres gewijzigd"
 
-#: core/templates/profile.html:23 core/templates/security_pages.html:21
+#: core/templates/profile.html:23
 msgid "You can now login using your new email adress"
 msgstr "Je kan nu inloggen met je nieuwe e-mailadres."
 
-#: core/templates/profile.html:25 core/templates/security_pages.html:23
-#: core/views.py:136
+#: core/templates/profile.html:25 core/views.py:136
 msgid "Profile changed"
-msgstr "Wachtwoord gewijzigd"
+msgstr "Profiel gewijzigd"
 
-#: core/templates/profile.html:26 core/templates/security_pages.html:24
+#: core/templates/profile.html:26
 msgid "Your profile has been changed"
 msgstr "Je profiel is gewijzigd"
 
-#: core/templates/profile.html:57
+#: core/templates/profile.html:56
 msgid "Invalid email address."
 msgstr "Ongeldig e-mailadres."
 
-#: core/templates/profile.html:66
+#: core/templates/profile.html:65
 msgid "Name"
 msgstr "Naam"
 
-#: core/templates/profile.html:76
+#: core/templates/profile.html:75
 msgid "Government"
 msgstr "Overheid"
 
-#: core/templates/profile.html:82
+#: core/templates/profile.html:81
 msgid "Please check your inbox to validate the change."
 msgstr "Controleer je e-mail om je wijziging te bevestigen."
 
-#: core/templates/profile.html:83
+#: core/templates/profile.html:82
 msgid "Click "
 msgstr "Klik "
 
-#: core/templates/profile.html:83
+#: core/templates/profile.html:82
 msgid "here"
 msgstr "hier"
 
-#: core/templates/profile.html:83
+#: core/templates/profile.html:82
 msgid "to resend the confirmation e-mail."
 msgstr "om de bevestigingsmail nogmaals te ontvangen."
 
-#: core/templates/profile.html:89 core/templates/register.html:69
+#: core/templates/profile.html:88 core/templates/register.html:69
 msgid "Please subscribe me to the "
 msgstr "Schrijf me in voor de "
 
-#: core/templates/profile.html:89
+#: core/templates/profile.html:88
 msgid " newsletter."
 msgstr " nieuwsbrief."
 
-#: core/templates/profile.html:94
+#: core/templates/profile.html:93
 msgid "Save"
 msgstr "Opslaan"
 
-#: core/templates/profile.html:112
+#: core/templates/profile.html:111
 msgid "Choose an avatar"
 msgstr "Kies een avatar"
 
-#: core/templates/profile.html:115
+#: core/templates/profile.html:114
 msgid "Remove avatar"
 msgstr "Verwijder avatar"
 
@@ -702,7 +698,7 @@ msgstr ""
 "Klik op de link in de verificatie e-mail om je registratie te voltooien."
 
 #: core/templates/security_pages/show_connections.html:4
-#: core/templates/show_connections.html:28
+#: core/templates/show_connections.html:35
 msgid "Connections between your organisation(s) and "
 msgstr "Verbindingen tussen je organisatie(s) en "
 
@@ -713,7 +709,7 @@ msgid "Signed in devices"
 msgstr "Ingelogde apparaten"
 
 #: core/templates/security_pages/show_connections.html:14
-#: core/templates/show_connections.html:34
+#: core/templates/show_connections.html:41
 msgid "Organisation"
 msgstr "Organisatie"
 
@@ -924,7 +920,7 @@ msgstr "Gefeliciteerd, je hebt twee-factor-authenticatie succesvol ingesteld."
 msgid "Back to Profile"
 msgstr "Terug naar profiel"
 
-#: core/templates/show_connections.html:47
+#: core/templates/show_connections.html:54
 msgid "Disconnect"
 msgstr "Verbreek"
 
@@ -989,6 +985,17 @@ msgstr "Je wachtwoord is succesvol veranderd."
 #: core/views.py:264
 msgid "Account deleted"
 msgstr "Account verwijderd"
+
+#: saml/views.py:288
+msgid "Can't connect account for it doesn't seem to exists"
+msgstr "Kan geen koppeling tot stand brengen, bestaand account niet gevonden"
+
+#: saml/views.py:304
+msgid "An account for this email address already exists"
+msgstr "Er bestaat reeds een account voor dit e-mail adres"
+
+#~ msgid "Can't create new user for it already exists"
+#~ msgstr "Er bestaat reeds een account voor dit e-mail adres"
 
 #~ msgid "of your"
 #~ msgstr "of je"
