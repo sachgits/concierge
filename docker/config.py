@@ -35,6 +35,9 @@ TIME_ZONE = 'Europe/Amsterdam'
 STATIC_ROOT = '/app/static'
 
 EXTERNAL_HOST = os.getenv('EXTERNAL_HOST', 'http://localhost:8000')
+USE_X_FORWARDED_PORT = os.getenv('USE_X_FORWARDED_PORT', True)
+
+
 EMAIL_LOGO = os.getenv('EMAIL_LOGO', 'images/email-logo.png')
 
 SITE_TITLE = os.getenv('SITE_TITLE', 'Pleio')
