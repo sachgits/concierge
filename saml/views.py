@@ -121,7 +121,8 @@ def acs(request):
         if next:
             return redirect(next)
     else:
-        logger.error("saml.views.acs, errors found: " + str(errors))
+        error_reason_code = auth.get_last_error_reason()
+        logger.error("saml.views.acs, errors found: " + str(errors) + error_reason_code)
 
     if next:
         goto = settings.LOGIN_REDIRECT_URL + '?next=' + next
