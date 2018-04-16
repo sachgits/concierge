@@ -47,13 +47,14 @@ def init_saml_auth(req, idp_shortname=None):
 
 def prepare_django_request(request, idp_shortname=None):
     # If server is behind proxys or balancers use the HTTP_X_FORWARDED fields
-    http_host = settings.EXTERNAL_HOST
-    if '://' in http_host:
-        http_host = http_host.split('://')[1]
+    #http_host = settings.EXTERNAL_HOST
+    #if '://' in http_host:
+    #    http_host = http_host.split('://')[1]
     req = {
         'https': 'on' if request.is_secure() else 'off',
         #'http_host': request.META['HTTP_HOST'],
-        'http_host': http_host,
+        #'http_host': http_host,
+        'http_host': request.get_host(),
         'script_name': request.META['PATH_INFO'],
         #'server_port': request.META['SERVER_PORT'],
         'server_port': request.get_port(),

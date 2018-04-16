@@ -35,7 +35,8 @@ TIME_ZONE = 'Europe/Amsterdam'
 STATIC_ROOT = '/app/static'
 
 EXTERNAL_HOST = os.getenv('EXTERNAL_HOST', 'http://localhost:8000')
-USE_X_FORWARDED_PORT = os.getenv('USE_X_FORWARDED_PORT', True)
+USE_X_FORWARDED_HOST = os.getenv('USE_X_FORWARDED_HOST', False)
+USE_X_FORWARDED_PORT = os.getenv('USE_X_FORWARDED_PORT', False)
 
 
 EMAIL_LOGO = os.getenv('EMAIL_LOGO', 'images/email-logo.png')
