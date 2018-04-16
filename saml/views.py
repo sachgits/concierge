@@ -71,7 +71,7 @@ def sso(request, idp_shortname):
     req = prepare_django_request(request, idp_shortname=idp_shortname)
     auth = init_saml_auth(req, idp_shortname=idp_shortname)
 
-    return HttpResponseRedirect(auth.login())
+    return HttpResponseRedirect(auth.login(return_to=settings.EXTERNAL_HOST))
 
 
 @csrf_exempt
