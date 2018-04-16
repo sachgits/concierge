@@ -4,7 +4,7 @@ from django.core import signing
 from django.contrib.auth import authenticate, update_session_auth_hash
 from django.contrib import messages
 from django.http import (HttpResponse, HttpResponseRedirect,
-                         HttpResponseServerError)
+                         HttpResponseServerError, HttpRequest)
 from django.template import RequestContext
 from django.utils.translation import gettext, gettext_lazy as _
 from saml.models import IdentityProvider, ExternalIds
@@ -55,7 +55,8 @@ def prepare_django_request(request, idp_shortname=None):
         #'http_host': request.META['HTTP_HOST'],
         'http_host': http_host,
         'script_name': request.META['PATH_INFO'],
-        'server_port': request.META['SERVER_PORT'],
+        #'server_port': request.META['SERVER_PORT'],
+        'server_port': request.get_port(),
         'get_data': request.GET.copy(),
         'post_data': request.POST.copy()
     }
@@ -71,7 +72,7 @@ def sso(request, idp_shortname):
     req = prepare_django_request(request, idp_shortname=idp_shortname)
     auth = init_saml_auth(req, idp_shortname=idp_shortname)
 
-    return HttpResponseRedirect(auth.login(return_to=settings.EXTERNAL_HOST))
+    return HttpResponseRedirect(auth.login())
 
 
 @csrf_exempt
