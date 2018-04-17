@@ -45,6 +45,7 @@ SITE_TITLE = os.getenv('SITE_TITLE', 'Pleio')
 SITE_LOGO = os.getenv('SITE_LOGO', 'images/logo.svg')
 SITE_FAVICON = os.getenv('SITE_FAVICON', 'images/favicon.svg')
 
+SHOW_GOVERNMENT_BADGE = os.getenv('SHOW_GOVERNMENT_BADGE', True)
 SEND_SUSPICIOUS_BEHAVIOR_WARNINGS = os.getenv('SEND_SUSPICIOUS_BEHAVIOR_WARNINGS')
 
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
