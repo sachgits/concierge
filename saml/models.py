@@ -64,7 +64,7 @@ class IdentityProvider(models.Model):
                 f.close()
                 idp_metadata = etree.fromstring(xml)
             except:
-                logger.exception("saml.models.get_idp_metadata,  no metadata provided")
+                logger.info("saml.models.get_idp_metadata,  no metadata provided")
                 return False
 
         namespace = settings.SAML_IDP_NAMESPACE
@@ -76,14 +76,14 @@ class IdentityProvider(models.Model):
         try:
             self.ssoId = sso[0].attrib.get('Location', "")
         except IndexError:
-            logger.exception("saml.models.get_idp_metadata,  no SingleSignOnService in metadata found")
+            logger.warning("saml.models.get_idp_metadata,  no SingleSignOnService in metadata found")
             self.ssoId = ""
 
         slo = idp_metadata.findall("./md:IDPSSODescriptor/md:SingleLogoutService[@Binding='"+settings.SAML_IDP_BINDING+"']", namespace)
         try:
             self.sloId = slo[0].attrib.get('Location', "")
         except IndexError:
-            logger.exception("saml.models.get_idp_metadata,  no SingleLogoutService in metadata found")
+            logger.warning("saml.models.get_idp_metadata,  no SingleLogoutService in metadata found")
             self.sloId = ""
 
         x509certs = []
@@ -99,7 +99,7 @@ class IdentityProvider(models.Model):
             except IndexError: 
                 pass
         except IndexError:
-            logger.exception("saml.models.get_idp_metadata,  no signing X509Certificate in metadata found")
+            logger.warning("saml.models.get_idp_metadata,  no signing X509Certificate in metadata found")
 
         x509certs = []
         encryption_x509certs = idp_metadata.findall("./md:IDPSSODescriptor/md:KeyDescriptor[@use='encryption']/ds:KeyInfo/ds:X509Data", namespace)

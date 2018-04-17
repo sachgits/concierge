@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.db import IntegrityError
 from django.http import (HttpResponse, HttpResponseRedirect,
                          HttpResponseServerError, HttpRequest)
+from django.utils.http import is_safe_url
 from django.template import RequestContext
 from django.utils.translation import gettext, gettext_lazy as _
 from saml.models import IdentityProvider, ExternalIds
@@ -30,7 +31,7 @@ def init_saml_auth(req, idp_shortname=None):
     try:
         idp = IdentityProvider.objects.get(shortname=idp_shortname)
     except IdentityProvider.DoesNotExist:
-        logger.exception("saml.views.init_saml_auth,  no IdentityProvider found")
+        logger.error("saml.views.init_saml_auth,  no IdentityProvider found")
         idp = None
     
     if idp:
@@ -47,17 +48,14 @@ def init_saml_auth(req, idp_shortname=None):
     return None
 
 def prepare_django_request(request, idp_shortname=None):
-    # If server is behind proxys or balancers use the HTTP_X_FORWARDED fields
-    #http_host = settings.EXTERNAL_HOST
-    #if '://' in http_host:
-    #    http_host = http_host.split('://')[1]
+    '''
+    If server is behind proxys or balancers use the HTTP_X_FORWARDED fields
+    Check USE_X_FORWARDED_HOST and USE_X_FORWARDED_PORT in config.py
+    ''' 
     req = {
         'https': 'on' if request.is_secure() else 'off',
-        #'http_host': request.META['HTTP_HOST'],
-        #'http_host': http_host,
         'http_host': request.get_host(),
         'script_name': request.META['PATH_INFO'],
-        #'server_port': request.META['SERVER_PORT'],
         'server_port': request.get_port(),
         'get_data': request.GET.copy(),
         'post_data': request.POST.copy()
@@ -100,7 +98,10 @@ def acs(request):
         request.session['samlNameId'] = name_id
         request.session['samlSessionIndex'] = session_index
 
-        email = attributes.get('email')[0]
+        try:
+            email = attributes.get('email')[0]
+        except:
+            email = None
         extid = check_externalid(request, shortname=idp_shortname, externalid=email)
         if not extid:
             if next:
@@ -121,13 +122,13 @@ def acs(request):
 
         pl = PleioLoginView()
         pl.post_login_process(request, user, next=next)
-        if next:
+        if next and is_safe_url(next):
             return redirect(next)
     else:
         error_reason_code = auth.get_last_error_reason()
-        logger.error("saml.views.acs, errors found: " + str(errors) + error_reason_code)
+        logger.error("saml.views.acs, errors found: " + str(errors) + "reason: " + error_reason_code)
 
-    if next:
+    if next and is_safe_url(next):
         goto = settings.LOGIN_REDIRECT_URL + '?next=' + next
     else:
         goto = settings.LOGIN_REDIRECT_URL
@@ -214,7 +215,8 @@ def check_externalid(request, **kwargs):
     try:
         idp = IdentityProvider.objects.get(shortname=shortname)
     except IdentityProvider.DoesNotExist:
-        logger.exception("saml.views.check_externalid,  no IdentityProvider found")
+        logger.warning("saml.views.check_externalid,  no IdentityProvider found")
+        messages.error(request, _("IdentityProvider not found. Contact your system administrator." ), extra_tags="identityprovider_doesn't_exists")
         return None
 
     request.session['samlConnect'] = True
@@ -222,7 +224,14 @@ def check_externalid(request, **kwargs):
     try:
         extid = ExternalIds.objects.get(identityproviderid=idp, externalid=externalid)
     except ExternalIds.DoesNotExist:
-        logger.exception("saml.views.check_externalid,  no ExternalIds found")
+        logger.info("saml.views.check_externalid,  no ExternalIds found")
+        '''
+        messages.info(request, _("Connect your organisation account with a " +
+            settings.SITE_TITLE + 
+            " " +
+            "account"), 
+            extra_tags="externalids_doesn't_exists")
+        '''
         extid = None
 
     return extid
@@ -238,18 +247,23 @@ def connect_and_login(request):
 
     extid = connect(request)
     if not extid:
-        if next:
+        if next and is_safe_url(next):
             goto = settings.LOGIN_URL + '?next=' + next
         else:
             goto = settings.LOGIN_URL
         return redirect(goto)
 
-    user = User.objects.get(pk=extid.userid.pk)
+    try:
+        user = User.objects.get(pk=extid.userid.pk)
+    except User.DoesNotExist:  
+        logger.error("saml.views.connect_and_login,  can't connect, no existing user found")
+        messages.error(request, _("Can't connect account for it doesn't seem to exists" ), extra_tags="user_doesn't_exists")
+        return None
 
     pl = PleioLoginView()
     pl.post_login_process(request, user, next=next)
 
-    if next:
+    if next and is_safe_url(next):
         return redirect(next)
     else:
         return redirect(settings.LOGIN_REDIRECT_URL) 
@@ -268,15 +282,26 @@ def connect(request, user_email=None):
 
     samlUserdata = request.session.get('samlUserdata') or None
     if samlUserdata:       
-        email = samlUserdata.get('email')[0] or None
+        try:
+            email = samlUserdata.get('email')[0]
+        except:
+            email = None
     if not email:
         logger.error("saml.views.connect,  no email in samlUserdata found")
+        messages.error(request, _("Email address not provided in saml request. Contact your system administrator." ), extra_tags="email_not_provided")
         return redirect(settings.LOGIN_REDIRECT_URL)        
+
+    if samlUserdata:       
+        try:
+            name = samlUserdata.get('name')[0]
+        except:
+            name = email
 
     try:
         idp = IdentityProvider.objects.get(shortname=idp_shortname)
     except IdentityProvider.DoesNotExist:
         logger.error("saml.views.connect,  no IdentityProvider found")
+        messages.error(request, _("IdentityProvider not found. Contact your system administrator." ), extra_tags="identityprovider_doesn't_exists")
         return None 
 
     if user_email:
@@ -292,7 +317,7 @@ def connect(request, user_email=None):
             user = User.objects.create_user(
                 email=email,
                 name=email,
-                password=signing.dumps(obj=email),
+                #password=signing.dumps(obj=email),
                 accepted_terms=True,
                 receives_newsletter=False
                 )

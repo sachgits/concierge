@@ -7,7 +7,15 @@
 
     {% if messages %}
       {% for message in messages %}
-        {% if 'success' in message.tags %}
+        {% if 'info' in message.tags %}
+            <ul class="messages info">
+                <li>
+                  {% include_asset "icons/lock-plus.svg" %}
+                  <div class="textcolor_primary">{% trans "Information" %}</div>
+                  <div class="textcolor_secondary">{{ message }}</div>
+                </li>
+            </ul>
+        {% elif 'success' in message.tags %}
             <ul class="messages correct">
                 <li>
                     {% include_asset "icons/check.svg" %}
