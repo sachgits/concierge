@@ -90,6 +90,7 @@ var accounttype = (function(){
           .find('span').text(r.idp);
         if(!r.user_exists){
           accounttype.show('saml');
+          $('.button__saml_login').focus();           
         } else {
           accounttype.show('samlanduser');
         }  
