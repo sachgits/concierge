@@ -2,13 +2,18 @@
     display: flex;
     align-items: stretch;
     background-color: @color-grey__20;
-    min-height: 100%;
+    height: 100%;
 
     @media @screen-md-max {
         flex-direction: column;
+        height: auto;
+        min-height: 100%;
     }
 
     &.___profile {
+        min-height: 100%;
+        height: auto;
+
         @media @screen-lg-max {
             flex-direction: column;
         }
@@ -35,6 +40,15 @@
         padding: 3.2rem 2.4rem;
     }
 }
+.account--terms {
+  font-size: 1.4rem;
+  max-width: 60rem;
+
+  *:not(:first-child) {
+    color: @color-black__60;
+  }
+}
+
 
 .account {
     flex: 0 1 50%;
@@ -43,8 +57,9 @@
     order: 1;
     flex-direction: column;
     color: @color-black__60;
-    min-height: 100%;
-    overflow: hidden;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
     background-color: @color-white;
     box-shadow: 0 0 24rem rgba(0,0,0,0.15);
 
@@ -52,6 +67,7 @@
         flex: 1 0 auto;
         max-width: none;
         min-height: 0;
+        height: auto;
         order: 2;
     }
 }
@@ -300,6 +316,9 @@ input[type=text] + .password__toggle svg {
     background-position: 50% 50%;
     padding-left: 4rem;
     padding-right: 4rem;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
 
     .account-right__content {
         max-width: 100rem;
