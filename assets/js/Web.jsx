@@ -49,7 +49,14 @@ $(document).ready(function() {
       });
     }
     if($('form').data('step') == 'login' && $('form').data('samlconnect') == 'True'){
-      accounttype.show('connect');
+      try {
+        var user_idp_data = JSON.parse(localStorage.getItem('user_idp'));
+        if(r.user_exists){
+          accounttype.show('connectanduser');
+        } else {
+          accounttype.show('connect');
+        }
+      } catch(err){ accounttype.show('connect'); }
     }
 });
 
@@ -80,9 +87,12 @@ var accounttype = (function(){
 
     process: function(r){
       if(!r || !r.user_exists && !r.idp){
+        localStorage.removeItem('user_idp');
         window.location.href = url_register;
         return false;
       }
+
+      localStorage.setItem('user_idp',JSON.stringify(r));
 
       if(r.idp){
         $('.button__saml_login')
@@ -104,7 +114,7 @@ var accounttype = (function(){
       if(!view){ return false; }
       $('.loginview.' + classname_active).removeClass(classname_active);
       $('.loginview__' + view).addClass(classname_active);
-      if(view == 'connect'){
+      if(view == 'connect' || view == 'connectanduser'){
         $('.loginview__email').removeClass(classname_active);
       } else {
         $('.loginview__email').addClass(classname_active);
