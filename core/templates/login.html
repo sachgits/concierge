@@ -38,14 +38,13 @@
 <form method="post" action="." data-step="{{login_step}}" data-samlconnect="{{ request.session.samlConnect }}">
     {% csrf_token %}
     <input type="hidden" name="next" value="{{next}}" />
-    
     {% if login_step == 'login' %}
         <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
         <div class="login__step-title">
             <div>
                 {% if request.session.samlConnect %}
-                    <h2>{% trans "Connect your existing " %}{% settings_value 'SITE_TITLE' %}{% trans " account" %}</h2>
-                    <p>{% trans "with your Organisation-account" %}</p>
+                  <h2>{% trans "Link to a " %}{% settings_value 'SITE_TITLE' %}{% trans " account" %}</h2>
+                  <p>{% trans "You've successfully logged in with your organisation account for the first time." %}</p>
                 {% else %}
                     <h2>{% trans "Sign in" %}</h2>
                     <p>{% trans "with your " %}{% settings_value 'SITE_TITLE' %}{% trans " account" %}</p>
@@ -76,7 +75,12 @@
             {% endfor %}
         </ul>
 
-        <fieldset class="loginview__email">
+        {% if request.session.samlConnect %}
+          <fieldset class="loginview__email">
+        {% else % }
+          <fieldset class="loginview__email ___active">
+        {% endif %}
+
           <div class="input-field">
               <label for="id_auth-username">{% trans "Email address" %}</label>
               {{ form.errors.username }}
@@ -124,12 +128,8 @@
             <button type="button" class="button ___active ___outline ___stretch loginview__saml-regularlogin">{% trans "Sign in with your " %}{% settings_value 'SITE_TITLE' %}{% trans " account" %}</button>
           </div>
         </fieldset>
-      
+
         <fieldset class="loginview loginview__connect">
-          <div>
-            <h2>{% trans "Link to a " %}{% settings_value 'SITE_TITLE' %}{% trans " account" %}</h2>
-            <p>{% trans "You've successfully logged in with your organisation account for the first time." %}</p>
-          </div>
           <div class="login__buttons --small-margin loginview__connect">
             <a href="{% url 'saml-connect' %}" class="button ___stretch ___active">{% trans "Create a new " %}{% settings_value 'SITE_TITLE' %}{% trans " account" %}</a>
           </div>
@@ -138,7 +138,7 @@
             <button type="button" class="button ___active ___outline ___stretch loginview__saml-regularlogin">{% trans "Sign in with your " %} {% settings_value 'SITE_TITLE' %}{% trans " account" %}</button>
           </div>
         </fieldset>
-        
+
         <p></p>
 
     {% elif login_step == 'token' %}

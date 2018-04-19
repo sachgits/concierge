@@ -90,10 +90,9 @@ var accounttype = (function(){
           .find('span').text(r.idp);
         if(!r.user_exists){
           accounttype.show('saml');
-          $('.button__saml_login').focus();           
+          $('.button__saml_login').focus();
         } else {
           accounttype.show('samlanduser');
-        }  
       } else if(r.user_exists){
         accounttype.show('login');
         $('#id_password').focus();
@@ -104,6 +103,11 @@ var accounttype = (function(){
       if(!view){ return false; }
       $('.loginview.' + classname_active).removeClass(classname_active);
       $('.loginview__' + view).addClass(classname_active);
+      if(view == 'connect'){
+        $('.loginview__email').removeClass(classname_active);
+      } else {
+        $('.loginview__email').addClass(classname_active);
+      }
     }
   };
 })();
