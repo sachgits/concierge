@@ -98,13 +98,11 @@ def acs(request):
         request.session['samlNameId'] = name_id
         request.session['samlSessionIndex'] = session_index
 
-        try:
-            if type(samlUserdata.get('email')) == list:
-                email = attributes.get('email')[0]
-            else:
-                email = attributes.get('email')
-        except:
-            email = None
+        if type(attributes.get('email')) == list:
+            email = attributes.get('email')[0]
+        else:
+            email = attributes.get('email')
+
         extid = check_externalid(request, shortname=idp_shortname, externalid=email)
         if not extid:
             if next:
@@ -285,25 +283,22 @@ def connect(request, user_email=None):
 
     samlUserdata = request.session.get('samlUserdata') or None
     if samlUserdata:       
-        try:
-            if type(samlUserdata.get('email')) == list:
-                email = samlUserdata.get('email')[0]
-            else:
-                email = samlUserdata.get('email')
-        except:
-            email = None
+        if type(samlUserdata.get('email')) == list:
+            email = samlUserdata.get('email')[0]
+        else:
+            email = samlUserdata.get('email')
+
     if not email:
         logger.error("saml.views.connect,  no email in samlUserdata found")
         messages.error(request, _("Email address not provided in saml request. Contact your system administrator." ), extra_tags="email_not_provided")
         return redirect(settings.LOGIN_REDIRECT_URL)        
 
     if samlUserdata:       
-        try:
-            if type(samlUserdata.get('name')) == list:
-                name = samlUserdata.get('name')[0]
-            else:
-                name = samlUserdata.get('name')
-        except:
+        if type(samlUserdata.get('name')) == list:
+            name = samlUserdata.get('name')[0]
+        else:
+            name = samlUserdata.get('name')
+        if not name:
             name = email
 
     try:
