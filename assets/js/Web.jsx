@@ -93,6 +93,7 @@ var accounttype = (function(){
           $('.button__saml_login').focus();
         } else {
           accounttype.show('samlanduser');
+        }
       } else if(r.user_exists){
         accounttype.show('login');
         $('#id_password').focus();
