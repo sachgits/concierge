@@ -1,7 +1,10 @@
-{% extends "base.html" %}   
+{% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
-
-{{ legal_text }}
+<h1>{% trans "General terms" %}</h1><br />
+<div class="account--terms">
+  {{ legal_text }}
+</div>
 
 {% endblock %}
