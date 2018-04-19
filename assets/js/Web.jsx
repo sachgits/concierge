@@ -51,12 +51,12 @@ $(document).ready(function() {
     if($('form').data('step') == 'login' && $('form').data('samlconnect') == 'True'){
       try {
         var user_idp_data = JSON.parse(localStorage.getItem('user_idp'));
-        if(r.user_exists){
-          accounttype.show('connectanduser');
-        } else {
+        if(user_idp_data.user_exists){
           accounttype.show('connect');
+        } else {
+          accounttype.show('connectanduser');
         }
-      } catch(err){ accounttype.show('connect'); }
+      } catch(err){ accounttype.show('connectanduser'); }
     }
 });
 
