@@ -99,7 +99,10 @@ def acs(request):
         request.session['samlSessionIndex'] = session_index
 
         try:
-            email = attributes.get('email')[0]
+            if type(samlUserdata.get('email')) == list:
+                email = attributes.get('email')[0]
+            else:
+                email = attributes.get('email')
         except:
             email = None
         extid = check_externalid(request, shortname=idp_shortname, externalid=email)
@@ -283,7 +286,10 @@ def connect(request, user_email=None):
     samlUserdata = request.session.get('samlUserdata') or None
     if samlUserdata:       
         try:
-            email = samlUserdata.get('email')[0]
+            if type(samlUserdata.get('email')) == list:
+                email = samlUserdata.get('email')[0]
+            else:
+                email = samlUserdata.get('email')
         except:
             email = None
     if not email:
@@ -293,7 +299,10 @@ def connect(request, user_email=None):
 
     if samlUserdata:       
         try:
-            name = samlUserdata.get('name')[0]
+            if type(samlUserdata.get('name')) == list:
+                name = samlUserdata.get('name')[0]
+            else:
+                name = samlUserdata.get('name')
         except:
             name = email
 
@@ -316,7 +325,7 @@ def connect(request, user_email=None):
         try:
             user = User.objects.create_user(
                 email=email,
-                name=email,
+                name=name,
                 #password=signing.dumps(obj=email),
                 accepted_terms=True,
                 receives_newsletter=False
