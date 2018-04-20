@@ -137,11 +137,11 @@ class PleioLoginView(TemplateView):
             }
         )
 
-    def post_login_process(self, request, user, next=None):
+    def post_login_process(self, request, user, next=None, extid=None):
         request.session['username'] = user.email
         device = default_device(user)
         if not device:
-            return self.post_login_user(request, user, next)
+            return self.post_login_user(request, user, next, extid)
         else:
             request.session['login_step'] = 'token'
             form = PleioAuthenticationTokenForm(user, request)
@@ -169,6 +169,8 @@ class PleioLoginView(TemplateView):
 
     def post_backuptoken(self, request, *args, **kwargs):
         next = request.POST.get('next')
+        if not is_safe_url(next):
+            next = settings.LOGIN_REDIRECT_URL
         user = User.objects.get(email=request.session.get('username'))
         form = PleioBackupTokenForm(user, request, data=request.POST)
         if form.is_valid():
@@ -178,7 +180,7 @@ class PleioLoginView(TemplateView):
 
         return render(request, 'login.html', {'form' : form, 'login_step' : request.session.get('login_step') })
 
-    def post_login_user(self, request, user, next=None):
+    def post_login_user(self, request, user, next=None, extid=None):
         if not is_safe_url(next):
             next = settings.LOGIN_REDIRECT_URL
 
@@ -188,7 +190,8 @@ class PleioLoginView(TemplateView):
         if request.session.get('samlConnect'):
             request.session.pop('samlConnect')
             request.session['samlLogin'] = True
-            extid = saml_views.connect(request, user.email)
+            if not extid:
+                extid = saml_views.connect(request, user.email)
 
         return redirect(next)
     

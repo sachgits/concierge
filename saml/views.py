@@ -122,7 +122,7 @@ def acs(request):
         user = User.objects.get(pk=extid.userid.pk)
 
         pl = PleioLoginView()
-        pl.post_login_process(request, user, next=next)
+        pl.post_login_process(request, user, next=next, extid=extid)
         if next and is_safe_url(next):
             return redirect(next)
     else:
@@ -262,7 +262,7 @@ def connect_and_login(request):
         return None
 
     pl = PleioLoginView()
-    pl.post_login_process(request, user, next=next)
+    pl.post_login_process(request, user, next=next, extid=extid)
 
     if next and is_safe_url(next):
         return redirect(next)
@@ -313,7 +313,7 @@ def connect(request, user_email=None):
         try:
             user = User.objects.get(email=user_email)
         except User.DoesNotExist:  
-            logger.error("saml.views.connect,  can't connect, no existing user found")
+            logger.error("saml.views.connect, can't connect, no existing user found")
             messages.error(request, _("Can't connect account for it doesn't seem to exists" ), extra_tags="user_doesn't_exists")
             return None
     else:
@@ -329,7 +329,7 @@ def connect(request, user_email=None):
             user.save()
             user.send_set_password_activation_token()
         except IntegrityError:  
-            logger.error("saml.views.connect,  can't create, user already exists")
+            logger.error("saml.views.connect, can't create, user already exists")
             messages.error(request, _("An account for this email address already exists" ), extra_tags='user_exists')
             return None
 
