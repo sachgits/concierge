@@ -132,7 +132,7 @@ class IdentityProvider(models.Model):
                 
         return True
 
-class IdpEmailDomains(models.Model):
+class IdpEmailDomain(models.Model):
     email_domain = models.CharField(max_length=100, db_index=True, unique=True)
     identityprovider = models.ForeignKey('IdentityProvider', db_column="IdentityProvider.shortname", on_delete=models.CASCADE, db_index=True)
      
@@ -140,7 +140,7 @@ class IdpEmailDomains(models.Model):
         return self.email_domain
            
 
-class ExternalIds(models.Model):
+class ExternalId(models.Model):
     identityproviderid = models.ForeignKey('IdentityProvider', on_delete=models.CASCADE, db_index=True)
     externalid = models.CharField(max_length=100, db_index=True, unique=True)
     userid = models.ForeignKey('core.User', on_delete=models.CASCADE, db_index=True)

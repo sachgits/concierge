@@ -1,5 +1,5 @@
 from django.contrib import admin
-from saml.models import IdentityProvider, IdpEmailDomains
+from saml.models import IdentityProvider, IdpEmailDomain
 
 # Register your models here.
 
@@ -15,10 +15,10 @@ class IdentityProviderAdmin(admin.ModelAdmin):
 admin.site.register(IdentityProvider, IdentityProviderAdmin)
 
 
-class IdpEmailDomainsAdmin(admin.ModelAdmin):
+class IdpEmailDomainAdmin(admin.ModelAdmin):
     list_display = ('email_domain', 'identityprovider')
 
-admin.site.register(IdpEmailDomains, IdpEmailDomainsAdmin)
+admin.site.register(IdpEmailDomain, IdpEmailDomainAdmin)
 
 
 

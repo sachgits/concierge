@@ -10,7 +10,7 @@ from binascii import unhexlify
 from django_otp.util import random_hex
 import django_otp
 from django.conf import settings
-from saml.models import IdentityProvider, IdpEmailDomains
+from saml.models import IdentityProvider, IdpEmailDomain
 
 from django.contrib.auth import views as auth_views
 from django.contrib.auth import authenticate, update_session_auth_hash
@@ -282,8 +282,8 @@ def get_user_and_idp(request):
     try:
         email_domain = email.split('@')[1]
         try:
-            idp = IdpEmailDomains.objects.get(email_domain=email_domain).identityprovider.shortname
-        except IdpEmailDomains.DoesNotExist:
+            idp = IdpEmailDomain.objects.get(email_domain=email_domain).identityprovider.shortname
+        except IdpEmailDomain.DoesNotExist:
             pass
     except IndexError:
         pass

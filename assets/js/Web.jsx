@@ -43,8 +43,8 @@ $(document).ready(function() {
       localStorage.removeItem('user_idp');
     };
 
-      if($('form').data('step') == 'login'){
-        if($('.messages.error').children().length){ accounttype.show('login'); }
+    if($('form').data('step') == 'login'){
+      if($('.messages.error').children().length){ accounttype.show('login'); }
       $('.login__check_account_type').on('click',function(){
         accounttype.validate();
       });

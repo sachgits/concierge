@@ -8,7 +8,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from two_factor.forms import AuthenticationTokenForm, TOTPDeviceForm
 from two_factor.utils import totp_digits, default_device
 from core.models import User
-from saml.models import IdentityProvider, ExternalIds
+from saml.models import IdentityProvider, ExternalId
 from django.forms import Form
 
 class SetPasswordForm(forms.Form):
@@ -40,7 +40,7 @@ class SetPasswordForm(forms.Form):
 
 class ShowConnectionsForm(forms.ModelForm):
     class Meta:
-        model = ExternalIds
+        model = ExternalId
         fields = ('identityproviderid', 'externalid')
 
 

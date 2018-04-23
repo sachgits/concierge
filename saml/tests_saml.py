@@ -7,7 +7,7 @@ from django.conf import settings
 from django.test.client import RequestFactory
 from core.models import User
 from core.middleware import DeviceIdMiddleware
-from saml.models import IdentityProvider, ExternalIds
+from saml.models import IdentityProvider, ExternalId
 from saml.views import check_externalid, connect
 
 

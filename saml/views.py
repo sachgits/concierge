@@ -9,7 +9,7 @@ from django.http import (HttpResponse, HttpResponseRedirect,
 from django.utils.http import is_safe_url
 from django.template import RequestContext
 from django.utils.translation import gettext, gettext_lazy as _
-from saml.models import IdentityProvider, ExternalIds
+from saml.models import IdentityProvider, ExternalId
 from saml.forms import SetPasswordForm, ShowConnectionsForm
 from core.models import User, EventLog
 from core.class_views import PleioLoginView
@@ -223,15 +223,15 @@ def check_externalid(request, **kwargs):
     request.session['samlConnect'] = True
 
     try:
-        extid = ExternalIds.objects.get(identityproviderid=idp, externalid=externalid)
-    except ExternalIds.DoesNotExist:
-        logger.info("saml.views.check_externalid,  no ExternalIds found")
+        extid = ExternalId.objects.get(identityproviderid=idp, externalid=externalid)
+    except ExternalId.DoesNotExist:
+        logger.info("saml.views.check_externalid,  no ExternalId found")
         '''
         messages.info(request, _("Connect your organisation account with a " +
             settings.SITE_TITLE + 
             " " +
             "account"), 
-            extra_tags="externalids_doesn't_exists")
+            extra_tags="ExternalId_doesn't_exists")
         '''
         extid = None
 
@@ -334,9 +334,9 @@ def connect(request, user_email=None):
             return None
 
     try:
-        extid = ExternalIds.objects.get(identityproviderid=idp, externalid=email)
-    except ExternalIds.DoesNotExist:
-        extid= ExternalIds.objects.create(
+        extid = ExternalId.objects.get(identityproviderid=idp, externalid=email)
+    except ExternalId.DoesNotExist:
+        extid= ExternalId.objects.create(
             identityproviderid=idp,
             externalid=email,
             userid=user
@@ -370,7 +370,7 @@ def set_new_password(request, activation_token=None):
 
 
 def show_connections(request):
-    connections = ExternalIds.objects.filter(userid=request.user)    
+    connections = ExternalId.objects.filter(userid=request.user)    
 
     return render(request, 'show_connections.html', {'connections': connections})
 
@@ -378,7 +378,7 @@ def show_connections(request):
 def delete_connection(request, pk=None):
     if pk:
         try:
-            connection = ExternalIds.objects.get(pk=pk).delete()
+            connection = ExternalId.objects.get(pk=pk).delete()
         except:
             pass
 
