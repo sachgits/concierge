@@ -108,6 +108,17 @@ def acs(request):
         else:
             email = attributes.get('emailaddress')
 
+        if not email:
+            logger.error("saml.views.connect,  no emailaddress in samlUserdata found")
+            messages.error(request, _("Email address not provided in saml request. Contact your system administrator." ), extra_tags="email_not_provided")
+            if next:
+                #connect SAML user with User
+                #don't convert next string yet
+                goto = settings.LOGIN_URL + '?next=' + next
+            else:
+                goto = settings.LOGIN_URL
+            return redirect(goto)
+
         extid = check_externalid(request, shortname=idp_shortname, externalid=email)
         if not extid:
             if next:
@@ -230,7 +241,7 @@ def check_externalid(request, **kwargs):
     try:
         extid = ExternalId.objects.get(identityproviderid=idp, externalid=externalid)
     except ExternalId.DoesNotExist:
-        logger.info("saml.views.check_externalid,  no ExternalId found")
+        logger.warning("saml.views.check_externalid,  no ExternalId found")
         '''
         messages.info(request, _("Connect your organisation account with a " +
             settings.SITE_TITLE + 
@@ -294,7 +305,7 @@ def connect(request, user_email=None):
             email = samlUserdata.get('emailaddress')
 
     if not email:
-        logger.error("saml.views.connect,  no email in samlUserdata found")
+        logger.error("saml.views.connect,  no emailaddress in samlUserdata found")
         messages.error(request, _("Email address not provided in saml request. Contact your system administrator." ), extra_tags="email_not_provided")
         return redirect(settings.LOGIN_REDIRECT_URL)        
 
