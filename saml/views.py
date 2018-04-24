@@ -97,11 +97,16 @@ def acs(request):
         request.session['samlUserdata'] = attributes
         request.session['samlNameId'] = name_id
         request.session['samlSessionIndex'] = session_index
+        ln = len(attributes.items())
+        logger.error("saml.views.acs, number of attributes: " + str(ln))
 
-        if type(attributes.get('email')) == list:
-            email = attributes.get('email')[0]
+        for attr in attributes.items():
+            logger.error("saml.views.acs, attribute: " + str(attr))
+
+        if type(attributes.get('emailaddress')) == list:
+            email = attributes.get('emailaddress')[0]
         else:
-            email = attributes.get('email')
+            email = attributes.get('emailaddress')
 
         extid = check_externalid(request, shortname=idp_shortname, externalid=email)
         if not extid:
@@ -283,10 +288,10 @@ def connect(request, user_email=None):
 
     samlUserdata = request.session.get('samlUserdata') or None
     if samlUserdata:       
-        if type(samlUserdata.get('email')) == list:
-            email = samlUserdata.get('email')[0]
+        if type(samlUserdata.get('emailaddress')) == list:
+            email = samlUserdata.get('emailaddress')[0]
         else:
-            email = samlUserdata.get('email')
+            email = samlUserdata.get('emailaddress')
 
     if not email:
         logger.error("saml.views.connect,  no email in samlUserdata found")
@@ -299,6 +304,22 @@ def connect(request, user_email=None):
         else:
             name = samlUserdata.get('name')
         if not name:
+            if type(samlUserdata.get('givenname')) == list:
+                givenname = samlUserdata.get('givenname')[0]
+            else:
+                givenname = samlUserdata.get('givenname')
+            if not givenname:
+                givenname = ''
+            surname = ''
+            if type(samlUserdata.get('surname')) == list:
+                surname = samlUserdata.get('surname')[0]
+            else:
+                surname = samlUserdata.get('surname')
+            if not surname:
+                surname = ''
+            name = givenname + ' ' + surname
+
+        if not name or name ==  ' ':
             name = email
 
     try:

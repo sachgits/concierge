@@ -11,12 +11,14 @@ $config = array(
         'bibi:bibi1234' => array(
             'uid' => array('1'),
             'eduPersonAffiliation' => array('group1'),
-            'email' => 'bibi@blue.org',
+            'emailaddress' => 'bibi@blue.org',
+            'name' => 'Bibi Bleu',
         ),
         'bert:bert1234' => array(
             'uid' => array('2'),
             'eduPersonAffiliation' => array('group2'),
-            'email' => 'bert@blue.org',
+            'emailaddress' => 'bert@blue.org',
+            'name' => 'Bert Blue',
         ),
     ),
 

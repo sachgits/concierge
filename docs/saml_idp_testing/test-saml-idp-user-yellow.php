@@ -11,12 +11,12 @@ $config = array(
         'yvet:yvet1234' => array(
             'uid' => array('1'),
             'eduPersonAffiliation' => array('group1'),
-            'email' => 'yvet@yellow.org',
+            'emailaddress' => 'yvet@yellow.org',
         ),
         'yves:yves1234' => array(
             'uid' => array('2'),
             'eduPersonAffiliation' => array('group2'),
-            'email' => 'yves@yellow.org',
+            'emailaddress' => 'yves@yellow.org',
         ),
     ),
 
