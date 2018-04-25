@@ -11,6 +11,7 @@ Make sure [Docker](https://www.docker.com/) and [yarn](https://yarnpkg.com/lang/
     yarn run watch
 
 Then create a superuser account using:
+
     docker-compose exec web python manage.py createsuperuser
 
 Now login with your new (superuser) account on http://localhost:8000
