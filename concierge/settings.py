@@ -108,6 +108,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'concierge.wsgi.application'
 
 SESSION_ENGINE = 'user_sessions.backends.db'
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
