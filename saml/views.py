@@ -309,28 +309,28 @@ def connect(request, user_email=None):
         messages.error(request, _("Email address not provided in saml request. Contact your system administrator." ), extra_tags="email_not_provided")
         return redirect(settings.LOGIN_REDIRECT_URL)        
 
-    if samlUserdata:       
-        if type(samlUserdata.get('name')) == list:
-            name = samlUserdata.get('name')[0]
-        else:
-            name = samlUserdata.get('name')
+    if samlUserdata:
+        name = samlUserdata.get('name')
+        if name and len(name) > 0:       
+            if type(name) == list:
+                name = name[0]
+        
         if not name:
-            if type(samlUserdata.get('givenname')) == list:
-                givenname = samlUserdata.get('givenname')[0]
-            else:
-                givenname = samlUserdata.get('givenname')
+            givenname = samlUserdata.get('givenname')
+            if givenname and len(givenname) > 0:       
+                if type(givenname) == list:
+                    givenname = givenname[0]
             if not givenname:
                 givenname = ''
-            surname = ''
-            if type(samlUserdata.get('surname')) == list:
-                surname = samlUserdata.get('surname')[0]
-            else:
-                surname = samlUserdata.get('surname')
+            surname = samlUserdata.get('surname')
+            if surname and len(surname) > 0:       
+                if type(surname) == list:
+                    surname = surname[0]
             if not surname:
                 surname = ''
-            name = givenname + ' ' + surname
+            name = (givenname + ' ' + surname).strip()
 
-        if not name or name ==  ' ':
+        if not name or len(name) ==  0:
             name = email
 
     try:
