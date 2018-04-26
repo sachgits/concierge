@@ -21,7 +21,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth import login as auth_login
 from two_factor.utils import default_device
 import django_otp
-from urllib.parse import urlparse
+from urllib.parse import urlparse, parse_qs
 from saml import views as saml_views
 
 class PleioLoginView(TemplateView):
@@ -39,30 +39,19 @@ class PleioLoginView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
-        next = request.session.get('next')
+        next = request.GET.get('next')
         if not is_safe_url(next):
             next = ''
         #is it an OAuth2/SAML login?    
-        if next.split('?')[0] == '/oauth/v2/authorize':
-
-            #prevent capping next string at '&'
-            next_saml = next.replace("&", "%26")
-            request.session['next_saml'] = next_saml
-            
-            next_parms = next_saml.split('?')[1]
-            if len(next_parms.split('%26idp=')) > 1:
-                next1 = next_parms.split('%26idp=')[0] 
-                idp = next_parms.split('%26idp=')[1]
-                if len(idp.split('&')) > 1:
-                    idp = idp.split('&')[0]
-                    next2 = '&' + idp.split('&')[1]
-                else:
-                    next2 = ''
-                next_saml = '/oauth/v2/authorize?' + next1 + next2
-
+        if urlparse(next).path == '/oauth/v2/authorize':
+            idp = parse_qs(next).get('idp')
+            if idp and type(idp) == list:
+                idp = idp[0]
+            if idp:
+                #prevent capping 'next' string at '&'
+                next_saml = next.replace("&", "%26")
                 request.session['next_saml'] = next_saml
-                #goto = '/saml/sso/' + idp + '/'
-                #return redirect(goto)
+            
                 return saml_views.sso(request, idp)           
 
         login_step = kwargs.get('login_step')
