@@ -59,6 +59,7 @@ class User(AbstractBaseUser):
 
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
+    is_banned = models.BooleanField(default=False)
 
     REQUIRED_FIELDS = ['name']
     USERNAME_FIELD = 'email'

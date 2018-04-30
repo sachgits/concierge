@@ -122,6 +122,7 @@ class PleioAuthenticationForm(AuthenticationForm):
         'captcha_mismatch': 'captcha_mismatch',
         'invalid_login': 'invalid_login',
         'inactive': 'inactive',
+        'banned': 'banned',
     }
 
     def __init__(self, request=None, *args, **kwargs):
@@ -142,18 +143,23 @@ class PleioAuthenticationForm(AuthenticationForm):
 
         username = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
+        is_banned = self.cleaned_data.get('is_banned')
 
-        if username is not None and password:
+        '''
+        user = User.objects.filter(email=username, is_banned=True)
+        if user:
+            raise forms.ValidationError(
+                self.error_messages['banned'],
+                code='banned',
+                params={'username': self.username_field.verbose_name},
+            )
+        '''
+
+        if username is not None and password and not is_banned:
             self.user_cache = authenticate(self.request, username=username, password=password)
             if self.user_cache is None:
                 user = User.objects.filter(email=username, is_active=False)
-                if user:
-                    raise forms.ValidationError(
-                        self.error_messages['inactive'],
-                        code='inactive',
-                        params={'username': self.username_field.verbose_name},
-                    )
-                else:
+                if not user:
                     raise forms.ValidationError(
                         self.error_messages['invalid_login'],
                         code='invalid_login',

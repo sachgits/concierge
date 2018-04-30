@@ -10,9 +10,14 @@
         {% if 'info' in message.tags %}
             <ul class="messages info">
                 <li>
-                  {% include_asset "icons/lock-plus.svg" %}
-                  <div class="textcolor_primary">{% trans "Information" %}</div>
-                  <div class="textcolor_secondary">{{ message }}</div>
+                    {% include_asset "icons/lock-plus.svg" %}
+                    {% if 'inactive' in message.tags %}
+                        <div class="textcolor_primary">{% trans "This account is inactive." %}</div>
+                        <div class="textcolor_secondary">{% trans "Please check your email to validate your account." %}</div>
+                    {% else %}
+                        <div class="textcolor_primary">{% trans "Information" %}</div>
+                        <div class="textcolor_secondary">{{ message }}</div>
+                    {% endif %}
                 </li>
             </ul>
         {% elif 'success' in message.tags %}
@@ -27,9 +32,14 @@
             <ul class="messages error">
                 <li>
                     {% include_asset "icons/account-alert.svg" %}
-                    <div class="textcolor_primary">{% trans 'Error' %}</div>
-                    <div class="textcolor_secondary">{{ message }}</div>
-                </li>
+                    {% if 'banned' in message.tags %}
+                        <div class="textcolor_primary">{% trans "This account is suspended." %}</div>
+                        <div class="textcolor_secondary">{% trans "Please contact your system administrator." %}</div>
+                    {% else %}
+                        <div class="textcolor_primary">{% trans 'Error' %}</div>
+                        <div class="textcolor_secondary">{{ message }}</div>
+                    {% endif %}
+                    </li>
             </ul>
         {% endif %}
       {% endfor %}
@@ -64,9 +74,6 @@
                     {% elif error == 'invalid_login' %}
                         <div class="textcolor_primary">{% trans "Please enter a correct email and password." %}</div>
                         <div class="textcolor_secondary">{% trans "Note that both fields may be case-sensitive." %}</div>
-                    {% elif error == 'inactive' %}
-                        <div class="textcolor_primary">{% trans "This account is inactive." %}</div>
-                        <div class="textcolor_secondary">{% trans "Please check your email to validate your account." %}</div>
                     {% else %}
                         <div class="textcolor_primary">{% trans "Invalid login." %}</div>
                         <div class="textcolor_secondary">{{ error }}</div>

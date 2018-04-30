@@ -19,6 +19,7 @@ from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.views.generic import TemplateView
 from django.contrib.auth import login as auth_login
+from django.utils.translation import gettext, gettext_lazy as _
 from two_factor.utils import default_device
 import django_otp
 from urllib.parse import urlparse, parse_qs
@@ -109,15 +110,6 @@ class PleioLoginView(TemplateView):
             user = User.objects.get(email=username)
             return self.post_login_process(request, user, next)
         else:
-            for key, value in form.errors.items():
-                if value[0] == 'inactive':
-                    try:
-                        username = request.POST.get('username')
-                        user = User.objects.get(email=username)
-                        user.send_activation_token()
-                        return redirect('register_complete')
-                    except:
-                        pass
             EventLog.add_event(request, 'invalid login')
 
         return render(request, 'login.html', {
@@ -129,6 +121,22 @@ class PleioLoginView(TemplateView):
         )
 
     def post_login_process(self, request, user, next=None, extid=None):
+        if self.check_is_banned(request, user):      
+            if next and is_safe_url(next):
+                goto = settings.LOGIN_URL + '?next=' + next
+            else:
+                goto = settings.LOGIN_URL
+
+            return redirect(goto)
+
+        if not self.check_is_active(request, user):
+            if next and is_safe_url(next):
+                goto = settings.LOGIN_URL + '?next=' + next
+            else:
+                goto = settings.LOGIN_URL
+
+            return redirect(goto)
+
         request.session['username'] = user.email
         device = default_device(user)
         if not device:
@@ -137,13 +145,14 @@ class PleioLoginView(TemplateView):
             request.session['login_step'] = 'token'
             form = PleioAuthenticationTokenForm(user, request)
 
-        return render(request, 'login.html', {
-            'form' : form, 
-            'login_step' : request.session.get('login_step'),
-            'reCAPTCHA' : EventLog.reCAPTCHA_needed(request), 
-            'next' : next 
-            }
-        )
+            return render(request, 'login.html', {
+                'form' : form, 
+                'login_step' : request.session.get('login_step'),
+                'reCAPTCHA' : EventLog.reCAPTCHA_needed(request), 
+                'next' : next 
+                }
+            )
+
 
     def post_token(self, request, *args, **kwargs):
         next = request.POST.get('next')
@@ -186,6 +195,28 @@ class PleioLoginView(TemplateView):
 
         return redirect(next)
     
+    def check_is_active(self, request, user=None):
+        if not user:
+            username = request.POST.get('username')
+            try:
+                user = User.objects.get(email=username)
+            except User.DoesNotExist:
+                return False
+
+        if not user.is_active:
+            user.send_activation_token()
+            messages.info(request, _("This account is inactive." ), extra_tags="inactive")
+            return False
+
+        return True
+    
+    def check_is_banned(self, request, user):
+        if user.is_banned:
+            messages.error(request, _("This account is suspended." ), extra_tags="banned")
+            return True
+
+        return False
+        
     def set_partner_site_info(self):
         try:
             http_referer = urlparse(self.request.META['HTTP_REFERER'])
