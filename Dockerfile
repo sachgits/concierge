@@ -32,7 +32,8 @@ RUN apk --no-cache add \
     postgresql-dev \
     python3 \
     python3-dev \
-    zlib-dev && \
+    zlib-dev \
+    libffi-dev && \
   pip3 install virtualenv && \
   virtualenv /app/env
 
