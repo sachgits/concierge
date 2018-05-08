@@ -305,7 +305,10 @@ class ResizedAvatars(models.Model):
         except ResizedAvatars.DoesNotExist:
             self = ResizedAvatars.objects.create(user=user)
 
-        avatar = Image.open(master_avatar)
+        try:
+            avatar = Image.open(master_avatar)
+        except:
+            return
 
         longer_side = max(avatar.size)
         horizontal_padding = (longer_side - avatar.size[0]) / 2
