@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm, UserProfileForm, PleioTOTPDeviceForm, ChangePasswordForm, DeleteAccountForm, LegalTextForm
-from .models import User, PreviousLogins, PleioLegalText
+from .models import User, ResizedAvatars, PreviousLogins, PleioLegalText
 from django.http import JsonResponse
 from django.urls import reverse
 from base64 import b32encode
@@ -148,12 +148,28 @@ def profile(request):
 def avatar(request):
     DEFAULT_AVATAR = '/static/images/gebruiker.svg'
 
-    user = User.objects.get(id=request.GET['guid'])
+    user = User.objects.get(id=request.GET.get('guid'))
 
     try:
         user = User.objects.get(id=int(request.GET['guid']))
         if user.avatar:
-            return redirect('/media/' + str(user.avatar))
+            avatar_size = request.GET.get('size')
+            try:
+                resized_avatars = ResizedAvatars.objects.get(user=user)
+                if avatar_size == 'large':
+                    avatar = resized_avatars.large
+                elif avatar_size == 'small':
+                    avatar = resized_avatars.small
+                elif avatar_size == 'tiny':
+                    avatar = resized_avatars.tiny
+                elif avatar_size == 'topbar':
+                    avatar = resized_avatars.topbar
+                else: #when no size is requested, medium will be served
+                    avatar = resized_avatars.medium
+
+                return redirect('/media/' + str(avatar))
+            except ResizedAvatars.DoesNotExist:
+                pass
     except User.DoesNotExist:
         pass
 
