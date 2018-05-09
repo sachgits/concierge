@@ -11,7 +11,7 @@ from django_otp.util import random_hex
 import django_otp
 from django.conf import settings
 from saml.models import IdentityProvider, IdpEmailDomain
-
+from urllib.parse import urljoin
 from django.contrib.auth import views as auth_views
 from django.contrib.auth import authenticate, update_session_auth_hash
 from two_factor.views import ProfileView
@@ -146,14 +146,15 @@ def profile(request):
 
 
 def avatar(request):
-    DEFAULT_AVATAR = '/static/images/gebruiker.svg'
+    #DEFAULT_AVATAR = '/static/images/gebruiker.svg'
+    avatar_size = request.GET.get('size')
+    DEFAULT_AVATAR = urljoin('https://www.pleio.nl/_graphics/icons/user/', str('default' +avatar_size + '.gif'))
 
     user = User.objects.get(id=request.GET.get('guid'))
 
     try:
         user = User.objects.get(id=int(request.GET['guid']))
         if user.avatar:
-            avatar_size = request.GET.get('size')
             try:
                 resized_avatars = ResizedAvatars.objects.get(user=user)
                 if avatar_size == 'large':

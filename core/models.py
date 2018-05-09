@@ -310,17 +310,18 @@ class ResizedAvatars(models.Model):
         except:
             return
 
-        longer_side = max(avatar.size)
-        horizontal_padding = (longer_side - avatar.size[0]) / 2
-        vertical_padding = (longer_side - avatar.size[1]) / 2
-        avatar_square = avatar.crop(
-            (
-                -horizontal_padding,
-                -vertical_padding,
-                avatar.size[0] + horizontal_padding,
-                avatar.size[1] + vertical_padding
-            )
-        )
+        if avatar.size[0] > avatar.size[1]:
+            left = (avatar.size[0] - avatar.size[1]) / 2
+            top = 0
+            right = avatar.size[0] - left
+            bottom = avatar.size[1]
+        else:
+            left = 0
+            top = (avatar.size[1] - avatar.size[0]) / 2
+            right = avatar.size[0]
+            bottom = avatar.size[1] - top
+
+        avatar_square = avatar.crop((left, top, right, bottom))
         
         ext = master_avatar.name.split('.')[-1]
 
