@@ -80,6 +80,6 @@ On OSX first make sure gettext (> 0.14) is installed and linked using:
     brew link --force gettext
 
 ## Run tests
-To run the accompanied test suite use:
+To run the accompanied test suite use the following command:
 
     python manage.py test
