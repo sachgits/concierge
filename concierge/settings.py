@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'api',
     'oauth2_provider',
     'saml',
+    'migrate_from_legacy',
     'rest_framework',
     'webpack_loader',
     'django.contrib.admin',

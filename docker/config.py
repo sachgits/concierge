@@ -84,3 +84,7 @@ SAML2_SP = {
 
 CELERY_ALWAYS_EAGER = True
 CELERY_BROKER_URL = os.getenv('MESSAGE_QUEUE')
+
+# DB name for migrating accounts from legacy
+LEGACY_DB_URL = os.getenv('LEGACY_DB_URL')
+LEGACY_AVATAR_URL = os.getenv('LEGACY_AVATAR_URL')

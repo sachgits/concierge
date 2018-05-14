@@ -87,5 +87,8 @@ SAML2_SP = {
 # Setting CELERY_ALWAYS_EAGER to "True"  will make task being executed locally in the client, not by a worker.
 # Always use "False" in production environment.
 CELERY_ALWAYS_EAGER = True | False
+CELERY_BROKER_URL = "amqp://localhost"
 
-BROKER_URL = "amqp://localhost"
+# DB name for migrating accounts from legacy
+LEGACY_DB_URL = 'mysql://root:password@127.0.0.1/pleio'
+LEGACY_AVATAR_URL = 'http://127.0.0.1:8080/mod/profile/icondirect.php'
