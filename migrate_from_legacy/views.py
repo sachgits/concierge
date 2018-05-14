@@ -96,17 +96,17 @@ def migrate(verbosity=1):
                     user.save()
                 except Exception as e:
                     if verbosity >= 1:
-                        print(e)
+                        logger.error = ('Error: %s' % e)
                 try:
                     resized_avatars = ResizedAvatars.objects.get(user=user)
                 except ResizedAvatars.DoesNotExist:
                     resized_avatars = ResizedAvatars.objects.create(user=user)
 
-                resized_avatars.large = copy_avatars(id, row.get('time_created'), 'large')
-                resized_avatars.medium = copy_avatars(id, row.get('time_created'), 'medium')
-                resized_avatars.small = copy_avatars(id, row.get('time_created'), 'small')
-                resized_avatars.tiny = copy_avatars(id, row.get('time_created'), 'tiny')
-                resized_avatars.topbar = copy_avatars(id, row.get('time_created'), 'topbar')
+                resized_avatars.large = copy_avatars(id, row.get('time_created'), 'large', verbosity)
+                resized_avatars.medium = copy_avatars(id, row.get('time_created'), 'medium', verbosity)
+                resized_avatars.small = copy_avatars(id, row.get('time_created'), 'small', verbosity)
+                resized_avatars.tiny = copy_avatars(id, row.get('time_created'), 'tiny', verbosity)
+                resized_avatars.topbar = copy_avatars(id, row.get('time_created'), 'topbar', verbosity)
 
                 resized_avatars.save()
                  
@@ -141,7 +141,7 @@ def migrate(verbosity=1):
 
     logger.warning('Number of migrated accounts: %d, errors: %d, total: %d' % (migrated, not_migrated, migrated + not_migrated))
 
-def copy_avatars(id, time_created, size):
+def copy_avatars(id, time_created, size, verbosity):
         avatar_url = settings.LEGACY_AVATAR_URL + '?joindate=' + str(time_created) + '&guid=' + str(id) + '&size=' + size
         avatar_rel_path = os.path.join('avatars/', strftime('%Y/%m/%d'), str(id))
         avatar  = os.path.join(avatar_rel_path, str(size + '.jpg'))
